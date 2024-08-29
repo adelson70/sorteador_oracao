@@ -21,4 +21,6 @@ def configure_app(app):
         
         response = {'msg': msg}
 
+        guardarNomeCookie(nome) if msg == 'success' else None
+        
         return jsonify(response)

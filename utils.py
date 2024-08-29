@@ -1,5 +1,6 @@
 import secrets
 from database import conectarDB
+from flask import session
 
 # FUNÇÃO PARA GERAR UM TOKEN DA SESSÃO DO COOKIE
 def gerar_secret_key():
@@ -18,3 +19,7 @@ def adicionarNomeDB(nome):
 
     except Exception as e:
         print(f'Função adicionarNome diz: {e}')
+
+# FUNÇÃO PARA CRIAR UM COOKIE ONDE GUARDA O NOME DA PESSOA QUE INSERIU
+def guardarNomeCookie(nome):
+    session['meuNome'] = nome
