@@ -6,7 +6,7 @@ def gerar_secret_key():
     return secrets.token_hex(32)
 
 # ADICIONAR NOME DE ORAÇÃO
-def adicionarNome(nome):
+def adicionarNomeDB(nome):
     try:
         conexao, cursor = conectarDB()
 

@@ -1,5 +1,5 @@
 from flask import Flask
-from utils import *
+from utils import gerar_secret_key
 from routes import configure_app
 
 SECRET_KEY = gerar_secret_key()
