@@ -8,7 +8,11 @@
      <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    Oração
+    <div class="caixa-entrada">
+        <label for="nomeOracao">Digite seu nome</label>
+        <input type="text" id="nomeOracao">
+        <button>Adicionar</button>
+    </div>
 
     <!-- IMPORTANDO SCRIPTS -->
      <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
