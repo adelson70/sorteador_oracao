@@ -5,11 +5,10 @@
 <div class="carregamento">
     <div class="pessoaOracao">
         <script>
-            elementoBtnSortear = document.getElementById('sortearNome')
+            var socket = io();
 
-            elementoBtnSortear.addEventListener('click', function(){
-                console.log('botão clicado')
-
+            socket.on('data_updated', function(data) {
+                
                 // FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
                 axios.get('/pessoaOracao')
                 .then(response=>{
@@ -22,15 +21,8 @@
                     
                     elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
                     
-                    // // ENCERRA O LOOP QUANDO RECEBER O VALOR DA REQUISIÇÃO
-                    // setTimeout(function() {
-                        //     location.reload();
-                        // }, 1000);  // Aguarda 1 segundo antes de recarregar a página
-                        // clearInterval(intervalId)
-                        
-                    })
-                    
                 })
+            });
         </script>
     </div>
 </div>

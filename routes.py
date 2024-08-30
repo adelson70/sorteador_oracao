@@ -1,10 +1,10 @@
 from flask import render_template, session, redirect, url_for, jsonify, request
 from utils import *
-from flask_socketio import SocketIO, emit
+from flask_socketio import emit
 
 nomesSorteados = {}
 
-def configure_app(app):
+def configure_app(app, socketio):
 
     # ROTA PRINCIPAL
     @app.route('/', methods=['POST','GET'])
@@ -75,6 +75,11 @@ def configure_app(app):
                 'pessoaOracao':pessoaOracao}
 
         return jsonify(data)
+    
+    # EVENTO PARA CONEXÃO ENTRE SERVIDOR E CLIETE
+    @socketio.on('update_data')
+    def handle_update_data(data):
+        emit('data_update', data, broadcast=True)
     
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)
