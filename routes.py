@@ -42,6 +42,12 @@ def configure_app(app):
 
         return jsonify(response)
     
+    # ROTA PARA SORTEAR O NOME DA PESSOA
+    @app.route('/sortearNomes', methods=['GET'])
+    def sortearNomes():
+        dicionarioNomes = fSortearNome()
+        return dicionarioNomes
+    
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)
     def page_not_found(error):

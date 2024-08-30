@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oração</title>
-</head>
-<body>
-    <div class="not-page">
-        <h1>Eita, página não encontrada!</h1>
-        <a href="{{ url_for('main') }}">Voltar</a>
-    </div>
-</body>
-</html>
+{% extends 'index.html' %}
+{% block conteudo %}
+<div class="not-page">
+    <h1>Eita, página não encontrada!</h1>
+    <a href="{{ url_for('main') }}">Voltar</a>
+</div>
+{% endblock conteudo %}

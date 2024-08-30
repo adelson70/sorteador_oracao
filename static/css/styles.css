@@ -1,4 +1,15 @@
+/* ESTILO DA CAIXA DE ENTRADA ONDE O USUARIO COLOCA SEU NOME */
 .caixa-entrada{
     text-align: center;
     align-items: center;
+}
+
+/* ESTILO DA PAGINA DE NÃO ENCONTRADA ERROR 404 */
+.not-page{
+    text-align: center;
+}
+
+/* ESTILO DA PAGINA DO ADM */
+.adm{
+    text-align: center;
 }
