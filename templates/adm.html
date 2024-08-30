@@ -15,14 +15,12 @@
 </div>
 
 <script>
-    var socket = io();
-    document.getElementById('sortearNome').addEventListener('click', function() {
-
-        // ACESSANDO ROTA PARA SORTEAR OS NOMES
-        axios.get('/sortearNomes')
-            .then(response=>{
-                console.log('nomes sorteados')
-            })
-});
+    var socket = io('http://127.0.0.1:5000');
+    let btnSortearNome = document.getElementById('sortearNome')
+    
+    btnSortearNome?.addEventListener('click', function() {
+        console.log('clicado')
+        socket.emit('enviar_nome', [])
+    });
 </script>
 {% endblock conteudo%}

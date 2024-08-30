@@ -5,20 +5,26 @@
 <div class="carregamento">
     <div class="pessoaOracao">
         <script>
-            var socket = io();
+            window.onload =  function(){
+                const socket = io('http://127.0.0.1:5000');
 
-            socket.on('data_updated', function(data) {
+                socket.on('receber_nome', (data) => {
+                    console.log(data)
+                })
+            }
 
-                // REQUISIÇÃO PARA OBTER AS INFORMAÇÕES DA PESSOA SORTEADA
-                axios.get('/pessoaOracao')
-                    .then(response=>{
-                        let data = response.data
-                        var nomePessoaOracao = data.pessoaOracao
-                        var meuNome = data.meuNome
-                        var elementoPessoaOracao = document.querySelector('.pessoaOracao')
-                        elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
-                    })
-            });
+            // socket.on('data_updated', function(data) {
+
+            //     // REQUISIÇÃO PARA OBTER AS INFORMAÇÕES DA PESSOA SORTEADA
+            //     axios.get('/pessoaOracao')
+            //         .then(response=>{
+            //             let data = response.data
+            //             var nomePessoaOracao = data.pessoaOracao
+            //             var meuNome = data.meuNome
+            //             var elementoPessoaOracao = document.querySelector('.pessoaOracao')
+            //             elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
+            //         })
+            // });
         </script>
     </div>
 </div>

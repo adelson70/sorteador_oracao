@@ -41,5 +41,3 @@ botao_adicionar_nome.addEventListener('click', function(){
             })
     }
 })
-
-

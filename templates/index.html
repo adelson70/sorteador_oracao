@@ -8,13 +8,13 @@
      <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
      <!-- IMPORTANDO AXIOS PARA REQUISIÇÃO -->
      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+     <!-- IMPORTANDO SCOKET IO DO PYTHON -->
      <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
-
-</head>
-<body>
-    {% block conteudo %}
-    {% endblock conteudo %}
+    </head>
+    <body>
+        {% block conteudo %}
+        {% endblock conteudo %}
     <!-- IMPORTANDO SCRIPTS -->
-     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>

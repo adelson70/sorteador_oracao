@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for, jsonify, request
 from utils import *
-from flask_socketio import emit
+from flask_socketio import emit, send
 
 nomesSorteados = {}
 
@@ -57,8 +57,7 @@ def configure_app(app, socketio):
     def sortearNomes():
         global nomesSorteados
         nomesSorteados = fSortearNome()
-        socketio.emit('data_update', nomesSorteados, broadcast=True)
-        return jsonify({'status':'nomes sorteados'}), 200
+        return send_name_handler([])
     
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao', methods=['GET'])
@@ -77,10 +76,16 @@ def configure_app(app, socketio):
 
         return jsonify(data)
     
-    # EVENTO PARA CONEXÃO ENTRE SERVIDOR E CLIETE
-    @socketio.on('update_data')
-    def handle_update_data(data):
-        emit('data_update', data, broadcast=True)
+    # EVENTO PARA CONEXÃO ENTRE SERVIDOR E CLIENTE
+    @socketio.on('enviar_nome')
+    def send_name_handler(lista):
+        global nomesSorteados
+
+        data = nomesSorteados
+        
+        print(data)
+
+        emit('receber_nome', data, broadcast=True)
     
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)
