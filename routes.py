@@ -6,7 +6,15 @@ def configure_app(app):
     # ROTA PRINCIPAL
     @app.route('/', methods=['POST','GET'])
     def main():
-        return render_template('index.html')
+        return render_template('sortearNome.html')
+    
+    # ROTA DO ADM ONDE IRA SORTEAR O NOME
+    @app.route('/admin/<token>')
+    def admin(token):
+        if token == '211121':
+            return render_template('admin.html')
+        else:
+            return redirect(url_for('main'))
     
     # ROTA PARA ADICIONAR O NOME AO DB
     @app.route('/adicionarNome', methods=['POST'])
@@ -22,5 +30,5 @@ def configure_app(app):
         response = {'msg': msg}
 
         guardarNomeCookie(nome) if msg == 'success' else None
-        
+
         return jsonify(response)
