@@ -5,31 +5,36 @@
 <div class="carregamento">
     <div class="pessoaOracao">
         <script>
-            // FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
-            let intervalId = setInterval(function(){
-                console.log('cheguei aqui')
-                try {
-                    axios.get('/pessoaOracao')
-                        .then(response=>{
-                            let data = response.data
-                            // ENCERRA O LOOP QUANDO RECEBER O VALOR DA REQUISIÇÃO
-                            clearInterval(intervalId) 
-                            
-                            // ATUALIZA O HTML
-                            var elementoPessoaOracao = document.querySelector('.pessoaOracao')
-                            var nomePessoaOracao = data.pessoaOracao
-                            var meuNome = data.meuNome
+            elementoBtnSortear = document.getElementById('sortearNome')
 
-                            elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
-                        })
-                } catch (error) {
-                    console.log('não encontrado!')
-                }
-            },2000)
+            elementoBtnSortear.addEventListener('click', function(){
+                console.log('botão clicado')
+
+                // FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
+                axios.get('/pessoaOracao')
+                .then(response=>{
+                    let data = response.data
+                    
+                    // ATUALIZA O HTML
+                    var elementoPessoaOracao = document.querySelector('.pessoaOracao')
+                    var nomePessoaOracao = data.pessoaOracao
+                    var meuNome = data.meuNome
+                    
+                    elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
+                    
+                    // // ENCERRA O LOOP QUANDO RECEBER O VALOR DA REQUISIÇÃO
+                    // setTimeout(function() {
+                        //     location.reload();
+                        // }, 1000);  // Aguarda 1 segundo antes de recarregar a página
+                        // clearInterval(intervalId)
+                        
+                    })
+                    
+                })
         </script>
     </div>
 </div>
-
+                    
 <!-- CASO O USUARIO JÁ TENHA CADASTRADO SEU NOME E TENHA ATUALIZADO A PAGINA -->
 {% if nomeCadastrado == True %}
 <script>

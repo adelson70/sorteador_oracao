@@ -1,5 +1,6 @@
 from flask import render_template, session, redirect, url_for, jsonify, request
 from utils import *
+from flask_socketio import SocketIO, emit
 
 nomesSorteados = {}
 
