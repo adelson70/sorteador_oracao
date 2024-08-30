@@ -72,7 +72,7 @@ def configure_app(app):
         # GUARDANDO VALORES NO DICIONARIO
         data = {meuNome: pessoaOracao}
 
-        return data
+        return jsonify(data)
     
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)

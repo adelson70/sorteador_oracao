@@ -33,11 +33,6 @@ botao_adicionar_nome.addEventListener('click', function(){
                     
                     // REMOVE A DIV ONDE CONTEM AS INFORMAÇÕES PARA ADICIONAR O NOME DA PESSOA
                     content_div.remove()
-
-                    // CRIA NOVA DIV ONDE FICARA COM UM LOOP DE CARREGAMENTO MOSTRANDO O NOME DE TODAS AS PESSOAS QUE SE VINCULARAM
-                    // SOMENTE IRA SORTEAR QUANDO O ADM CLICAR EM SORTEAR
-                    // IRA CARREGAR O NOME DA PESSOA REVELANDO POR QUEM ELA IRA ORAR
-                    
                 }
 
                 else if (msgServidor == 'nome_repetido'){
@@ -47,3 +42,17 @@ botao_adicionar_nome.addEventListener('click', function(){
     }
 })
 
+// FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
+setInterval(function(){
+    console.log('cheguei aqui')
+    try {
+        axios.get('/pessoaOracao')
+            .then(response=>{
+                let data = response.data
+
+                console.log(data)
+            })
+    } catch (error) {
+        console.log(`Erro: ${error}`)
+    }
+},1000)

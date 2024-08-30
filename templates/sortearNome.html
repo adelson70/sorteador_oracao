@@ -1,8 +1,18 @@
 {% extends 'index.html' %}
 {% block conteudo %}
 
+<!-- DIV QUE IRA APARECER QUANDO O USUARIO CADASTRAR SEU NOME -->
+<div class="carregamento">
+    <div class="pessoaOracao">
+        fulano
+    </div>
+</div>
+
 <!-- CASO O USUARIO JÁ TENHA CADASTRADO SEU NOME E TENHA ATUALIZADO A PAGINA -->
 {% if nomeCadastrado == True %}
+<script>
+    document.querySelector('.carregamento').style.display = 'block'
+</script>
 
 <!-- CASO SEJA O PRIMEIRO ACESSO DO USUARIO A PAGINA E ELE NÃO TENHA AINDA CADASTRADO SEU NOME -->
 {% else %}
@@ -12,10 +22,5 @@
     <button id="adicionarNome">Adicionar</button>
 </div>
 {% endif %}
-
-<!-- DIV QUE IRA APARECER QUANDO O USUARIO CADASTRAR SEU NOME -->
-<div class="carregamento">
-    carregando...
-</div>
 
 {% endblock conteudo %}
