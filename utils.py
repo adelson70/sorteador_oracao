@@ -25,9 +25,19 @@ def adicionarNomeDB(nome):
 def guardarNomeCookie(nome):
     session['meuNome'] = nome
 
+# FUNÇÃO PARA BUSCAR O NOME DO USUARIO
+def buscarMeuNome():
+    meuNome = session.get('meuNome')
+    return meuNome
+
 # FUNÇÃO PARA DEFINIR O NOME DA PESSOA QUE O USUARIO IRA ORAR
 def definirPessoaOracao(nomePessoaOracao):
     session['pessoaOracao'] = nomePessoaOracao
+
+# FUNÇÃO PARA BUSCAR O NOME DA PESSOA QUE ESTA RECEBENDO A ORAÇÃO
+def buscarNomePessoaOracao():
+    nomePessoaOracao = session.get('pessoaOracao')
+    return nomePessoaOracao
 
 # FUNÇÃO PARA BUSCAR TODOS OS NOMES CADASTRADOS E SORTEAR UM DIFERENTE DO PROPRIO USUARIO
 def fSortearNome():
