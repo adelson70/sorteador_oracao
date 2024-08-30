@@ -56,7 +56,7 @@ def configure_app(app):
     def sortearNomes():
         global nomesSorteados
         nomesSorteados = fSortearNome()
-        return nomesSorteados
+        return 'success'
     
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao', methods=['GET'])

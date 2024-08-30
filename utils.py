@@ -30,6 +30,8 @@ def adicionarNomeDB(nome):
         else:
             msg = 'nome_repetido'
 
+        conexao.close()
+
         return msg
 
     except Exception as e:
@@ -104,5 +106,7 @@ def fSortearNome():
     # CHAVE SERA A PESSOA QUE ESTA ORANDO
     # VALOR SERA O NOME DA PESSOA QUE ESTA RECEBENDO A ORAÇÃO
     data = {nomeOrador:nomeOrado for nomeOrador, nomeOrado in zip(listaNomes,listaEmbaralhada)}
+
+    conexao.close()
 
     return data

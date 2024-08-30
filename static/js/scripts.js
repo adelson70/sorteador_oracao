@@ -41,3 +41,13 @@ botao_adicionar_nome.addEventListener('click', function(){
             })
     }
 })
+
+// EVENTO PARA QUANDO O ADM CLICAR NO BOTÃO DE SORTEAR
+btn_sortear_nomes = document.querySelector('#sortearNome')
+btn_sortear_nomes.addEventListener('click', function(){
+    // ROTA PARA SORTEAR OS NOMES
+    axios.get('/sortearNomes')
+        .then(response=>{
+            console.log('nomes sorteados')
+        })
+})
