@@ -13,7 +13,7 @@ def configure_app(app):
     def admin(token):
         try:
             if token == '211121':
-                return render_template('admin.html')
+                return render_template('adm.html')
             
             else:
                 return redirect(url_for('main'))
