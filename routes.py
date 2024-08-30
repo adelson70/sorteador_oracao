@@ -12,12 +12,15 @@ def configure_app(app):
     @app.route('/admin/<token>')
     def admin(token):
         try:
+            # CASO O TOKEN SEJA ESSE IRA ABRIR O TEMPLATE DE ADMIN
             if token == '211121':
                 return render_template('adm.html')
             
+            # SE INSERIR UM TOKEN ERRADO IRA VOLTAR PARA A PAGINA INICIAL
             else:
                 return redirect(url_for('main'))
-            
+        
+        # CASO TENTE ACESSAR A PAGINA DE ADMIN SEM COLOCAR O TOKEN
         except:
             return render_template('page_not_found.html')
     
@@ -30,10 +33,11 @@ def configure_app(app):
         # OBTENDO APENAS O NOME INSERIDO NO INPUT
         nome = data.get('nomeOracao')
 
+        # RECEBENDO RETORNO DA FUNÇÃO QUE SERA UMA MENSAGEM
         msg = adicionarNomeDB(nome)
-        
         response = {'msg': msg}
 
+        # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
         guardarNomeCookie(nome) if msg == 'success' else None
 
         return jsonify(response)
