@@ -8,6 +8,11 @@ def configure_app(app):
     # ROTA PRINCIPAL
     @app.route('/', methods=['POST','GET'])
     def main():
+        nomeJaCadastrado = validarNomeCadastrado()
+
+        if nomeJaCadastrado:
+            return render_template('sortearNome.html', nomeCadastrado=True)
+        
         return render_template('sortearNome.html')
     
     # ROTA DO ADM ONDE IRA SORTEAR O NOME
@@ -29,6 +34,11 @@ def configure_app(app):
     # ROTA PARA ADICIONAR O NOME AO DB
     @app.route('/adicionarNome', methods=['POST'])
     def adicionarNome():
+        nomeJaCadastrado = validarNomeCadastrado()
+
+        if nomeJaCadastrado:
+            return jsonify({'msg':'success'})
+        
         # RECEBENDO DADOS EM FORMATO JSON (DICIONARO PARA O PYTHON)
         data = request.json
 

@@ -23,6 +23,7 @@ def adicionarNomeDB(nome):
             conexao.commit()
             # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
             guardarNomeCookie(nome)
+            cadastrarNome() #USADO PARA VERIFICAR SE O USUARIO JÁ FEZ O CADASTRAMENTO DO SEU NOME NO INPUT
             msg = 'success'
         
         # CASO O NOME ESTEJA EM USO
@@ -42,6 +43,22 @@ def guardarNomeCookie(nome):
 def buscarMeuNome():
     meuNome = session.get('meuNome')
     return meuNome
+
+# FUNÇÃO PARA CRIAR UM COOKIE ONDE ARMAZENA A INFORMAÇÃO DE QUE SE O USUARIO JÁ CADASTROU SEU NOME
+def cadastrarNome():
+    session['nomeCadastrado'] = True
+
+# FUNÇÃO PARA BUSCAR O COOKIE COM O CADASTRO DO NOME
+def validarNomeCadastrado():
+    try:
+        nomeFoiCadastrado = session.get('nomeCadastrado')
+
+        msg = True if nomeFoiCadastrado == True else False
+
+    except:
+        msg = False
+
+    return msg
 
 # FUNÇÃO PARA BUSCAR TODOS OS NOMES CADASTRADOS E SORTEAR UM DIFERENTE DO PROPRIO USUARIO
 def fSortearNome():

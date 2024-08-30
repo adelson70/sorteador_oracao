@@ -1,8 +1,21 @@
 {% extends 'index.html' %}
 {% block conteudo %}
+
+<!-- CASO O USUARIO JÁ TENHA CADASTRADO SEU NOME E TENHA ATUALIZADO A PAGINA -->
+{% if nomeCadastrado == True %}
+
+<!-- CASO SEJA O PRIMEIRO ACESSO DO USUARIO A PAGINA E ELE NÃO TENHA AINDA CADASTRADO SEU NOME -->
+{% else %}
 <div class="caixa-entrada">
     <label for="nomeOracao">Digite seu nome</label>
     <input type="text" id="nomeOracao">
     <button id="adicionarNome">Adicionar</button>
 </div>
+{% endif %}
+
+<!-- DIV QUE IRA APARECER QUANDO O USUARIO CADASTRAR SEU NOME -->
+<div class="carregamento">
+    carregando...
+</div>
+
 {% endblock conteudo %}

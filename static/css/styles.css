@@ -13,3 +13,8 @@
 .adm{
     text-align: center;
 }
+
+/* ESTILO DA PARTE DE CARREGAMENTO DE AMIGOS DE ORAÇÃO */
+.carregamento{
+    display: none;
+}
