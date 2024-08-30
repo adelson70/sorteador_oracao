@@ -51,12 +51,15 @@ def configure_app(app):
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao', methods=['GET'])
     def pessoaOracao():
-        meuNome = buscarMeuNome()
         global nomesSorteados
-        print(meuNome)
-        print(nomesSorteados)
+
+        # BUSCANDO O NOME DO USUARIO
+        meuNome = buscarMeuNome()
+
+        # RETORNANDO O NOME DA PESSOA DE ORAÇÃO DO USUARIO
         pessoaOracao = nomesSorteados[meuNome]
-        
+
+        # GUARDANDO VALORES NO DICIONARIO
         data = {meuNome: pessoaOracao}
 
         return data
