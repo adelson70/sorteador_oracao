@@ -70,7 +70,8 @@ def configure_app(app):
         pessoaOracao = nomesSorteados[meuNome]
 
         # GUARDANDO VALORES NO DICIONARIO
-        data = {meuNome: pessoaOracao}
+        data = {'meuNome':meuNome,
+                'pessoaOracao':pessoaOracao}
 
         return jsonify(data)
     

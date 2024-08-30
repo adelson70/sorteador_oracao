@@ -41,18 +41,3 @@ botao_adicionar_nome.addEventListener('click', function(){
             })
     }
 })
-
-// FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
-setInterval(function(){
-    console.log('cheguei aqui')
-    try {
-        axios.get('/pessoaOracao')
-            .then(response=>{
-                let data = response.data
-
-                console.log(data)
-            })
-    } catch (error) {
-        console.log(`Erro: ${error}`)
-    }
-},1000)

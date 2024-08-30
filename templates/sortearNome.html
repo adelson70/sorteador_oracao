@@ -4,7 +4,29 @@
 <!-- DIV QUE IRA APARECER QUANDO O USUARIO CADASTRAR SEU NOME -->
 <div class="carregamento">
     <div class="pessoaOracao">
-        fulano
+        <script>
+            // FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
+            let intervalId = setInterval(function(){
+                console.log('cheguei aqui')
+                try {
+                    axios.get('/pessoaOracao')
+                        .then(response=>{
+                            let data = response.data
+                            // ENCERRA O LOOP QUANDO RECEBER O VALOR DA REQUISIÇÃO
+                            clearInterval(intervalId) 
+                            
+                            // ATUALIZA O HTML
+                            var elementoPessoaOracao = document.querySelector('.pessoaOracao')
+                            var nomePessoaOracao = data.pessoaOracao
+                            var meuNome = data.meuNome
+
+                            elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
+                        })
+                } catch (error) {
+                    console.log('não encontrado!')
+                }
+            },2000)
+        </script>
     </div>
 </div>
 
