@@ -8,20 +8,16 @@
             var socket = io();
 
             socket.on('data_updated', function(data) {
-                
-                // FRONT FICA ATUALIZANDO PARA VERIFICAR QUANDO O SERVIDOR RESPONDEU A ROTA DESEJADA
+
+                // REQUISIÇÃO PARA OBTER AS INFORMAÇÕES DA PESSOA SORTEADA
                 axios.get('/pessoaOracao')
-                .then(response=>{
-                    let data = response.data
-                    
-                    // ATUALIZA O HTML
-                    var elementoPessoaOracao = document.querySelector('.pessoaOracao')
-                    var nomePessoaOracao = data.pessoaOracao
-                    var meuNome = data.meuNome
-                    
-                    elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
-                    
-                })
+                    .then(response=>{
+                        let data = response.data
+                        var nomePessoaOracao = data.pessoaOracao
+                        var meuNome = data.meuNome
+                        var elementoPessoaOracao = document.querySelector('.pessoaOracao')
+                        elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
+                    })
             });
         </script>
     </div>

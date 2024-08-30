@@ -57,7 +57,8 @@ def configure_app(app, socketio):
     def sortearNomes():
         global nomesSorteados
         nomesSorteados = fSortearNome()
-        return 'success'
+        socketio.emit('data_update', nomesSorteados, broadcast=True)
+        return jsonify({'status':'nomes sorteados'}), 200
     
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao', methods=['GET'])

@@ -15,19 +15,14 @@
 </div>
 
 <script>
-    // EVENTO PARA QUANDO O ADM CLICAR NO BOTÃO DE SORTEAR
-    // btn_sortear_nomes = document.getElementById('sortearNome')
-    // btn_sortear_nomes.addEventListener('click', function(){
-    //     // ROTA PARA SORTEAR OS NOMES
-    //     axios.get('/sortearNomes')
-    //         .then(response=>{
-    //             console.log('nomes sorteados')
-    //         })
-    // })
-
     var socket = io();
     document.getElementById('sortearNome').addEventListener('click', function() {
-    socket.emit('update_data', { message: 'Atualizar informações' });
+
+        // ACESSANDO ROTA PARA SORTEAR OS NOMES
+        axios.get('/sortearNomes')
+            .then(response=>{
+                console.log('nomes sorteados')
+            })
 });
 </script>
 {% endblock conteudo%}
