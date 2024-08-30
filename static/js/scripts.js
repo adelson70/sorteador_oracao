@@ -39,6 +39,10 @@ botao_adicionar_nome.addEventListener('click', function(){
                     // IRA CARREGAR O NOME DA PESSOA REVELANDO POR QUEM ELA IRA ORAR
                     
                 }
+
+                else if (msgServidor == 'nome_repetido'){
+                    alert(`o nome ${nome_pessoa} já esta em uso!`)
+                }
             })
     }
 })

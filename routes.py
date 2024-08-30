@@ -1,6 +1,8 @@
 from flask import render_template, session, redirect, url_for, jsonify, request
 from utils import *
 
+nomesSorteados = {}
+
 def configure_app(app):
 
     # ROTA PRINCIPAL
@@ -37,16 +39,27 @@ def configure_app(app):
         msg = adicionarNomeDB(nome)
         response = {'msg': msg}
 
-        # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
-        guardarNomeCookie(nome) if msg == 'success' else None
-
         return jsonify(response)
     
     # ROTA PARA SORTEAR O NOME DA PESSOA
     @app.route('/sortearNomes', methods=['GET'])
     def sortearNomes():
-        dicionarioNomes = fSortearNome()
-        return dicionarioNomes
+        global nomesSorteados
+        nomesSorteados = fSortearNome()
+        return nomesSorteados
+    
+    # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
+    @app.route('/pessoaOracao', methods=['GET'])
+    def pessoaOracao():
+        meuNome = buscarMeuNome()
+        global nomesSorteados
+        print(meuNome)
+        print(nomesSorteados)
+        pessoaOracao = nomesSorteados[meuNome]
+        
+        data = {meuNome: pessoaOracao}
+
+        return data
     
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)

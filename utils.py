@@ -11,12 +11,25 @@ def gerar_secret_key():
 def adicionarNomeDB(nome):
     try:
         conexao, cursor = conectarDB()
+        msg = ''
 
-        cursor.execute('INSERT INTO pessoas (nome) VALUES (?)',(nome,))
+        # CONSULTANDO PARA AVERIGUAR SE O NOME EM QUESTÃO NÃO ESTA EM USO
+        cursor.execute('SELECT COUNT(nome) FROM pessoas WHERE nome=?',(nome,))
+        qtdNomes = cursor.fetchone()[0]
+        
+        # CASO O NOME NÃO ESTEJA EM USO
+        if qtdNomes == 0:
+            cursor.execute('INSERT INTO pessoas (nome) VALUES (?)',(nome,))
+            conexao.commit()
+            # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
+            guardarNomeCookie(nome)
+            msg = 'success'
+        
+        # CASO O NOME ESTEJA EM USO
+        else:
+            msg = 'nome_repetido'
 
-        conexao.commit()
-
-        return 'success'
+        return msg
 
     except Exception as e:
         print(f'Função adicionarNome diz: {e}')
@@ -29,15 +42,6 @@ def guardarNomeCookie(nome):
 def buscarMeuNome():
     meuNome = session.get('meuNome')
     return meuNome
-
-# FUNÇÃO PARA DEFINIR O NOME DA PESSOA QUE O USUARIO IRA ORAR
-def definirPessoaOracao(nomePessoaOracao):
-    session['pessoaOracao'] = nomePessoaOracao
-
-# FUNÇÃO PARA BUSCAR O NOME DA PESSOA QUE ESTA RECEBENDO A ORAÇÃO
-def buscarNomePessoaOracao():
-    nomePessoaOracao = session.get('pessoaOracao')
-    return nomePessoaOracao
 
 # FUNÇÃO PARA BUSCAR TODOS OS NOMES CADASTRADOS E SORTEAR UM DIFERENTE DO PROPRIO USUARIO
 def fSortearNome():
