@@ -61,11 +61,11 @@ def configure_app(app, socketio):
         # RECEBENDO ARR E DEIXANDO EM DICIONARIO
         data = json.loads(data)
 
-        pessoaOracaoNome = data[meuNome]
+        pessoaOracaoNome = data[meuNome].lower()
 
         # GUARDANDO VALORES NO DICIONARIO
         data = {'meuNome':meuNome,
-                'pessoaOracao':pessoaOracaoNome}
+                'pessoaOracao':pessoaOracaoNome.capitalize()}
 
         return jsonify(data)
     

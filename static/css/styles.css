@@ -16,11 +16,6 @@
     margin-top: 5vh;
 }
 
-/* ESTILO DA PARTE DE CARREGAMENTO DE AMIGOS DE ORAÇÃO */
-.carregamento{
-    display: none;
-}
-
 /* ESTILO GERAL PARA TODO CONTEUDO */
 .conteudo{
     text-align: center;
@@ -58,9 +53,23 @@
 
 /* SPINNER DE CARREGAMENTO */
 .spinner-border{
+    display: 'block';
     height: 10vh !important;
     width: 10vh  !important;
     font-size: 2rem  !important;
     color: lightgrey  !important;
     margin-top: 4vh;
+}
+
+/* MENSAGEM REVELANDO O NOME DO AMIGO DE ORAÇÃO */
+.oracao{
+    font-style: normal;
+    font-size: 16px;
+    margin-top: 4vh;
+}
+
+/* ESTILO DO NOME DA PESSOA QUE IRA APARECER NA MENSAGEM */
+.nomePessoaOracao{
+    display: inline;
+    font-weight: 600;
 }
