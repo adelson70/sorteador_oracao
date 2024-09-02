@@ -1,38 +1,53 @@
 {% extends 'index.html' %}
 {% block conteudo %}
 
-<!-- DIV QUE IRA APARECER QUANDO O USUARIO CADASTRAR SEU NOME -->
+<!-- DIV DE CARREGAMENTO ATÉ OS NOMES SEREM SORTEADOS -->
 <div class="carregamento">
-    <div class="pessoaOracao">
-        <script>
-            window.onload =  function(){
-                const socket = io('http://127.0.0.1:5000');
+    <p id="nomesParticipando">Nome 1, Nome 2, Nome 3</p>
+    <p id="load">Carregando...</p>
+</div>
 
-                socket.on('receber_nome', (data) => {
-                    console.log(data)
-                })
-            }
+<!-- MSG QUE IRA APARECER MOSTRANDO O NOME DA PESSOA QUE O USUÁRIO IRA ORAR -->
+<div class="pessoaOracao">
+    <p id="oracao"></p>
+    <script>
+        window.onload =  function(){
+            const socket = io('http://127.0.0.1:5000');
 
-            // socket.on('data_updated', function(data) {
+            // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
+            socket.on('receber_nome', (data) => {
+                // REQUISIÇÃO PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO
+                dataJSON = JSON.stringify(data)
+                axios.get(`pessoaOracao/${dataJSON}`)
+                    .then(response=>{
+                        var meuNome = response.data.meuNome
+                        var pessoaOracao = response.data.pessoaOracao
 
-            //     // REQUISIÇÃO PARA OBTER AS INFORMAÇÕES DA PESSOA SORTEADA
-            //     axios.get('/pessoaOracao')
-            //         .then(response=>{
-            //             let data = response.data
-            //             var nomePessoaOracao = data.pessoaOracao
-            //             var meuNome = data.meuNome
-            //             var elementoPessoaOracao = document.querySelector('.pessoaOracao')
-            //             elementoPessoaOracao.innerHTML = `${meuNome} seu amigo secreto de oração é: ${nomePessoaOracao}`
-            //         })
-            // });
-        </script>
-    </div>
+                        // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
+                        eleLoad.style.display = 'none'
+                        
+                        // MENSAGEM QUE IRA APARECER
+                        msg = `Seu amigo de oração secreto é: ${pessoaOracao}`
+
+                        // MENSAGEM PARA DEPURAÇÃO
+                        msgConsole = (response.data)
+                        console.log(msgConsole)
+
+
+                        const eleMsgOracao = document.getElementById('oracao')
+                        eleMsgOracao.innerHTML = msg
+                    })
+            })
+        }
+    </script>
 </div>
                     
 <!-- CASO O USUARIO JÁ TENHA CADASTRADO SEU NOME E TENHA ATUALIZADO A PAGINA -->
+ <!-- FICARA CARREGANDO ATÉ RECEBER O NOME DE ORAÇÃO -->
 {% if nomeCadastrado == True %}
 <script>
-    document.querySelector('.carregamento').style.display = 'block'
+    const eleLoad = document.querySelector('.carregamento')
+    eleLoad.style.display = 'block'
 </script>
 
 <!-- CASO SEJA O PRIMEIRO ACESSO DO USUARIO A PAGINA E ELE NÃO TENHA AINDA CADASTRADO SEU NOME -->

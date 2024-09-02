@@ -20,6 +20,7 @@
     
     btnSortearNome?.addEventListener('click', function() {
         console.log('clicado')
+        // ENVIA LISTA VAZIA POIS O BACK IRA BUSCAR AS INFORMAÇÕES NO DB
         socket.emit('enviar_nome', [])
     });
 </script>

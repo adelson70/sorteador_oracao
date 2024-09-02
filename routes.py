@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, url_for, jsonify, request
+from flask import render_template, session, redirect, url_for, jsonify, request, json
 from utils import *
 from flask_socketio import emit, send
 
@@ -52,39 +52,34 @@ def configure_app(app, socketio):
 
         return jsonify(response)
     
-    # ROTA PARA SORTEAR O NOME DA PESSOA
-    @app.route('/sortearNomes', methods=['GET'])
-    def sortearNomes():
-        global nomesSorteados
-        nomesSorteados = fSortearNome()
-        return send_name_handler([])
-    
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
-    @app.route('/pessoaOracao', methods=['GET'])
-    def pessoaOracao():
-        global nomesSorteados
-
+    @app.route('/pessoaOracao/<data>', methods=['GET'])
+    def pessoaOracao(data):
         # BUSCANDO O NOME DO USUARIO
         meuNome = buscarMeuNome()
 
-        # RETORNANDO O NOME DA PESSOA DE ORAÇÃO DO USUARIO
-        pessoaOracao = nomesSorteados[meuNome]
+        # RECEBENDO ARR E DEIXANDO EM DICIONARIO
+        data = json.loads(data)
+
+        pessoaOracaoNome = data[meuNome]
 
         # GUARDANDO VALORES NO DICIONARIO
         data = {'meuNome':meuNome,
-                'pessoaOracao':pessoaOracao}
+                'pessoaOracao':pessoaOracaoNome}
 
         return jsonify(data)
     
-    # EVENTO PARA CONEXÃO ENTRE SERVIDOR E CLIENTE
+    # RECEBE A LISTA E ENVIA O NOME PARA OS CLIENTES
     @socketio.on('enviar_nome')
     def send_name_handler(lista):
         global nomesSorteados
 
+        # BUSCANDO NOME DE TODOS QUE SE CADASTRARAM
+        nomesSorteados = fSortearNome()
+
         data = nomesSorteados
         
-        print(data)
-
+        # MENSAGEM PARA TODOS OS CLIENTES
         emit('receber_nome', data, broadcast=True)
     
     # ROTA DE TRATAMENTO DO ERRO 404
