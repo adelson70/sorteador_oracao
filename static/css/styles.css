@@ -12,9 +12,55 @@
 /* ESTILO DA PAGINA DO ADM */
 .adm{
     text-align: center;
+    display: block;
+    margin-top: 5vh;
 }
 
 /* ESTILO DA PARTE DE CARREGAMENTO DE AMIGOS DE ORAÇÃO */
 .carregamento{
     display: none;
+}
+
+/* ESTILO GERAL PARA TODO CONTEUDO */
+.conteudo{
+    text-align: center;
+    display: block;
+    margin-top: 5vh;
+}
+
+/* ESTILO DA CITAÇÃO */
+.msg{
+    width: 50vw;
+    display: inline-block;
+    font-style: italic;
+    font-weight: 450;
+}
+
+/* NOME DO LIVRO DA CITAÇÃO */
+.livro{
+    font-weight: 600;
+}
+
+/* TITULO PRINCIPAL DA PAGINA ATUAL */
+.titulo-pessoas{
+    font-size: 30px;
+}
+
+/* CONTAINER DAS INFOS ABAIXO DA CITAÇÃO */
+.container-pessoas{
+    margin-top: 5vh;
+}
+
+/* ESTILO ONDE MOSTRA O NOMES DAS PESSOAS QUE ESTÃO PARTICIPANDO */
+.nomesParticipando{
+    font-size: 16px;
+}
+
+/* SPINNER DE CARREGAMENTO */
+.spinner-border{
+    height: 10vh !important;
+    width: 10vh  !important;
+    font-size: 2rem  !important;
+    color: lightgrey  !important;
+    margin-top: 4vh;
 }
