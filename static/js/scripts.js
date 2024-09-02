@@ -33,6 +33,9 @@ botao_adicionar_nome.addEventListener('click', function(){
                     
                     // REMOVE A DIV ONDE CONTEM AS INFORMAÇÕES PARA ADICIONAR O NOME DA PESSOA
                     content_div.remove()
+
+                    // RECARREGA A PAGINA
+                    location.reload()
                 }
 
                 else if (msgServidor == 'nome_repetido'){
