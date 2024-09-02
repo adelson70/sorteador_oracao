@@ -35,6 +35,7 @@ botao_adicionar_nome.addEventListener('click', function(){
                     content_div.remove()
 
                     // RECARREGA A PAGINA
+                    // PARA MOSTRAR A PAGINA DE CARREGAMENTO E MOSTRAR AS PESSOAS QUE ESTÃO PARTICIPANDO
                     location.reload()
                 }
 
