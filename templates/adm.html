@@ -3,19 +3,19 @@
 <div class="adm">
     <h1>Area do ADM</h1>
     
-    <!-- CARD ONDE IRA MOSTRAR TODAS AS PESSOAS QUE SE CADASTRARAM -->
-     <div>
-        nome 1 nome 2 nome 3 nome 4  
-     </div>
-     
-     <br>
-
-     <!-- BOTÃO PARA SORTEAR OS NOMES PARA TODOS OS USUÁRIOS -->
-    <button class="btn btn-primary" id="sortearNome">Sortear</button>
+    <div class="conteudo-adm">
+        <!-- TITULO -->
+        <h1 class="titulo-pessoas">Amigos de Oração</h1>
+        
+        <!-- CARD COM O NOME DAS PESSOAS QUE ESTÃO PARTICIPANDO -->
+        <h2 class="nomesParticipando">Nome 1, Nome 2, Nome 3</h2>
+         <!-- BOTÃO PARA SORTEAR OS NOMES PARA TODOS OS USUÁRIOS -->
+        <button class="btn btn-primary btn-sortear" id="sortearNome">Sortear</button>
+    </div>
 </div>
 
 <script>
-    var socket = io('http://127.0.0.1:5000');
+    var socket = io('http://192.168.10.28:5000');
     let btnSortearNome = document.getElementById('sortearNome')
     
     btnSortearNome?.addEventListener('click', function() {

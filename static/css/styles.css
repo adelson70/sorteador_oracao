@@ -1,3 +1,9 @@
+/* ESTILO GERAL */
+
+html, body, div{
+    background-color: #FAF3E0;
+}
+
 /* ESTILO DA CAIXA DE ENTRADA ONDE O USUARIO COLOCA SEU NOME */
 .caixa-entrada{
     text-align: center;
@@ -25,20 +31,23 @@
 
 /* ESTILO DA CITAÇÃO */
 .msg{
-    width: 50vw;
+    width: 80vw;
     display: inline-block;
     font-style: italic;
     font-weight: 450;
+    color: #333333;
 }
 
 /* NOME DO LIVRO DA CITAÇÃO */
 .livro{
     font-weight: 600;
+    color: #333333;
 }
 
 /* TITULO PRINCIPAL DA PAGINA ATUAL */
 .titulo-pessoas{
     font-size: 30px;
+    color: #003366;
 }
 
 /* CONTAINER DAS INFOS ABAIXO DA CITAÇÃO */
@@ -57,19 +66,50 @@
     height: 10vh !important;
     width: 10vh  !important;
     font-size: 2rem  !important;
-    color: lightgrey  !important;
+    color: #B3E5FC  !important;
     margin-top: 4vh;
 }
 
 /* MENSAGEM REVELANDO O NOME DO AMIGO DE ORAÇÃO */
 .oracao{
     font-style: normal;
-    font-size: 16px;
+    font-size: 2vh !important;
     margin-top: 4vh;
+    font-weight: normal !important;
 }
 
 /* ESTILO DO NOME DA PESSOA QUE IRA APARECER NA MENSAGEM */
 .nomePessoaOracao{
     display: inline;
     font-weight: 600;
+    background-color: #F7E7A3 !important;
+    color: #333333 !important;
+}
+
+.nomesParticipando{
+    color: #003366;
+}
+
+h1{
+    color: #003366 !important;
+}
+
+/* BOTÃO DE SORTEAR DO ADM */
+.btn-sortear{
+    margin-top: 5vh;
+    background-color: #003366 !important;
+    border-color: #003366 !important;
+    font-size: 21px !important;
+    font-weight: 500 !important;
+}
+
+.btn-sortear:hover{
+    background-color: #004c98 !important;
+    border-color: #004c98 !important;
+}
+
+/* CONTEUDO DA AREA ADM */
+.conteudo-adm{
+    display: block;
+    margin-top: 5vh;
 }
