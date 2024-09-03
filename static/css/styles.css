@@ -7,7 +7,6 @@ html, body, div{
 /* ESTILO DA CAIXA DE ENTRADA ONDE O USUARIO COLOCA SEU NOME */
 .caixa-entrada{
     text-align: center;
-    align-items: center;
 }
 
 /* ESTILO DA PAGINA DE NÃO ENCONTRADA ERROR 404 */
@@ -53,6 +52,7 @@ html, body, div{
 /* CONTAINER DAS INFOS ABAIXO DA CITAÇÃO */
 .container-pessoas{
     margin-top: 5vh;
+    display: none;
 }
 
 /* ESTILO ONDE MOSTRA O NOMES DAS PESSOAS QUE ESTÃO PARTICIPANDO */

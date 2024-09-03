@@ -34,9 +34,12 @@ botao_adicionar_nome.addEventListener('click', function(){
                     // REMOVE A DIV ONDE CONTEM AS INFORMAÇÕES PARA ADICIONAR O NOME DA PESSOA
                     content_div.remove()
 
+                    // DEIXA A DIV ONDE CONTEM AS INFORMAÇÕES DE PESSOAS PARTICIPANDO E LOAD VISIVEL
+                    const eleContainerPessoas = document.getElementsByClassName('container-pessoas')[0]
+                    eleContainerPessoas.style.display = 'block'
+
                     // RECARREGA A PAGINA
                     // PARA MOSTRAR A PAGINA DE CARREGAMENTO E MOSTRAR AS PESSOAS QUE ESTÃO PARTICIPANDO
-                    location.reload()
                 }
 
                 else if (msgServidor == 'nome_repetido'){

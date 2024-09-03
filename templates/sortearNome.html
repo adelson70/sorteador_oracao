@@ -33,7 +33,7 @@
     
     <script>
         window.onload =  function(){
-            const socket = io('http://192.168.10.28:5000');
+            const socket = io('http://10.30.0.203:5000');
 
             // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
             socket.on('receber_nome', (data) => {
@@ -73,8 +73,9 @@
  <!-- FICARA CARREGANDO ATÉ RECEBER O NOME DE ORAÇÃO -->
 {% if nomeCadastrado == True %}
 <script>
-    const eleLoad = document.querySelector('.spinner-border')
-    eleLoad.style.display = 'block'
+    // DEIXA A DIV ONDE CONTEM AS INFORMAÇÕES DE PESSOAS PARTICIPANDO E LOAD VISIVEL
+    const eleContainerPessoas = document.getElementsByClassName('container-pessoas')[0]
+    eleContainerPessoas.style.display = 'block'
 </script>
 
 <!-- CASO SEJA O PRIMEIRO ACESSO DO USUARIO A PAGINA E ELE NÃO TENHA AINDA CADASTRADO SEU NOME -->
