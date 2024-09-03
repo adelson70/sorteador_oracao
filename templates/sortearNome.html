@@ -65,6 +65,23 @@
                         alert(`${pessoaOracao} é seu amigo de oração da semana!`)
                     })
             })
+
+            // RECEBE EVENTO DO SERVIDOR PARA LIMPAR O COOKIE
+            socket.on('erase_cookie_now', (data) =>{
+                // REQUISIÇÃO PARA LIMPAR O COOKIE DO NAVEGADOR PARA ESSA SESSÃO
+                axios.delete('/limparCookie')
+                    .then(response=>{
+                        msg = response.data.msg
+
+                        if (msg == 'success'){
+                            location.reload()
+                        }
+
+                        else{
+                            console.log('erro! verifique o console do servidor!')
+                        }
+                    })
+            })
         }
     </script>
 </div>

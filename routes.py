@@ -95,6 +95,17 @@ def configure_app(app, socketio):
         
         # MENSAGEM PARA TODOS OS CLIENTES
         emit('receber_nome', data, broadcast=True)
+
+    # EVENTO SOCKET PARA LIMPAR O COOKIE DAS PESSOAS LOGADAS AO SITE APÓS TER LIMPADO O BANCO DE DADOS
+    @socketio.on('limpar_cookie')
+    def erase_cookie_handler(data):
+        emit('erase_cookie_now', data, broadcast=True)
+
+    # ROTA PARA LIMPAR O COOKIE (APENAS O NOME QUE ESTAVA CADASTRADO)
+    @app.route('/limparCookie', methods=['DELETE'])
+    def limparCookie():
+        msg = fLimparCookie()
+        return jsonify(msg)
     
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)

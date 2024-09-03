@@ -132,3 +132,18 @@ def limparBancoDados():
     data['msg'] = msg
 
     return data
+
+# FUNÇÃO PARA LIMPAR O COOKIE DO USUARIO
+def fLimparCookie():
+    data = {}
+    try:
+        session.clear()
+        msg = 'success'
+
+    except Exception as e:
+        print(f'função flimparcookie diz: {e}')
+        msg = 'error'
+
+    data['msg'] = msg
+
+    return data
