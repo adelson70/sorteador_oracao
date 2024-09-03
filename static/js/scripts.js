@@ -48,3 +48,7 @@ botao_adicionar_nome.addEventListener('click', function(){
             })
     }
 })
+
+document.addEventListener('DOMContentLoaded', function(){
+
+})

@@ -110,3 +110,25 @@ def fSortearNome():
     conexao.close()
 
     return data
+
+# FUNÇÃO PARA LIMPAR BANCO DE DADOS
+def limparBancoDados():
+    conexao, cursor = conectarDB()
+
+    data = {}
+
+    # CASO TENHA CONSEGUIDO LIMPAR O BANCO DE DADOS
+    try:
+        cursor.execute('DELETE FROM pessoas')
+        conexao.commit()
+        conexao.close()
+        msg = 'success'
+
+    # CASO NÃO TENHA LIMPADO O DB
+    except Exception as e:
+        print(f'função limparBancoDados diz: {e}')
+        msg = 'error'
+
+    data['msg'] = msg
+
+    return data

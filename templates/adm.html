@@ -1,8 +1,18 @@
 {% extends 'index.html' %}
 {% block conteudo %}
-<div class="adm">
-    <h1>Area do ADM</h1>
-    
+<!-- NAV -->
+<ul class="nav justify-content-center">
+    <!-- HOME -->
+    <li class="nav-item">
+      <a class="nav-link active opcao" aria-current="page" href="{{ url_for('admin',token='211121') }}">Home</a>
+    </li>
+    <!-- LIMPAR DB -->
+    <li class="nav-item">
+      <a class="nav-link active opcao" id="limparDB" href="#">Limpar DB</a>
+    </li>
+  </ul>
+<!-- CONTEUDO -->
+<div class="adm">    
     <div class="conteudo-adm">
         <!-- TITULO -->
         <h1 class="titulo-pessoas">Amigos de Oração</h1>
@@ -15,6 +25,7 @@
 </div>
 
 <script>
+    // PARA SORTEAR O NOME
     var socket = io('http://192.168.10.28:5000');
     let btnSortearNome = document.getElementById('sortearNome')
     
@@ -23,5 +34,28 @@
         // ENVIA LISTA VAZIA POIS O BACK IRA BUSCAR AS INFORMAÇÕES NO DB
         socket.emit('enviar_nome', [])
     });
+
+    // PARA LIMPAR O BANCO DE DADOS
+    // EVENTO PARA QUANDO CLICAR NO BOTÃO DE LIMPAR O BANCO DE DADOS
+    const eleLimparDB = document.getElementById('limparDB')
+    eleLimparDB.addEventListener('click', function(){
+        
+        // REQUISIÇÃO PARA LIMPAR BANCO DE DADOS
+        axios.delete('/limparDB/211121')
+            .then(response=>{
+                msg = response.data.msg
+
+                // CONFIRMAÇÃO DA LIMPEZA DO BANCO DE DADOS
+                if (msg == 'success'){
+                    alert('banco de dados limpo')
+                }
+
+                // CASO TENHA DADO ERRADO A LIMPEZA
+                else{
+                    alert('erro! consulte o console do servidor!')
+                }
+            })
+    })
+
 </script>
 {% endblock conteudo%}

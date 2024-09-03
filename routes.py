@@ -52,6 +52,20 @@ def configure_app(app, socketio):
 
         return jsonify(response)
     
+    # ROTA PARA LIMPAR BANCO DE DADOS
+    # QUANDO ACIONADO ELE LIMPA OS COOKIES DE TODOS CONECTADOS AO SITE
+    @app.route('/limparDB/<token>',methods=['DELETE'])
+    def limparDB(token):
+        # CASO TENHA ACESSO ADM PARA FAZER A ALTERAÇÃO
+        if token == '211121':
+            msg = limparBancoDados()
+
+            return jsonify(msg)
+
+        # CASO NÃO TENHA IRA RETORNAR PARA PAGINA PRINCIPAL
+        else:
+            return redirect(url_for('main'))
+    
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao/<data>', methods=['GET'])
     def pessoaOracao(data):
