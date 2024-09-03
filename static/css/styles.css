@@ -4,10 +4,6 @@ html, body, div{
     background-color: #FAF3E0;
 }
 
-/* ESTILO DA CAIXA DE ENTRADA ONDE O USUARIO COLOCA SEU NOME */
-.caixa-entrada{
-    text-align: center;
-}
 
 /* ESTILO DA PAGINA DE NÃO ENCONTRADA ERROR 404 */
 .not-page{
@@ -113,3 +109,46 @@ h1{
     display: block;
     margin-top: 5vh;
 }
+
+/* ESTILO PARA INPUT DO NOME */
+/* LABEL */
+.titulo-input{
+    display: block;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+@media (orientation:landscape) {
+    .nomeOracao{
+        width: 30vw;
+        text-align: center;
+    }
+}
+
+@media (orientation:portrait) {
+    .nomeOracao{
+        width: 80vw;
+        text-align: center;
+    }
+}
+
+/* ESTILO DA CAIXA DE ENTRADA ONDE O USUARIO COLOCA SEU NOME */
+.caixa-entrada{
+    text-align: center;
+    margin-top: 4vh;
+
+}
+
+/* ESTILO DO BOTÃO */
+.btn-add-nome{
+    margin-top: 1vh;
+    background-color: #003366 !important;
+    border-color: #003366 !important;
+    font-weight: 500 !important;
+}
+
+.btn-add-nome:hover{
+    background-color: #004c98 !important;
+    border-color: #004c98 !important;
+}
+
