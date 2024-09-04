@@ -69,6 +69,7 @@ def configure_app(app, socketio):
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao/<data>', methods=['GET'])
     def pessoaOracao(data):
+        
         # BUSCANDO O NOME DO USUARIO
         meuNome = buscarMeuNome()
 
