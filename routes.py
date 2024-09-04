@@ -17,20 +17,27 @@ def configure_app(app, socketio):
         return render_template('sortearNome.html')
     
     # ROTA DO ADM ONDE IRA SORTEAR O NOME
-    @app.route('/admin/<token>')
-    def admin(token):
+    @app.route('/admin')
+    def admin():
         try:
             # CASO O TOKEN SEJA ESSE IRA ABRIR O TEMPLATE DE ADMIN
-            if token == '211121':
-                return render_template('adm.html')
+            # if verificarAuth():
+            return render_template('adm.html')
             
             # SE INSERIR UM TOKEN ERRADO IRA VOLTAR PARA A PAGINA INICIAL
-            else:
-                return redirect(url_for('main'))
+            # else:
+                # return redirect(url_for('main'))
         
         # CASO TENTE ACESSAR A PAGINA DE ADMIN SEM COLOCAR O TOKEN
         except:
             return render_template('page_not_found.html')
+        
+    # ROTA DE LOGIN
+    @app.route('/loggin', methods=['GET'])
+    def loggin():
+        data = request.get_json()
+
+        return data
     
     # ROTA PARA ADICIONAR O NOME AO DB
     @app.route('/adicionarNome', methods=['POST'])

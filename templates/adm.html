@@ -1,5 +1,8 @@
 {% extends 'index.html' %}
 {% block conteudo %}
+
+<!-- CASO TENHA LOGADO CORRETAMENTE -->
+{% if logged %}
 <!-- NAV -->
 <ul class="nav justify-content-center">
     <!-- HOME -->
@@ -26,42 +29,21 @@
 
 <!-- SCRIPTS QUE NÃO DERA PARA FICAR NO ARQUIVO SEPARADO -->
 <script>
-    // PARA SORTEAR O NOME
-    var socket = io('http://192.168.10.28:5000');
-    let btnSortearNome = document.getElementById('sortearNome')
+
     
-    btnSortearNome?.addEventListener('click', function() {
-        console.log('clicado')
-        // ENVIA LISTA VAZIA POIS O BACK IRA BUSCAR AS INFORMAÇÕES NO DB
-        socket.emit('enviar_nome', [])
-    });
-
-    // PARA LIMPAR O BANCO DE DADOS
-    // EVENTO PARA QUANDO CLICAR NO BOTÃO DE LIMPAR O BANCO DE DADOS
-    const eleLimparDB = document.getElementById('limparDB')
-    eleLimparDB.addEventListener('click', function(){
-        
-        // REQUISIÇÃO PARA LIMPAR BANCO DE DADOS
-        axios.delete('/limparDB/211121')
-            .then(response=>{
-                msg = response.data.msg
-
-                // CONFIRMAÇÃO DA LIMPEZA DO BANCO DE DADOS
-                if (msg == 'success'){
-
-                    // ENVIA PARA LIMPAR O COOKIE DAS PESSOAS LOGADAS
-
-                    socket.emit('limpar_cookie', [])
-
-                    alert('banco de dados limpo')
-                }
-
-                // CASO TENHA DADO ERRADO A LIMPEZA
-                else{
-                    alert('erro! consulte o console do servidor!')
-                }
-            })
-    })
 
 </script>
+
+{% else %}
+<div>
+    <label for="input-user">Digite o nome de usuário</label>
+    <input type="text" class="input-nome-usuario" id="input-user">
+
+    <label for="input-pass">Digite a senha</label>
+    <input type="password" class="input-senha-usuario" id="input-pass">
+
+    <button class="btn btn-primary btn-loggin" id="btn-loggin">Acessar</button>
+
+</div>
+{% endif %}
 {% endblock conteudo%}

@@ -1,8 +1,9 @@
+
 // OBTENDO ELEMENTO BOTÃO QUE ADICIONA O NOME DA PESSOA
 const botao_adicionar_nome = document.getElementById('adicionarNome')
 
 // EVENTO PARA AÇÃO QUANDO CLICADO NO BOTÃO DE ADICIONAR O NOME DA PESSOA
-botao_adicionar_nome.addEventListener('click', function(){
+botao_adicionar_nome?.addEventListener('click', function(){
     // CAPTURA O NOME DA PESSOA
     const nome_pessoa = document.getElementById('nomeOracao').value
 
@@ -49,6 +50,102 @@ botao_adicionar_nome.addEventListener('click', function(){
     }
 })
 
-document.addEventListener('DOMContentLoaded', function(){
+// EVENTO PARA SORTEAR OS NOMES
+// PARA SORTEAR O NOME
+var socket = io('http://10.30.0.203:5000');
+let btnSortearNome = document.getElementById('sortearNome')
 
+btnSortearNome?.addEventListener('click', function() {
+    // ENVIA LISTA VAZIA POIS O BACK IRA BUSCAR AS INFORMAÇÕES NO DB
+    socket.emit('enviar_nome', [])
+});
+
+// PARA LIMPAR O BANCO DE DADOS
+// EVENTO PARA QUANDO CLICAR NO BOTÃO DE LIMPAR O BANCO DE DADOS
+const eleLimparDB = document.getElementById('limparDB')
+eleLimparDB?.addEventListener('click', function(){
+    // REQUISIÇÃO PARA LIMPAR BANCO DE DADOS
+    axios.delete('/limparDB/211121')
+        .then(response=>{
+            msg = response.data.msg
+
+            // CONFIRMAÇÃO DA LIMPEZA DO BANCO DE DADOS
+            if (msg == 'success'){
+
+                // ENVIA PARA LIMPAR O COOKIE DAS PESSOAS LOGADAS
+
+                socket.emit('limpar_cookie', [])
+
+                alert('banco de dados limpo')
+            }
+
+            // CASO TENHA DADO ERRADO A LIMPEZA
+            else{
+                alert('erro! consulte o console do servidor!')
+            }
+        })
+})
+
+window.onload =  function(){
+    const socket = io('http://10.30.0.203:5000');
+
+    // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
+    socket.on('receber_nome', (data) => {
+        // REQUISIÇÃO PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO
+        dataJSON = JSON.stringify(data)
+        axios.get(`pessoaOracao/${dataJSON}`)
+            .then(response=>{
+                // DESEMPACOTANDO AS INFORMAÇÕES
+                // var meuNome = response.data.meuNome
+                var pessoaOracao = response.data.pessoaOracao
+
+                // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
+                const eleLoad = document.querySelector('.spinner-border')
+                eleLoad.style.display = 'none'
+                
+                // MENSAGEM QUE IRA APARECER
+                msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
+
+                // MENSAGEM PARA DEPURAÇÃO
+                msgConsole = (response.data)
+                console.log(msgConsole)
+
+                // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
+                const eleMsgOracao = document.getElementById('oracao')
+
+                // ATRIBUINDO VALOR AO ELEMENTO
+                eleMsgOracao.innerHTML = msg
+
+                // MOSTRANDO ALERT
+                alert(`${pessoaOracao} é seu amigo de oração da semana!`)
+            })
+    })
+
+    // RECEBE EVENTO DO SERVIDOR PARA LIMPAR O COOKIE
+    socket.on('erase_cookie_now', (data) =>{
+        // REQUISIÇÃO PARA LIMPAR O COOKIE DO NAVEGADOR PARA ESSA SESSÃO
+        axios.delete('/limparCookie')
+            .then(response=>{
+                msg = response.data.msg
+
+                if (msg == 'success'){
+                    location.reload()
+                }
+
+                else{
+                    console.log('erro! verifique o console do servidor!')
+                }
+            })
+    })
+}
+
+// EVENTO QUANDO USUARIO TENTA FAZER LOGIN NA PAGINA
+const btnLoggin = document.querySelector('.btn-loggin')
+
+// EVENTO PARA QUANDO CLICADO NO BOTÃO DE ACESSAR
+btnLoggin?.addEventListener('click', function(){
+    userName = document.getElementById('input-user').value
+    userPass = document.getElementById('input-pass').value
+
+    console.log(`nome:${userName} senha:${userPass}`)
 })

@@ -147,3 +147,8 @@ def fLimparCookie():
     data['msg'] = msg
 
     return data
+
+# FUNÇÃO PARA VERIFICAR AUTENTICAÇÃO DE ADM
+def verificarAuth():
+    auth = session.get('auth')
+    return auth
