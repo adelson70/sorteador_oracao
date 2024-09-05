@@ -154,9 +154,15 @@ btnLoggin?.addEventListener('click', function(){
         .then(response=>{
             msg = response.data.msg
 
+            // LOGGIN COM EXITO
             if (msg == 'success'){
                 // RECARREGA A PAGINA PARA ACESSAR A MESMA PORÉM COM O PRIVILEGIO DE ADM
                 location.reload()
+            }
+
+            // LOGGIN SEM EXITO
+            else if (msg == 'error'){
+                alert('Credenciais Inválidas!')
             }
         })
 })
