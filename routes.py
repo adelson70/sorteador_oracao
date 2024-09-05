@@ -20,24 +20,37 @@ def configure_app(app, socketio):
     @app.route('/admin')
     def admin():
         try:
-            # CASO O TOKEN SEJA ESSE IRA ABRIR O TEMPLATE DE ADMIN
-            # if verificarAuth():
-            return render_template('adm.html')
+            auth = verificarAuth()
+            logged=False
+
+            if auth:
+                logged = True
             
-            # SE INSERIR UM TOKEN ERRADO IRA VOLTAR PARA A PAGINA INICIAL
-            # else:
-                # return redirect(url_for('main'))
+            return render_template('adm.html', logged=logged)
         
         # CASO TENTE ACESSAR A PAGINA DE ADMIN SEM COLOCAR O TOKEN
         except:
             return render_template('page_not_found.html')
         
     # ROTA DE LOGIN
-    @app.route('/loggin', methods=['GET'])
-    def loggin():
-        data = request.get_json()
+    @app.route('/loggin/<data>', methods=['GET'])
+    def loggin(data):
+        # TRATANDO O RECEBIMENTO DA REQUISIÇÃO
+        data = json.loads(data)
 
-        return data
+        msg = logginAuth(data)
+
+        if msg == 'success':
+            return redirect(url_for('adm'))
+
+        else:
+            return jsonify(msg)
+        
+    # ROTA PARA SAIR DO MODO ADM
+    @app.route('/exitAdm', methods=['POST'])
+    def exitAdm():
+        session.clear()
+        return redirect(url_for('admin'))
     
     # ROTA PARA ADICIONAR O NOME AO DB
     @app.route('/adicionarNome', methods=['POST'])

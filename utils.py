@@ -152,3 +152,22 @@ def fLimparCookie():
 def verificarAuth():
     auth = session.get('auth')
     return auth
+
+# FUNÇÃO PARA VERIFICAR O LOGGIN
+def logginAuth(data):
+    dataJSON = {}
+    msg = 'error'
+
+    # DESEMPACOTANDO VALORES RECEBINDOS DA REQUISIÇÃO
+    username = data.get('username')
+    password = data.get('password')
+
+    # APENAS PARA TESTE
+    if username == 'adelson' and password == 'teste':
+        msg = 'success'
+        session['auth'] = True
+
+    # FORMATANDO RESPOSTA A REQUISIÇÃO
+    dataJSON['msg'] = msg
+
+    return dataJSON

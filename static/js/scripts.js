@@ -147,5 +147,28 @@ btnLoggin?.addEventListener('click', function(){
     userName = document.getElementById('input-user').value
     userPass = document.getElementById('input-pass').value
 
-    console.log(`nome:${userName} senha:${userPass}`)
+    data = {username: userName, password: userPass}
+
+    // REQUISIÇÃO PARA CONSULTAR OS VALORES INFORMADOS
+    axios.get(`/loggin/${JSON.stringify(data)}`)
+        .then(response=>{
+            msg = response.data.msg
+
+            if (msg == 'success'){
+                // RECARREGA A PAGINA PARA ACESSAR A MESMA PORÉM COM O PRIVILEGIO DE ADM
+                location.reload()
+            }
+        })
+})
+
+// EVENTO PARA QUANDO CLICAR NO BOTÃO DE SAIR DO MODO ADM
+const btnExitAdm = document.getElementById('exitAdm')
+
+btnExitAdm?.addEventListener('click', function(){
+    // REQUISIÇÃO PARA LIMPAR CACHE LOGO IRA SAIR DO MODO ADM
+    axios.post('/exitAdm', [])
+        .then(response=>{
+            // RECARREGA A PAGINA
+            location.reload()
+        })
 })
