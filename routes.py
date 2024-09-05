@@ -29,7 +29,8 @@ def configure_app(app, socketio):
             return render_template('adm.html', logged=logged)
         
         # CASO TENTE ACESSAR A PAGINA DE ADMIN SEM COLOCAR O TOKEN
-        except:
+        except Exception as e:
+            print(e)
             return render_template('page_not_found.html')
         
     # ROTA DE LOGIN
@@ -125,7 +126,8 @@ def configure_app(app, socketio):
     # ROTA PARA LIMPAR O COOKIE (APENAS O NOME QUE ESTAVA CADASTRADO)
     @app.route('/limparCookie', methods=['DELETE'])
     def limparCookie():
-        msg = fLimparCookie()
+        adm = verificarAuth()
+        msg = fLimparCookie(adm)
         return jsonify(msg)
     
     # ROTA DE TRATAMENTO DO ERRO 404

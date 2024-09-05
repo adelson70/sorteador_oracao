@@ -134,8 +134,13 @@ def limparBancoDados():
     return data
 
 # FUNÇÃO PARA LIMPAR O COOKIE DO USUARIO
-def fLimparCookie():
+def fLimparCookie(adm):
     data = {}
+
+    if adm:
+        data['msg'] = 'success'    
+        return data
+
     try:
         session.clear()
         msg = 'success'
