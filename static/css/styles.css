@@ -185,10 +185,24 @@ h1{
 }
 
 .input-nome-usuario-senha{
-    width: 20vw;
     text-align: center;
     border-radius: 10px;
     border: 2px solid #003366;
+}
+
+/* CONDIÇÃO PARA LARGURA DA INPUT DA CAIXA */
+@media (orientation:landscape) {
+    .input-nome-usuario-senha{
+        width: 15vw;
+
+    }
+}
+
+@media (orientation:portrait) {
+    .input-nome-usuario-senha{
+        width: 80vw;
+
+    }
 }
 
 .label-loggin{
