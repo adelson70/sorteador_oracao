@@ -86,6 +86,25 @@ def configure_app(app, socketio):
         # CASO NÃO TENHA IRA RETORNAR PARA PAGINA PRINCIPAL
         else:
             return redirect(url_for('main'))
+        
+    # ROTA PARA CRIAR SALA DE ORAÇÃO
+    # DEVE GERAR UM TOKEN, SALVAR NO DB
+    @app.route('/criarSala', methods=['POST'])
+    def criarSala():
+        if verificarAuth():
+            data = request.get_json()
+            nomeSala = data.get('nomeSala')
+
+            msg = criarSalaOracao(nomeSala)
+
+            # CRIANDO UMA SESSÃO INFORMANDO QUE A SALA FORA GERADO COM SUCESSO
+            session['salaOracao'] = True
+            session['infosSala'] = msg
+
+            return msg
+
+        else:
+            return redirect(url_for('admin'))
     
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao/<data>', methods=['GET'])
@@ -130,7 +149,26 @@ def configure_app(app, socketio):
         msg = fLimparCookie(adm)
         return jsonify(msg)
     
+    # EVENTO SOCKET PARA ENCAMINHAR OS NOMES PARTICIPANTES
+    @socketio.on('enviar_nome_participante')
+    def sendNameParty(data):
+        emit('')
+    
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('page_not_found.html'), 404
+    
+    # ROTA PARA REQUISIÇÃO BUSCAR UMA SESSÃO EM ESPECIFICO
+    @app.route('/getSession/<nomeSessao>')
+    def getSession(nomeSessao):
+        data = {}
+
+        sessao = session.get(nomeSessao)
+
+        if sessao == None:
+            sessao = False
+
+        data[nomeSessao] = sessao
+
+        return jsonify(data)

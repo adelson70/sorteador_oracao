@@ -1,3 +1,42 @@
+// REQUISIÇÃO PARA VERIFICAR SE O USUARIO ADM JÁ CRIOU UMA SALA DE ORAÇÃO
+axios.get('/getSession/salaOracao')
+    .then(response=>{
+        resp = response.data.salaOracao
+        
+        // CASO O USUARIO ADM JÁ TENHA CRIADO UMA SALA DE ORAÇÃO
+        if (resp == true){
+            ele = document.getElementById('opcaoCriarSala')
+            ele.remove()
+
+            // ALTERA OS ELEMENTOS DA PAGINA PARA PARTE DE SORTEIO DOS NOMES
+            axios.get('/getSession/infosSala')
+                .then(response=>{
+                    data = response.data.infosSala
+
+                    // REMOVE O ELEMENTO PEDIDO PARA CRIAR SALA DE ORAÇÃO
+                    eleAlerta = document.getElementById('alertaCriarSala')
+                    eleAlerta.style.display = 'none'
+
+                    // MOSTRA OS OUTROS ELEMENTOS
+                    nomeSala = data.nome_sala
+                    tokenSala = data.token
+
+                    // MOSTRANDO AS INFOS
+                    // LOAD, NOMES, TOKEN
+                    eleSalaCriada = document.querySelector('.salaOracaoCriada')
+                    eleSalaCriada.style.display = 'block'
+                    
+                    // MOSTRANDO TOKEN AO USUARIO ADM
+                    eleToken = document.getElementById('token')
+                    eleToken.innerHTML = tokenSala
+
+                    // MOSTRANDO NOME DA SALA DE ORAÇÃO QUE ELE CRIOU
+                    eleNomeSalaOracao = document.getElementById('tokenLabel')
+                    eleNomeSalaOracao.innerHTML = `Token de acesso a sala "${nomeSala}"`
+                })
+        }
+    })
+
 
 // OBTENDO ELEMENTO BOTÃO QUE ADICIONA O NOME DA PESSOA
 const botao_adicionar_nome = document.getElementById('adicionarNome')
@@ -52,7 +91,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io('http://10.30.0.203:5000');
+var socket = io('http://192.168.10.28:5000');
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -87,7 +126,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io('http://10.30.0.203:5000');
+    const socket = io('http://192.168.10.28:5000');
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     socket.on('receber_nome', (data) => {
@@ -177,4 +216,32 @@ btnExitAdm?.addEventListener('click', function(){
             // RECARREGA A PAGINA
             location.reload()
         })
+})
+
+// EVENTO PARA QUANDO CLICAR EM CRIAR SALA DE ORAÇÃO
+// BUSCANDO NOME DA SALA CRIADA
+const eleNomeSala = document.getElementById('nomeSala')
+const btnCriarSala = document.getElementById('criarSala')
+
+btnCriarSala?.addEventListener('click', function(){
+    const nomeSala = eleNomeSala.value
+    
+    // CASO NÃO TENHA COLOCADO NENHUM NOME
+    if (nomeSala.length == 0){
+        console.log('nenhum nome inserido')
+
+        alert('Insira um nome para sua sala de oração!')
+
+    }
+
+    // CASO TENHA INSERIDO ALGUM NOME PARA SALA
+    else{
+        data = {nomeSala: nomeSala}
+        // REQUISIÇÃO PARA CRIAR A SALA DE ORAÇÃO
+        axios.post('/criarSala', data)
+            .then(response=>{
+                location.reload()
+            })
+    }
+
 })

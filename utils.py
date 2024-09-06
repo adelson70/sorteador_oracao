@@ -1,7 +1,8 @@
 import secrets
 from database import conectarDB
 from flask import session
-from random import shuffle
+from random import shuffle, sample
+from string import ascii_uppercase as letrasUP
 
 # FUNÇÃO PARA GERAR UM TOKEN DA SESSÃO DO COOKIE
 def gerar_secret_key():
@@ -176,3 +177,38 @@ def logginAuth(data):
     dataJSON['msg'] = msg
 
     return dataJSON
+
+# FUNÇÃO PARA GERAR O TOKEN PARA ACESSO A SALA DE ORAÇÃO
+def gerarTokenSala():
+    tokenList = sample(letrasUP, 6)
+    token = "".join(tokenList)
+    return token
+
+# FUNÇÃO PARA CRIAR SALA DE ORAÇÃO E GERAR TOKEN
+def criarSalaOracao(nomeSala):
+    conexao, cursor = conectarDB()
+    data = {}
+
+    # PRIMEIRO GERA UM TOKEN E VERIFICA SE JÁ NÃO POSSUI NO BANCO DE DADOS
+    token = gerarTokenSala()
+
+    # VERIFICA SE O TOKEN JÁ EXISTE NO BANCO DE DADOS
+    cursor.execute('SELECT COUNT(token) FROM salas WHERE token=?',(token,))
+
+    busca = cursor.fetchone()[0]
+
+    # CASO O TOKEN GERADO JÁ TENHA NA BASE DE DADOS SERÁ CHAMADO NOVAMENTE A FUNÇÃO PARA QUE POSSA GERAR OUTRO TOKEN
+    if busca != 0:
+        return criarSalaOracao(nomeSala)
+    
+    # CASO SEJA UM TOKEN VALIDO (UNICO)
+    # IRA ADICIONAR NO DB AS INFOS
+    cursor.execute('INSERT INTO salas (token,status,nome_sala) VALUES (?,?,?)',(token, 'on', nomeSala,))
+
+    conexao.commit()
+
+    data['token'] = token
+    data['status'] = 'on'
+    data['nome_sala'] = nomeSala
+
+    return data 

@@ -11,27 +11,78 @@
       <a class="nav-link active opcao" aria-current="page" href="{{ url_for('admin') }}">Home</a>
     </li>
 
+    <!-- GERAR TOKEN DE ACESSO A SALA DE ORAÇÃO -->
+     <li class="nav-item" id="opcaoCriarSala">
+      <a class="nav-link active opcao" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#modal-criar-sala" title="Criar sala de oração">Criar Sala</a>
+     </li>
+
     <!-- LIMPAR DB -->
-    <li class="nav-item">
-      <a class="nav-link active opcao" id="limparDB" href="#">Limpar DB</a>
-    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link active opcao" aria-current="page" id="limparDB" href="#" title="Fechar sala de oração">Encerrar Sala</a>
+    </li> -->
 
     <!-- SAIR DO MODO ADM -->
      <li class="nav-item">
-      <a class="nav-link active opcao" id="exitAdm" href="#">Sair</a>
+      <a class="nav-link active opcao" aria-current="page" id="exitAdm" href="#">Sair</a>
      </li>
 
+     <!-- MODAIS VÃO FICAR AQUI -->
+
+     <!-- MODAL DE CRIAÇÃO DE SALA -->
+     <div class="modal fade" id="modal-criar-sala" tabindex="-1" style="margin-top: 10vh;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title-sala text-center w-100">Sala de Oração</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+            <!-- NOME DA SALA DE ORAÇÃO -->
+             <label for="nomeSala" class="nomeSalaOracao">Nome da Sala de Oração</label>
+             <input type="text" id="nomeSala" class="inputSalaOracao" placeholder="Digite o nome da sala de oração">
+
+            <!-- TOKEN DA SALA DE ORAÇÃO -->
+            
+          </div>
+
+          <!-- BOTÕES DE AÇÃO -->
+          <div class="modal-footer d-flex justify-content-center">
+              <button type="button" class="btn btn-success criarSala" id="criarSala">Criar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </ul>
-<!-- CONTEUDO -->
-<div class="adm">    
-    <div class="conteudo-adm">
-        <!-- TITULO -->
-        <h1 class="titulo-pessoas">Amigos de Oração</h1>
-        
-        <!-- CARD COM O NOME DAS PESSOAS QUE ESTÃO PARTICIPANDO -->
-        <h2 class="nomesParticipando">Nome 1, Nome 2, Nome 3</h2>
-         <!-- BOTÃO PARA SORTEAR OS NOMES PARA TODOS OS USUÁRIOS -->
-        <button class="btn btn-primary btn-sortear" id="sortearNome">Sortear</button>
+<!-- CONTEUDO APÓS LOGIN-->
+ <!-- TELA QUANDO JÁ GEROU O TOKEN PARA CRIAR A SALA -->
+ <div class="adm">    
+   <div class="conteudo-adm">
+     <!-- TITULO -->
+        <div class="salaOracaoCriada">
+          <!-- TOKEN -->
+          <h1 class="tokenLabel" id="tokenLabel" title="Token de acesso a sala de oração">Token de acesso a sala de oração "yeshua"</h1>
+          
+          <h2 class="token" id="token" title="Token de acesso a sala de oração">XXXXXX</h2>
+
+          <br><br>
+          <!-- ABAIXO IRA APARECER O NOME DAS PESSOAS QUE FOREM SE CADASTRANDO -->
+          <h3 class="titulo-pessoas">Amigos de Oração</h3>
+          
+          <!-- CARD COM O NOME DAS PESSOAS QUE ESTÃO PARTICIPANDO -->
+          <h2 class="nomesParticipando">Nome 1, Nome 2, Nome 3</h2>
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status" title="Carregando amigo de fé"></div>
+          </div>
+           <!-- BOTÃO PARA SORTEAR OS NOMES PARA TODOS OS USUÁRIOS -->
+          <button class="btn btn-primary btn-sortear" id="sortearNome">Sortear</button>
+        </div>
+
+      <div class="token-sala">
+        <h2 class="infoh2" id="alertaCriarSala">Crie uma sala de oração primeiro</h2>
+      </div>
+
     </div>
 </div>
 
