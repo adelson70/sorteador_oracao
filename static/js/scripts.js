@@ -37,7 +37,7 @@ axios.get('/getSession/salaOracao')
                     // MOSTANDO NOME DAS PESSOAS
                     // RECEBE AS EMISSÕES DO SOCKET PARA ADICIONAR O NOME NA JANELA DO ADM
                     elePessoasParticipando = document.querySelector('.nomesParticipando')
-                    elePessoasParticipando.style.display = 'block'
+                    elePessoasParticipando.style.display = 'flex'
 
                     // REQUISIÇÃO PARA BUSCAR OS NOMES PARTICIPANTES
                     axios.get(`/getNomesSala/${tokenSala}`)
@@ -58,7 +58,16 @@ axios.get('/getSession/salaOracao')
 
                                     
                                     nomes.forEach(nome => {
-                                        elePessoasParticipando.innerHTML += ` ${nome}`
+                                        let primeiraLetra = nome[0].toUpperCase()
+                                        let restoNome = nome.slice(1).toLowerCase()
+                                        let nomeFormatado = primeiraLetra+restoNome
+
+                                        // CRIA UM ELEMENTO SPAN PARA CADA NOME
+                                        let span = document.createElement('span')
+                                        span.textContent = nomeFormatado
+                                        span.classList.add('nomeParticipante')
+
+                                        elePessoasParticipando.appendChild(span)
                                     });
 
                                     
@@ -171,7 +180,17 @@ socket.on('receber_nome_pessoa_cadastrada', data=>{
         eleLoad.style.display = 'none'
 
         eleNomesParticipando = document.querySelector('.nomesParticipando')
-        eleNomesParticipando.innerHTML += ` ${pessoaParticipando}`
+        
+        primeiraLetra = pessoaParticipando[0].toUpperCase()
+        restoNome = pessoaParticipando.slice(1).toLowerCase()
+        nomeFormatado = primeiraLetra+restoNome
+
+        // CRIA UM ELEMENTO SPAN PARA CADA NOME
+        span = document.createElement('span')
+        span.textContent = nomeFormatado
+        span.classList.add('nomeParticipante')
+
+        eleNomesParticipando.appendChild(span)
 
         console.log(`${pessoaParticipando} entrou na sala de oração`)
     }
@@ -334,3 +353,12 @@ btnCriarSala?.addEventListener('click', function(){
     }
 
 })
+
+// EVENTO PARA QUANDO O USUARIO INSIRA O TOKEN PARA ACESSAR A SALA DE ORAÇÃO
+document.getElementById('token-input').addEventListener('input', function(e) {
+    // REMOVE CARACTER QUE NÃO SEJA LETRA
+    this.value = this.value.replace(/[^a-zA-Z]/g, '');
+    
+    // LIMITA A 6 CHARS E DEIXA TUDO EM MAIUSCULO
+    this.value = this.value.toUpperCase().slice(0, 6);
+});
