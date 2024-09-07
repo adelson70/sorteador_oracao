@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for, jsonify, request, json
 from utils import *
-from flask_socketio import emit, send
+from flask_socketio import emit, join_room, leave_room
 
 nomesSorteados = {}
 
@@ -64,12 +64,22 @@ def configure_app(app, socketio):
         # RECEBENDO DADOS EM FORMATO JSON (DICIONARO PARA O PYTHON)
         data = request.json
 
-        # OBTENDO APENAS O NOME INSERIDO NO INPUT
+        # OBTENDO O NOME INSERIDO NO INPUT
         nome = data.get('nomeOracao')
+        # OBTENDO O TOKEN INSERIDO NO INPUT
+        token_sugerido = data.get('token')
 
-        # RECEBENDO RETORNO DA FUNÇÃO QUE SERA UMA MENSAGEM
-        msg = adicionarNomeDB(nome)
-        response = {'msg': msg}
+        # CONSULTA SE O TOKEN INFORMADO NO INPUT É VALIDO
+        tokenValido = consultaToken(token_sugerido)
+
+        # CASO SEJA UM DICIONARIO
+        if tokenValido != False:
+            tokenSala = tokenValido['token']
+            # RECEBENDO RETORNO DA FUNÇÃO QUE SERA UMA MENSAGEM
+            response = adicionarNomeDB(nome, tokenSala)
+            
+        else:
+            response = {'msg': 'token_invalido'}
 
         return jsonify(response)
     
@@ -109,33 +119,53 @@ def configure_app(app, socketio):
     # ROTA PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO DO RESPECTIVO USUARIO
     @app.route('/pessoaOracao/<data>', methods=['GET'])
     def pessoaOracao(data):
-        
-        # BUSCANDO O NOME DO USUARIO
-        meuNome = buscarMeuNome()
 
-        # RECEBENDO ARR E DEIXANDO EM DICIONARIO
-        data = json.loads(data)
+        try:    
+            # BUSCANDO O NOME DO USUARIO
+            meuNome = buscarMeuNome()
 
-        pessoaOracaoNome = data[meuNome].lower()
+            # RECEBENDO ARR E DEIXANDO EM DICIONARIO
+            data = json.loads(data)
 
-        # GUARDANDO VALORES NO DICIONARIO
-        data = {'meuNome':meuNome,
-                'pessoaOracao':pessoaOracaoNome.capitalize()}
+            pessoaOracaoNome = data[meuNome].lower()
+
+            # GUARDANDO VALORES NO DICIONARIO
+            data = {'meuNome':meuNome,
+                    'pessoaOracao':pessoaOracaoNome.capitalize()}
+            
+        except:
+            data = {'msg':'nomes_sorteados'}
 
         return jsonify(data)
     
+    # ROTA GET PARA VERIFICAR O NOME DAS PESSOAS QUE ESTÃO PARTICIPANDO DA RESPECTIVA SALA DE ORAÇÃO
+    @app.route('/getNomesSala/<tokenSala>')
+    def getNomesSala(tokenSala):
+
+        msg = retornarNomes(tokenSala)
+
+        return jsonify(msg)
+
+    
     # RECEBE A LISTA E ENVIA O NOME PARA OS CLIENTES
     @socketio.on('enviar_nome')
-    def send_name_handler(lista):
+    def send_name_handler(token):
         global nomesSorteados
 
         # BUSCANDO NOME DE TODOS QUE SE CADASTRARAM
-        nomesSorteados = fSortearNome()
+        nomesSorteados = fSortearNome(token)
 
         data = nomesSorteados
         
         # MENSAGEM PARA TODOS OS CLIENTES
         emit('receber_nome', data, broadcast=True)
+
+    # EVENTO SOCKET PARA ENVIAR O NOME DA PESSOA CADASTRADA NA RESPECTIVA SALA PARA O RESPECTIVO ADM
+    @socketio.on('nomePessoaCadastrada')
+    def send_name_people_ak(infoNome):
+        data = infoNome
+
+        emit('receber_nome_pessoa_cadastrada', data, broadcast=True)
 
     # EVENTO SOCKET PARA LIMPAR O COOKIE DAS PESSOAS LOGADAS AO SITE APÓS TER LIMPADO O BANCO DE DADOS
     @socketio.on('limpar_cookie')

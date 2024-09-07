@@ -9,23 +9,27 @@ def gerar_secret_key():
     return secrets.token_hex(32)
 
 # ADICIONAR NOME DE ORAÇÃO
-def adicionarNomeDB(nome):
+def adicionarNomeDB(nome, tokenSala):
     try:
+        data = {}
         conexao, cursor = conectarDB()
         msg = ''
 
         # CONSULTANDO PARA AVERIGUAR SE O NOME EM QUESTÃO NÃO ESTA EM USO
-        cursor.execute('SELECT COUNT(nome) FROM pessoas WHERE nome=?',(nome,))
+        cursor.execute('SELECT COUNT(nome) FROM pessoas WHERE nome=? AND id_token=?',(nome,tokenSala,))
         qtdNomes = cursor.fetchone()[0]
         
         # CASO O NOME NÃO ESTEJA EM USO
         if qtdNomes == 0:
-            cursor.execute('INSERT INTO pessoas (nome) VALUES (?)',(nome,))
+            cursor.execute('INSERT INTO pessoas (nome,id_token) VALUES (?,?)',(nome,tokenSala,))
             conexao.commit()
+
             # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
             guardarNomeCookie(nome)
-            cadastrarNome() #USADO PARA VERIFICAR SE O USUARIO JÁ FEZ O CADASTRAMENTO DO SEU NOME NO INPUT
+            cadastrarNome() #USADO PARA VERIFICAR SE O USUARIO JÁ FEZ O CADASTRAMENTO DO SEU NOME NO INPUT E ENTROU NUMA SALA
+
             msg = 'success'
+            data['token'] = tokenSala
         
         # CASO O NOME ESTEJA EM USO
         else:
@@ -33,7 +37,9 @@ def adicionarNomeDB(nome):
 
         conexao.close()
 
-        return msg
+        data['msg'] = msg
+
+        return data
 
     except Exception as e:
         print(f'Função adicionarNome diz: {e}')
@@ -64,10 +70,10 @@ def validarNomeCadastrado():
     return msg
 
 # FUNÇÃO PARA BUSCAR TODOS OS NOMES CADASTRADOS E SORTEAR UM DIFERENTE DO PROPRIO USUARIO
-def fSortearNome():
+def fSortearNome(token):
     conexao, cursor = conectarDB()
 
-    query = cursor.execute('SELECT nome FROM pessoas')
+    query = cursor.execute('SELECT nome FROM pessoas WHERE id_token=?',(token,))
     nomes = query.fetchall()
 
     # LISTA DOS NOMES QUE SERÁ A CHAVE DO DICIONARIO
@@ -207,8 +213,73 @@ def criarSalaOracao(nomeSala):
 
     conexao.commit()
 
+    conexao.close()
+
     data['token'] = token
     data['status'] = 'on'
     data['nome_sala'] = nomeSala
 
     return data 
+
+# FUNÇÃO PARA CONSULTAR SE O TOKEN INSERIDO NO ACESSO A SALA EXISTE
+def consultaToken(token):
+    conexao, cursor = conectarDB()
+
+    data = {}
+    
+    # VERIFICA SE O TOKEN INFORMADO FORA CRIADO NO DB
+    cursor.execute('SELECT COUNT(token) FROM salas WHERE token=?',(token,))
+    busca = cursor.fetchone()[0]
+
+    # CASO O TOKEN INFORMADO EXISTA IRA VERIFICAR SE ELE ESTA EXPIRADO
+    if busca == 1:
+        # VERIFICA SE O TOKEN QUE ESTA NO DB ESTA ONLINE
+        cursor.execute('SELECT status FROM salas WHERE token=?',(token,))
+        busca = cursor.fetchone()[0]
+
+        if busca == 'on':
+            cursor.execute('SELECT token, nome_sala FROM salas WHERE token=?',(token,))
+
+            token, nomeSala = cursor.fetchone()
+
+            data['token'] = token
+            data['nomeSala'] = nomeSala
+
+            return data
+        
+        else:
+            return False
+    
+    # CASO O TOKEN O INFORMADO NÃO EXISTA
+    else:
+        return False
+
+    
+# FUNÇÃO PARA RETORNAR O NOME DAS PESSOAS PARTICIPANTES DA SALA DE ORAÇÃO COM BASE NO TOKEN
+def retornarNomes(token):
+    conexao, cursor = conectarDB()
+    
+    data = {}
+
+    # PRIMEIRO VERIFICA SE O TOKEN UTILIZADO FOI EXPIRADO
+    cursor.execute('SELECT status FROM salas WHERE token=?',(token,))
+
+    result = cursor.fetchone()[0]
+
+
+    if result == 'on':
+        cursor.execute('SELECT nome FROM pessoas WHERE id_token=?',(token,))
+
+        result = cursor.fetchall()
+
+        nomesParticipando = [nome[0].capitalize() for nome in result]
+
+        data['msg'] = 'success'
+        data['nomes'] = nomesParticipando
+
+    else:
+        data['msg'] = 'sala_expirada'
+
+    conexao.close()
+
+    return data

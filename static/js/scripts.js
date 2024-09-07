@@ -33,6 +33,43 @@ axios.get('/getSession/salaOracao')
                     // MOSTRANDO NOME DA SALA DE ORAÇÃO QUE ELE CRIOU
                     eleNomeSalaOracao = document.getElementById('tokenLabel')
                     eleNomeSalaOracao.innerHTML = `Token de acesso a sala "${nomeSala}"`
+
+                    // MOSTANDO NOME DAS PESSOAS
+                    // RECEBE AS EMISSÕES DO SOCKET PARA ADICIONAR O NOME NA JANELA DO ADM
+                    elePessoasParticipando = document.querySelector('.nomesParticipando')
+                    elePessoasParticipando.style.display = 'block'
+
+                    // REQUISIÇÃO PARA BUSCAR OS NOMES PARTICIPANTES
+                    axios.get(`/getNomesSala/${tokenSala}`)
+                        .then(response=>{
+                            data = response.data
+                            msgServer = data.msg
+
+                            if (msgServer == 'success'){
+                                nomes = data.nomes
+                                // CASO ALGUEM JÁ TENHA SE CADASTRADO O LOAD SERÁ RETIRADO
+                                if (nomes.length != 0){
+                                    // RETIRANDO O LOAD DA PAGINA
+                                    eleLoad = document.querySelector('.spinner-border')
+                                    eleLoad.style.display = 'none'
+
+                                    // MOSTRANDO NA TELA AS PESSOAS DE ORAÇÃO QUE JÁ SE CADASTRARAM
+                                    elePessoasParticipando = document.querySelector('.nomesParticipando')
+
+                                    
+                                    nomes.forEach(nome => {
+                                        elePessoasParticipando.innerHTML += ` ${nome}`
+                                    });
+
+                                    
+                                }
+
+                                console.log(nomes)
+                            }
+
+                            else if(msgServer == 'sala_expirada')
+                                alert('Sala expirada!')
+                        })
                 })
         }
     })
@@ -46,16 +83,26 @@ botao_adicionar_nome?.addEventListener('click', function(){
     // CAPTURA O NOME DA PESSOA
     const nome_pessoa = document.getElementById('nomeOracao').value
 
+    // CAPTURA O TOKEN
+    const token_sala = document.getElementById('token-input').value
+
+    // CASO NÃO TENHA DIGITADO UM TOKEN COM 6 CHARS
+    if (token_sala.length != 6 ){
+        console.log(token_sala, token_sala.length)
+        alert('Insira o TOKEN da sala!')
+    }
+
     // CASO NÃO TENHA DIGITADO O NOME
-    if (nome_pessoa.length < 3 ){
-        alert('Digite seu nome!')
+    else if (nome_pessoa.length < 3){
+        alert('Insira um nome!')
     }
 
     // CASO TENHA DIGITADO O NOME
     else {
         // CRIANDO JSON PARA ENVIAR AO BACK
         const data = {
-            'nomeOracao':nome_pessoa
+            'nomeOracao':nome_pessoa,
+            'token': token_sala
         }
 
         // REQUISIÇÃO DE POST AO BACK PARA ADICIONAR O NOME AO BANCO DE DADOS
@@ -65,9 +112,17 @@ botao_adicionar_nome?.addEventListener('click', function(){
                 // RESPOSTA DO BACK
                 var resposta = response.data
                 var msgServidor = resposta.msg
+                var tokenSala = resposta.token
+
+                console.log(resposta)
+
+                // CASO USUARIO TENHA INSERIDO O TOKEN INVALIDO
+                if (msgServidor == 'token_invalido'){
+                    alert('TOKEN Inválido!')
+                }
 
                 // CASO A REQUISIÇÃO TENHA OCORRIDO CORRETAMENTE
-                if (msgServidor == 'success'){
+                else if (msgServidor == 'success'){
                     // SELECIONA TODO ELEMENTO EM QUE CADASTRA O NOME DA PESSOA
                     const content_div = document.querySelector('.caixa-entrada')
                     
@@ -78,8 +133,13 @@ botao_adicionar_nome?.addEventListener('click', function(){
                     const eleContainerPessoas = document.getElementsByClassName('container-pessoas')[0]
                     eleContainerPessoas.style.display = 'block'
 
-                    // RECARREGA A PAGINA
-                    // PARA MOSTRAR A PAGINA DE CARREGAMENTO E MOSTRAR AS PESSOAS QUE ESTÃO PARTICIPANDO
+                    dataInfo ={
+                        nomePessoa : nome_pessoa,
+                        token: tokenSala
+                    }
+
+                    // EVENTO PARA EMISSÃO NO NOME CADASTRADO
+                    socket.emit('nomePessoaCadastrada', dataInfo)
                 }
 
                 else if (msgServidor == 'nome_repetido'){
@@ -96,8 +156,26 @@ let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
     // ENVIA LISTA VAZIA POIS O BACK IRA BUSCAR AS INFORMAÇÕES NO DB
-    socket.emit('enviar_nome', [])
+    socket.emit('enviar_nome', tokenSala)
 });
+
+// EVENTO PARA RECEBER O NOME DA PESSOA QUE ENTROU NA SALA DE ORAÇÃO
+socket.on('receber_nome_pessoa_cadastrada', data=>{
+    eleTokenAdm = document.getElementById('token')
+
+    // TRATAMENTO PARA RECEBER DE ACORDO COM O TOKEN GERADO PELO ADM
+    if (data.token == eleTokenAdm.innerHTML){
+        pessoaParticipando = data.nomePessoa
+
+        eleLoad = document.querySelector('.spinner-border')
+        eleLoad.style.display = 'none'
+
+        eleNomesParticipando = document.querySelector('.nomesParticipando')
+        eleNomesParticipando.innerHTML += ` ${pessoaParticipando}`
+
+        console.log(`${pessoaParticipando} entrou na sala de oração`)
+    }
+})
 
 // PARA LIMPAR O BANCO DE DADOS
 // EVENTO PARA QUANDO CLICAR NO BOTÃO DE LIMPAR O BANCO DE DADOS
@@ -129,36 +207,47 @@ window.onload =  function(){
     const socket = io('http://192.168.10.28:5000');
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
-    socket.on('receber_nome', (data) => {
-        // REQUISIÇÃO PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO
-        dataJSON = JSON.stringify(data)
-        axios.get(`pessoaOracao/${dataJSON}`)
-            .then(response=>{
-                // DESEMPACOTANDO AS INFORMAÇÕES
-                // var meuNome = response.data.meuNome
-                var pessoaOracao = response.data.pessoaOracao
+    try {
+        socket.on('receber_nome', (data) => {
+            // REQUISIÇÃO PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO
+            dataJSON = JSON.stringify(data)
+            axios.get(`pessoaOracao/${dataJSON}`)
+                .then(response=>{
+                    // DESEMPACOTANDO AS INFORMAÇÕES
+                    // var meuNome = response.data.meuNome
+                    var pessoaOracao = response.data.pessoaOracao
+    
+                    // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
+                    const eleLoad = document.querySelector('.spinner-border')
+                    eleLoad.style.display = 'none'
+                    
+                    // MENSAGEM QUE IRA APARECER
+                    msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
+    
+                    // MENSAGEM PARA DEPURAÇÃO
+                    msgConsole = (response.data)
+                    console.log(msgConsole)
+    
+                    // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
+                    const eleMsgOracao = document.getElementById('oracao')
+    
+                    // ATRIBUINDO VALOR AO ELEMENTO
+                    try {
+                        eleMsgOracao.innerHTML = msg
+                        // MOSTRANDO ALERT
+                        alert(`${pessoaOracao} é seu amigo de oração da semana!`)
 
-                // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
-                const eleLoad = document.querySelector('.spinner-border')
-                eleLoad.style.display = 'none'
-                
-                // MENSAGEM QUE IRA APARECER
-                msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
-
-                // MENSAGEM PARA DEPURAÇÃO
-                msgConsole = (response.data)
-                console.log(msgConsole)
-
-                // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
-                const eleMsgOracao = document.getElementById('oracao')
-
-                // ATRIBUINDO VALOR AO ELEMENTO
-                eleMsgOracao.innerHTML = msg
-
-                // MOSTRANDO ALERT
-                alert(`${pessoaOracao} é seu amigo de oração da semana!`)
-            })
-    })
+                    } catch (error) {
+                        alert('Nomes sorteados!')
+                    }
+    
+                })
+        })
+    // CASO SEJA ADM NÃO IRA RECEBER O NOME DE ORAÇÃO
+    // ADM SERVE APENAS COMO UMA SALA
+    } catch (error) {
+        console.log('adm não recebe nome de oração')
+    }
 
     // RECEBE EVENTO DO SERVIDOR PARA LIMPAR O COOKIE
     socket.on('erase_cookie_now', (data) =>{

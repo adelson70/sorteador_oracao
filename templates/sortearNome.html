@@ -45,8 +45,10 @@
 <!-- CASO SEJA O PRIMEIRO ACESSO DO USUARIO A PAGINA E ELE NÃO TENHA AINDA CADASTRADO SEU NOME -->
 {% else %}
 <div class="caixa-entrada">
-    <label class="titulo-input" for="nomeOracao">Digite seu nome</label>
+    <label class="titulo-input" for="token-input">Digite o TOKEN da sala</label>
+    <input class="token-input" text id="token-input">
 
+    <label class="titulo-input" for="nomeOracao">Digite seu nome</label>
     <input class="nomeOracao" text id="nomeOracao">
 
     <div class="d-flex justify-content-center">
