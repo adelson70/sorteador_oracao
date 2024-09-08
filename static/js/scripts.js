@@ -160,7 +160,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io('http://192.168.10.28:5000');
+var socket = io("http://192.168.10.28:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -223,7 +223,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io('http://192.168.10.28:5000');
+    const socket = io("http://192.168.10.28:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
