@@ -76,6 +76,10 @@ def fSortearNome(token):
     query = cursor.execute('SELECT nome FROM pessoas WHERE id_token=?',(token,))
     nomes = query.fetchall()
 
+    # CASO TENHA SOMENTE UM NOME PARA SORTEAR NA SALA
+    if len(nomes) == 1:
+        return None
+
     # LISTA DOS NOMES QUE SERÁ A CHAVE DO DICIONARIO
     listaNomes = [nome[0] for nome in nomes]
 
@@ -283,3 +287,13 @@ def retornarNomes(token):
     conexao.close()
 
     return data
+
+#  FUNÇÃO PARA DEIXAR A SALA OFFLINE APÓS O SORTEIO
+def desativarSala(tokenSala):
+    conexao, cursor = conectarDB()
+
+    cursor.execute('UPDATE salas SET status=? WHERE token=?',('off',tokenSala,))
+
+    conexao.commit()
+
+    conexao.close()

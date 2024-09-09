@@ -155,7 +155,14 @@ def configure_app(app, socketio):
         # BUSCANDO NOME DE TODOS QUE SE CADASTRARAM
         nomesSorteados = fSortearNome(token)
 
-        data = nomesSorteados
+        if nomesSorteados == None:
+            data = {'msg':'none'}
+
+        else:
+            # FUNÇÃO PARA QUE APÓS O SORTEIO A SALA FIQUE OFFLINE
+            desativarSala(token)
+
+            data = nomesSorteados
         
         # MENSAGEM PARA TODOS OS CLIENTES
         emit('receber_nome', data, broadcast=True)

@@ -77,7 +77,10 @@ axios.get('/getSession/salaOracao')
                             }
 
                             else if(msgServer == 'sala_expirada')
+                                // SE A SALA JÁ TER SIDO USADA O ADM IRA RETORNAR PARA PAGINA DE CRIAÇÃO DE SALA
+
                                 alert('Sala expirada!')
+
                         })
                 })
         }
@@ -160,7 +163,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://192.168.10.28:5000");
+var socket = io("http://10.30.0.203:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -223,44 +226,52 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://192.168.10.28:5000");
+    const socket = io("http://10.30.0.203:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
         socket.on('receber_nome', (data) => {
             // REQUISIÇÃO PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO
             dataJSON = JSON.stringify(data)
-            axios.get(`pessoaOracao/${dataJSON}`)
-                .then(response=>{
-                    // DESEMPACOTANDO AS INFORMAÇÕES
-                    // var meuNome = response.data.meuNome
-                    var pessoaOracao = response.data.pessoaOracao
-    
-                    // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
-                    const eleLoad = document.querySelector('.spinner-border')
-                    eleLoad.style.display = 'none'
-                    
-                    // MENSAGEM QUE IRA APARECER
-                    msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
-    
-                    // MENSAGEM PARA DEPURAÇÃO
-                    msgConsole = (response.data)
-                    console.log(msgConsole)
-    
-                    // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
-                    const eleMsgOracao = document.getElementById('oracao')
-    
-                    // ATRIBUINDO VALOR AO ELEMENTO
-                    try {
-                        eleMsgOracao.innerHTML = msg
-                        // MOSTRANDO ALERT
-                        alert(`${pessoaOracao} é seu amigo de oração da semana!`)
 
-                    } catch (error) {
-                        alert('Nomes sorteados!')
-                    }
+            if(data.msg == 'none'){
+                alert('Não foi possível sortear!')
+            }
+
+            else{
+                axios.get(`pessoaOracao/${dataJSON}`)
+                    .then(response=>{
+                        // DESEMPACOTANDO AS INFORMAÇÕES
+                        // var meuNome = response.data.meuNome
+                        var pessoaOracao = response.data.pessoaOracao
     
-                })
+                        // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
+                        const eleLoad = document.querySelector('.spinner-border')
+                        eleLoad.style.display = 'none'
+                        
+                        // MENSAGEM QUE IRA APARECER
+                        msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
+        
+                        // MENSAGEM PARA DEPURAÇÃO
+                        msgConsole = (response.data)
+                        console.log(msgConsole)
+        
+                        // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
+                        const eleMsgOracao = document.getElementById('oracao')
+        
+                        // ATRIBUINDO VALOR AO ELEMENTO
+                        try {
+                            eleMsgOracao.innerHTML = msg
+                            // MOSTRANDO ALERT
+                            alert(`${pessoaOracao} é seu amigo de oração da semana!`)
+    
+                        } catch (error) {
+                            alert('Nomes sorteados!')
+                        }
+        
+                    })
+            }
+
         })
     // CASO SEJA ADM NÃO IRA RECEBER O NOME DE ORAÇÃO
     // ADM SERVE APENAS COMO UMA SALA
