@@ -147,6 +147,15 @@ def configure_app(app, socketio):
         msg = retornarNomes(tokenSala)
 
         return jsonify(msg)
+    
+    # REQUISIÇÃO PARA BUSCAR A RELAÇÃO DOS NOMES NUMA SALA EXPIRADA
+    @app.route('/getNomesSalaExpirada/<tokenSalaExpirada>')
+    def getNomesSalaExpirada(tokenSalaExpirada):
+        data = {}
+
+        print(tokenSalaExpirada)
+
+        return jsonify(data)
 
     
     # RECEBE A LISTA E ENVIA O NOME PARA OS CLIENTES

@@ -87,11 +87,17 @@ axios.get('/getSession/salaOracao')
                                 
                                 // AVISO O USUARIO QUE A SALA DE ORAÇÃO FOI EXPIRADA
                                 // POIS JÁ FOI SORTEADO
-
                                 eleTituloPessoa = document.querySelector('.titulo-pessoas')
                                 eleTituloPessoa.innerHTML = 'Sala Expirada'
 
+                                // MOSTRANDO NOMES SORTEADOS
+                                // REQUISIÇÃO PARA BUSCAR A RELAÇÃO DOS NOMES
+                                axios.get(`/getNomesSalaExpirada/${tokenSala}`)
+                                    .then(response=>{
+                                        data = response.data
 
+                                        console.log(data)
+                                    })
 
 
                         })
