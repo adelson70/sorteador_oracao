@@ -77,6 +77,8 @@ def configure_app(app, socketio):
             tokenSala = tokenValido['token']
             # RECEBENDO RETORNO DA FUNÇÃO QUE SERA UMA MENSAGEM
             response = adicionarNomeDB(nome, tokenSala)
+            # ADICIONANDO O TOKEN AO COOKIES DO NAVEGADOR TEMPORATIAMENTE
+            session['tokenSala'] = tokenSala
             
         else:
             response = {'msg': 'token_invalido'}
@@ -151,18 +153,31 @@ def configure_app(app, socketio):
     @socketio.on('enviar_nome')
     def send_name_handler(token):
         global nomesSorteados
+        data = {}
 
         # BUSCANDO NOME DE TODOS QUE SE CADASTRARAM
         nomesSorteados = fSortearNome(token)
 
         if nomesSorteados == None:
-            data = {'msg':'none'}
+            data['msg'] = 'none'
+
+        elif nomesSorteados == 'expirou':
+            data['msg'] = 'offline'
 
         else:
             # FUNÇÃO PARA QUE APÓS O SORTEIO A SALA FIQUE OFFLINE
             desativarSala(token)
 
+            dados = {
+                token:nomesSorteados
+            }
+
+            # ADICIONA TOKEN E NOMES NUM DB NO SQL
+            addInfosSorteio(dados)
+
             data = nomesSorteados
+
+            # CHAMA FUNÇÃO QUE ARMAZENA AS INFORMAÇÕES NUM DB NO SQL
         
         # MENSAGEM PARA TODOS OS CLIENTES
         emit('receber_nome', data, broadcast=True)
@@ -186,10 +201,25 @@ def configure_app(app, socketio):
         msg = fLimparCookie(adm)
         return jsonify(msg)
     
-    # EVENTO SOCKET PARA ENCAMINHAR OS NOMES PARTICIPANTES
-    @socketio.on('enviar_nome_participante')
-    def sendNameParty(data):
-        emit('')
+    # ROTA PARA VERIFICAR SE JÁ HOUVE SORTEIO
+    @app.route('/verificarSorteio', methods=['GET'])
+    def verificarSorteio():
+        data = {}
+        
+        # ADICIONA O TOKEN AO JSON
+        token = consultarToken()
+        data['token'] = token
+
+        # CONSULTA O NOME DO USUARIO
+        nomeUsuario = consultaNomeParticipante()
+        data['meuNome'] = nomeUsuario
+
+        # AGORA VERIFICA SE JÁ HOUVE O EVENTO DE SORTEIO
+        msg = consultarSorteio(token, nomeUsuario)
+
+        data.update(msg)
+
+        return jsonify(data)
     
     # ROTA DE TRATAMENTO DO ERRO 404
     @app.errorhandler(404)

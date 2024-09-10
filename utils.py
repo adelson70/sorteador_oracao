@@ -1,8 +1,9 @@
 import secrets
-from database import conectarDB
+from database import *
 from flask import session
 from random import shuffle, sample
 from string import ascii_uppercase as letrasUP
+from tinydb import Query
 
 # FUNÇÃO PARA GERAR UM TOKEN DA SESSÃO DO COOKIE
 def gerar_secret_key():
@@ -73,52 +74,63 @@ def validarNomeCadastrado():
 def fSortearNome(token):
     conexao, cursor = conectarDB()
 
-    query = cursor.execute('SELECT nome FROM pessoas WHERE id_token=?',(token,))
-    nomes = query.fetchall()
+    # ANTES VERIFICA SE A SALA ESTA ONLINE
+    query = cursor.execute('SELECT status FROM salas WHERE token=?',(token,))
+    statusSala = query.fetchone()[0]
 
-    # CASO TENHA SOMENTE UM NOME PARA SORTEAR NA SALA
-    if len(nomes) == 1:
-        return None
+    # CASO TENTE SORTEAR E A SALA ESTEJA ONLINE
+    if statusSala == 'on':
 
-    # LISTA DOS NOMES QUE SERÁ A CHAVE DO DICIONARIO
-    listaNomes = [nome[0] for nome in nomes]
+        query = cursor.execute('SELECT nome FROM pessoas WHERE id_token=?',(token,))
+        nomes = query.fetchall()
 
-    # LISTA DOS NOMES QUE SERÁ O VALOR DO DICIONARIO
-    listaEmbaralhada = []
-    listaAux = listaNomes[:]
-    for nome in listaNomes:
-        shuffle(listaAux)
+        # CASO TENHA SOMENTE UM NOME PARA SORTEAR NA SALA
+        if len(nomes) == 1:
+            return None
 
-        # DEFININDO O NOME ALEATORIO A PARTIR DO PRIMEIRO INDICE DA LISTA EMBARALHADA
-        nomeAleatorio = listaAux[0]
+        # LISTA DOS NOMES QUE SERÁ A CHAVE DO DICIONARIO
+        listaNomes = [nome[0] for nome in nomes]
 
-        # CASO O NOME ALEATORIO SEJA DIFERENTE DO NOME DO ORADOR E NÃO TENHA SIDO ESCOLHIDO AINDA
-        if nomeAleatorio != nome and nomeAleatorio not in listaEmbaralhada:
-            # ADICIONA NA LISTA DE NOMES QUE RECEBEM ORAÇÃO E REMOVE O MESMO DA LISTA AUXILIAR
-            listaEmbaralhada.append(nomeAleatorio)
-            listaAux.remove(nomeAleatorio)
+        # LISTA DOS NOMES QUE SERÁ O VALOR DO DICIONARIO
+        listaEmbaralhada = []
+        listaAux = listaNomes[:]
+        for nome in listaNomes:
+            shuffle(listaAux)
 
-        # SENÃO
-        else:
-            # CASO OS ÚNICOS NOMES QUE TENHAM SOBRADO SEJAM OS MESMO IRA CHAMAR A PROPRIA FUNÇÃO PARA FAZER UMA NOVA RANDOMIZAÇÃO
-            if len(listaAux) == 1 and nomeAleatorio == nome:
-                return fSortearNome()
-            
-            # CASO OS NOMES SEJAM IGUAIS OU O NOME ALEATORIO JA TENHA SIDO ESCOLHIDO
-            while nomeAleatorio == nome or nomeAleatorio in listaEmbaralhada:
-                shuffle(listaAux)
-                nomeAleatorio = listaAux[0]
+            # DEFININDO O NOME ALEATORIO A PARTIR DO PRIMEIRO INDICE DA LISTA EMBARALHADA
+            nomeAleatorio = listaAux[0]
+
+            # CASO O NOME ALEATORIO SEJA DIFERENTE DO NOME DO ORADOR E NÃO TENHA SIDO ESCOLHIDO AINDA
+            if nomeAleatorio != nome and nomeAleatorio not in listaEmbaralhada:
+                # ADICIONA NA LISTA DE NOMES QUE RECEBEM ORAÇÃO E REMOVE O MESMO DA LISTA AUXILIAR
+                listaEmbaralhada.append(nomeAleatorio)
+                listaAux.remove(nomeAleatorio)
+
+            # SENÃO
+            else:
+                # CASO OS ÚNICOS NOMES QUE TENHAM SOBRADO SEJAM OS MESMO IRA CHAMAR A PROPRIA FUNÇÃO PARA FAZER UMA NOVA RANDOMIZAÇÃO
+                if len(listaAux) == 1 and nomeAleatorio == nome:
+                    return fSortearNome()
                 
-            # ADICIONA NA LISTA DE NOMES QUE RECEBEM ORAÇÃO E REMOVE O MESMO DA LISTA AUXILIAR
-            listaEmbaralhada.append(nomeAleatorio)
-            listaAux.remove(nomeAleatorio)
+                # CASO OS NOMES SEJAM IGUAIS OU O NOME ALEATORIO JA TENHA SIDO ESCOLHIDO
+                while nomeAleatorio == nome or nomeAleatorio in listaEmbaralhada:
+                    shuffle(listaAux)
+                    nomeAleatorio = listaAux[0]
+                    
+                # ADICIONA NA LISTA DE NOMES QUE RECEBEM ORAÇÃO E REMOVE O MESMO DA LISTA AUXILIAR
+                listaEmbaralhada.append(nomeAleatorio)
+                listaAux.remove(nomeAleatorio)
 
-    # CRIANDO JSON
-    # CHAVE SERA A PESSOA QUE ESTA ORANDO
-    # VALOR SERA O NOME DA PESSOA QUE ESTA RECEBENDO A ORAÇÃO
-    data = {nomeOrador:nomeOrado for nomeOrador, nomeOrado in zip(listaNomes,listaEmbaralhada)}
+        # CRIANDO JSON
+        # CHAVE SERA A PESSOA QUE ESTA ORANDO
+        # VALOR SERA O NOME DA PESSOA QUE ESTA RECEBENDO A ORAÇÃO
+        data = {nomeOrador:nomeOrado for nomeOrador, nomeOrado in zip(listaNomes,listaEmbaralhada)}
 
-    conexao.close()
+        conexao.close()
+
+    # CASO TENTE SORTEAR NUMA SALA ONDE JÁ EXPIROU
+    else:
+        data = 'expirou'
 
     return data
 
@@ -297,3 +309,70 @@ def desativarSala(tokenSala):
     conexao.commit()
 
     conexao.close()
+
+# FUNÇÃO QUE VERIFICA O TOKEN ARMAZENADO NA SESSÃO
+def consultarToken():
+    token = session.get('tokenSala')
+    return token
+
+# FUNÇÃO PARA CONSULTAR NOME DO USUARIO
+def consultaNomeParticipante():
+    meuNome = session.get('meuNome')
+    return meuNome
+
+
+# FUNÇÃO QUE ADICIONA AS INFORMAÇÕES NO DB NO SQL
+def addInfosSorteio(data):
+    db = conectarDB_NoSql()
+
+    try:
+        # RECEBE O VALOR DO TOKEN
+        token = list(data.keys())[0]
+
+        # RECEBE O NOME DAS PESSOAS
+        nomes = list(data.values())[0]
+        
+        nomesData = {meuNome:{'meuNome':meuNome, 'sorteadoNome':sorteadoNome} for meuNome, sorteadoNome in nomes.items()}
+
+        dataFull = {
+            'token':token,
+            'nomes':nomesData
+        }
+
+        # INSERINDO INFORMAÇÕES NO DB
+        db.insert(dataFull)
+
+    
+    except Exception as e:
+        print('erro aqui na função de add infos', e)
+
+
+
+# FUNÇÃO PARA VERIFICAR SE OS NOMES JÁ FORAM SORTEADOS
+# IRA CONSULTAR NUM DB NOSQL
+def consultarSorteio(token, meuNome):
+    db = conectarDB_NoSql()
+    q = Query()
+
+    # RESULTADO DA BUSCA IRA FICAR ARMAZENADO NUM DICIONARIO
+    data = {}
+
+    busca = db.search(q.token == token)
+
+    # CASO A BUSCA RETORNE UM TOKEN SIGNIFICA QUE FOI SORTEADO
+    if len(busca) != 0:
+        msg = 'sorteado'
+
+        dados = dict(busca[0])
+
+        # ACESSO DE SUBDICIONARIOS
+        nomePessoaSorteada = dados['nomes'][meuNome]['sorteadoNome']
+
+        data['nomeSorteado'] = nomePessoaSorteada.capitalize()
+
+    else:
+        msg = 'nao_sorteado'
+
+    data['msg'] = msg
+    
+    return data

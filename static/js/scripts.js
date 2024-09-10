@@ -79,10 +79,34 @@ axios.get('/getSession/salaOracao')
                             else if(msgServer == 'sala_expirada')
                                 // SE A SALA JÁ TER SIDO USADA O ADM IRA RETORNAR PARA PAGINA DE CRIAÇÃO DE SALA
 
-                                alert('Sala expirada!')
+                                console.log('sala expirada')
 
                         })
                 })
+        }
+    })
+
+// EVENTO PARA QUANDO O USUARIO PARTICIPANTE DA SALA ATUALIZAR A PAGINA
+usuarioParticipante = document.getElementById('usuarioParticipante')
+
+axios.get('/verificarSorteio')
+    .then(response=>{
+        data = response.data
+        
+        var sorteado = data.msg
+        var nomePessoaSorteada = data.nomeSorteado
+
+        if (sorteado == 'sorteado'){
+            // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
+            const eleLoad = document.querySelector('.spinner-border')
+            eleLoad.style.display = 'none'
+            
+            // MENSAGEM QUE IRA APARECER
+            msg = `<div class="nomePessoaOracao">${nomePessoaSorteada}</div> é seu amigo de oração da semana!`
+
+            // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
+            const eleMsgOracao = document.getElementById('oracao')
+            eleMsgOracao.innerHTML = msg
         }
     })
 
@@ -163,7 +187,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://10.30.0.203:5000");
+var socket = io("http://192.168.10.28:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -226,7 +250,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://10.30.0.203:5000");
+    const socket = io("http://192.168.10.28:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
@@ -234,8 +258,14 @@ window.onload =  function(){
             // REQUISIÇÃO PARA BUSCAR O NOME DA PESSOA DE ORAÇÃO
             dataJSON = JSON.stringify(data)
 
+            // CASO TENTE SORTEAR COM APENAS UMA PESSOA NA SALA
             if(data.msg == 'none'){
                 alert('Não foi possível sortear!')
+            }
+
+            // CASO TENTE SORTEAR NUMA SALA EXPIRADA
+            else if (data.msg == 'offline'){
+                alert('Sala expirada')
             }
 
             else{
@@ -244,6 +274,8 @@ window.onload =  function(){
                         // DESEMPACOTANDO AS INFORMAÇÕES
                         // var meuNome = response.data.meuNome
                         var pessoaOracao = response.data.pessoaOracao
+
+                        console.log(response.data)
     
                         // TIRA DA TELA A INFORMAÇÃO REFERENTE AO CARREGAMENTO
                         const eleLoad = document.querySelector('.spinner-border')
@@ -251,10 +283,6 @@ window.onload =  function(){
                         
                         // MENSAGEM QUE IRA APARECER
                         msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
-        
-                        // MENSAGEM PARA DEPURAÇÃO
-                        msgConsole = (response.data)
-                        console.log(msgConsole)
         
                         // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
                         const eleMsgOracao = document.getElementById('oracao')

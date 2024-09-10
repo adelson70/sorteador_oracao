@@ -310,3 +310,12 @@ h1{
         width: 5vw;
     }
 }
+
+/* FOOTER */
+.rodape{
+    position: absolute;
+    bottom: 5px;
+    font-size: 2vh;
+    color: #003366;
+    font-weight: 550;
+}

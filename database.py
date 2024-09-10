@@ -1,4 +1,6 @@
 import sqlite3
+from tinydb import TinyDB
+
 
 def conectarDB():
     conexao = sqlite3.connect('database/oracao.db')
@@ -27,6 +29,12 @@ def conectarDB():
     conexao.commit()
 
     return conexao, cursor
+
+# BANCO NO SQL
+def conectarDB_NoSql():
+    db = TinyDB('database/sorteios.json')
+
+    return db
 
 if __name__ == '__main__':
     print('banco carregado!')

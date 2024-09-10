@@ -1,6 +1,10 @@
 {% extends 'index.html' %}
 {% block conteudo %}
 
+<!-- ID PARA IDENTIFICAR QUE ESSA PAGINA É SOMENTE PARA O USUARIO QUE PARTICIPA DO SORTEIO DO AMIGO DE ORAÇÃO SECRETO -->
+<input type="hidden" id="usuarioParticipante">
+<input type="hidden" id="tokenUser">
+
 <!-- DIV DE CARREGAMENTO ATÉ OS NOMES SEREM SORTEADOS -->
 <div class="carregamento">
 
@@ -13,10 +17,7 @@
 
     <div class="container-pessoas">
         <!-- TITULO -->
-        <h1 class="titulo-pessoas">Amigos de Oração</h1>
-
-        <!-- CARD COM O NOME DAS PESSOAS QUE ESTÃO PARTICIPANDO -->
-        <h2 class="nomesParticipando">Nome 1, Nome 2, Nome 3</h2>
+        <h1 class="titulo-pessoas">Esperando Sorteio dos Nomes</h1>
         
         <!-- ANIMAÇÃO DE CARREGAMENTO -->
         <div class="d-flex justify-content-center">
