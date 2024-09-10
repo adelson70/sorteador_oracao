@@ -79,7 +79,20 @@ axios.get('/getSession/salaOracao')
                             else if(msgServer == 'sala_expirada')
                                 // SE A SALA JÁ TER SIDO USADA O ADM IRA RETORNAR PARA PAGINA DE CRIAÇÃO DE SALA
 
-                                console.log('sala expirada')
+                                eleLoad = document.querySelector('.spinner-border')
+                                eleLoad.style.display = 'none'
+
+                                eleBtnSortear = document.querySelector('.btn-sortear')
+                                eleBtnSortear.style.display = 'none'
+                                
+                                // AVISO O USUARIO QUE A SALA DE ORAÇÃO FOI EXPIRADA
+                                // POIS JÁ FOI SORTEADO
+
+                                eleTituloPessoa = document.querySelector('.titulo-pessoas')
+                                eleTituloPessoa.innerHTML = 'Sala Expirada'
+
+
+
 
                         })
                 })
@@ -190,7 +203,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://192.168.10.28:5000");
+var socket = io("http://10.30.0.203:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -253,7 +266,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://192.168.10.28:5000");
+    const socket = io("http://10.30.0.203:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
