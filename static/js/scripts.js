@@ -104,8 +104,11 @@ axios.get('/verificarSorteio')
             // MENSAGEM QUE IRA APARECER
             msg = `<div class="nomePessoaOracao">${nomePessoaSorteada}</div> é seu amigo de oração da semana!`
 
-            // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
+            // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO E TITULO
             const eleMsgOracao = document.getElementById('oracao')
+            const eleTituloLoad = document.querySelector('.titulo-pessoas')
+            
+            eleTituloLoad.innerHTML = 'Amigo de Oração'
             eleMsgOracao.innerHTML = msg
         }
     })
