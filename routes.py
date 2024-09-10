@@ -151,9 +151,8 @@ def configure_app(app, socketio):
     # REQUISIÇÃO PARA BUSCAR A RELAÇÃO DOS NOMES NUMA SALA EXPIRADA
     @app.route('/getNomesSalaExpirada/<tokenSalaExpirada>')
     def getNomesSalaExpirada(tokenSalaExpirada):
-        data = {}
 
-        print(tokenSalaExpirada)
+        data = retornarInfoSala(tokenSalaExpirada)
 
         return jsonify(data)
 

@@ -359,6 +359,9 @@ def consultarSorteio(token, meuNome):
 
     busca = db.search(q.token == token)
 
+    # ENCERRA O DB E SALVA AS INFORMAÇÕES
+    db.close()
+
     # CASO A BUSCA RETORNE UM TOKEN SIGNIFICA QUE FOI SORTEADO
     if len(busca) != 0:
         msg = 'sorteado'
@@ -376,3 +379,14 @@ def consultarSorteio(token, meuNome):
     data['msg'] = msg
     
     return data
+
+# FUNÇÃO PARA RETORNAR A RELAÇÃO DOS NOMES DA SALA EXPIRADA
+def retornarInfoSala(token):
+    db = conectarDB_NoSql()
+    q = Query()
+
+    resultado = db.search(q.token == token)[0]
+
+    nomes = resultado['nomes']
+
+    return nomes
