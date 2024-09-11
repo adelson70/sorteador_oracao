@@ -154,6 +154,9 @@ def configure_app(app, socketio):
 
         data = retornarInfoSala(tokenSalaExpirada)
 
+        # RETORNA O VALOR DESSA SESSÃO PARA FALSE, PARA O USUARIO PODER CRIAR UMA NOVA SALA DE ORAÇÃO
+        session['salaOracao'] = False
+
         return jsonify(data)
 
     

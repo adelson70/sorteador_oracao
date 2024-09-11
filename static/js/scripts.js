@@ -89,6 +89,7 @@ axios.get('/getSession/salaOracao')
                                 // POIS JÁ FOI SORTEADO
                                 eleTituloPessoa = document.querySelector('.titulo-pessoas')
                                 eleTituloPessoa.innerHTML = 'Sala Expirada'
+                                eleTituloPessoa.title = 'Recarregue a página para criar uma nova sala de oração!'
 
                                 // MOSTRANDO NOMES SORTEADOS
                                 // REQUISIÇÃO PARA BUSCAR A RELAÇÃO DOS NOMES
@@ -123,6 +124,8 @@ axios.get('/getSession/salaOracao')
                                         }
                                         
                                         eleRelacaoNomes.style.display = 'block'
+
+                                        alert('Recarregue a página para criar uma nova sala de oração')
                                     })
 
 
@@ -235,7 +238,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://192.168.10.28:5000");
+var socket = io("http://10.30.0.203:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -298,7 +301,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://192.168.10.28:5000");
+    const socket = io("http://10.30.0.203:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
@@ -313,7 +316,7 @@ window.onload =  function(){
 
             // CASO TENTE SORTEAR NUMA SALA EXPIRADA
             else if (data.msg == 'offline'){
-                alert('Sala expirada')
+                location.reload()
             }
 
             else{
