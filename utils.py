@@ -84,8 +84,8 @@ def fSortearNome(token):
         query = cursor.execute('SELECT nome FROM pessoas WHERE id_token=?',(token,))
         nomes = query.fetchall()
 
-        # CASO TENHA SOMENTE UM NOME PARA SORTEAR NA SALA
-        if len(nomes) == 1:
+        # CASO TENTE SORTEAR COM MENOS DE 2 NOMES
+        if len(nomes) < 2:
             return None
 
         # LISTA DOS NOMES QUE SERÁ A CHAVE DO DICIONARIO
@@ -385,8 +385,10 @@ def retornarInfoSala(token):
     db = conectarDB_NoSql()
     q = Query()
 
+    data = {}
+
     resultado = db.search(q.token == token)[0]
 
-    nomes = resultado['nomes']
+    data['nomes'] = resultado['nomes']
 
-    return nomes
+    return data

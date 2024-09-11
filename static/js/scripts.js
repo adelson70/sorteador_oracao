@@ -94,9 +94,35 @@ axios.get('/getSession/salaOracao')
                                 // REQUISIÇÃO PARA BUSCAR A RELAÇÃO DOS NOMES
                                 axios.get(`/getNomesSalaExpirada/${tokenSala}`)
                                     .then(response=>{
-                                        data = response.data
+                                        nomes = response.data.nomes
 
-                                        console.log(data)
+                                        // BUSCANDO ELEMENTO ONDE IRA MOSTRAR A RELAÇÃO DOS NOMES
+
+                                        eleRelacaoNomes = document.querySelector('.relacao-nomes')
+
+                                        
+                                        // ITERA SOBRE OS RESULTADOS
+                                        for (let key in nomes){
+                                            meuNome = nomes[key].meuNome
+                                            nomeSorteado = nomes[key].sorteadoNome
+
+                                            relacaoNomes = `${meuNome} orou por ${nomeSorteado}`
+                                            
+                                            // CRIA UM ELEMENTO DIV PARA CADA NOME
+                                            eleNomesSorteados = document.createElement('div')
+                                            
+                                            // ADICIONA AO ELEMENTO A MENSAGEM
+                                            eleNomesSorteados.textContent = relacaoNomes
+                                            
+                                            // ADICIONA A CLASSE REFERIDA AS INFORMAÇÕES DO ELEMENTO
+                                            eleNomesSorteados.classList.add('relacao-nomes')
+
+                                            // INCREMENTA AS INFORMAÇÕES
+                                            eleRelacaoNomes.appendChild(eleNomesSorteados)
+                                            
+                                        }
+                                        
+                                        eleRelacaoNomes.style.display = 'block'
                                     })
 
 
@@ -209,7 +235,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://10.30.0.203:5000");
+var socket = io("http://192.168.10.28:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -272,7 +298,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://10.30.0.203:5000");
+    const socket = io("http://192.168.10.28:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
@@ -282,7 +308,7 @@ window.onload =  function(){
 
             // CASO TENTE SORTEAR COM APENAS UMA PESSOA NA SALA
             if(data.msg == 'none'){
-                alert('Não foi possível sortear!')
+                console.log('não foi possivel sortear')
             }
 
             // CASO TENTE SORTEAR NUMA SALA EXPIRADA

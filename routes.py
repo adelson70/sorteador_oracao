@@ -65,7 +65,7 @@ def configure_app(app, socketio):
         data = request.json
 
         # OBTENDO O NOME INSERIDO NO INPUT
-        nome = data.get('nomeOracao')
+        nome = data.get('nomeOracao').capitalize()
         # OBTENDO O TOKEN INSERIDO NO INPUT
         token_sugerido = data.get('token')
 

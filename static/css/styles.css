@@ -263,12 +263,12 @@ h1{
 
 @media (orientation:portrait) {
     .criarSala{
-        width: 30vw !important;
+        width: 20vw !important;
     }
 }
 @media (orientation:landscape) {
     .criarSala{
-        width: 5vw !important;
+        width: 100px !important;
     }
 }
 
@@ -323,6 +323,16 @@ h1{
     position: absolute;
     bottom: 5px;
     font-size: 2vh;
+    color: #003366;
+    font-weight: 550;
+}
+
+/* ESTILO PARA MOSTRAR A RELAÇÃO DOS NOMES
+CASO JA A SALA ESTEJA EXPIRADA */
+.relacao-nomes{
+    display: 'none';
+    padding-top: 5px;
+    font-size: 18px;
     color: #003366;
     font-weight: 550;
 }
