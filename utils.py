@@ -185,13 +185,20 @@ def verificarAuth():
 def logginAuth(data):
     dataJSON = {}
     msg = 'error'
+    conexao, cursor = conectarDB()
 
     # DESEMPACOTANDO VALORES RECEBINDOS DA REQUISIÇÃO
-    username = data.get('username')
+    username = data.get('username').lower()
     password = data.get('password')
 
     # APENAS PARA TESTE
-    if username == 'adelson' and password == 'teste':
+    cursor.execute('SELECT COUNT(*) FROM usuarios WHERE nome=? AND senha=?',(username,password,))
+    result = cursor.fetchone()[0]
+
+    conexao.close()
+
+    # CASO ENCONTRE O USUARIO NO BANCO DE DADOS
+    if result == 1:
         msg = 'success'
         session['auth'] = True
 

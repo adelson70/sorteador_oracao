@@ -26,6 +26,14 @@ def conectarDB():
                    )
                    """)
     
+    # TABELA DOS ACESSOS PARA CRIAÇÃO DA SALA
+    cursor.execute("""
+                   CREATE TABLE IF NOT EXISTS usuarios(
+                   id INTEGER PRIMARY KEY,
+                   nome TEXT,
+                   senha TEXT)
+                   """)
+    
     conexao.commit()
 
     return conexao, cursor
