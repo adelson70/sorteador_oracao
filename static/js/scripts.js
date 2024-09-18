@@ -444,11 +444,57 @@ btnCriarSala?.addEventListener('click', function(){
 
 })
 
-// EVENTO PARA QUANDO O USUARIO INSIRA O TOKEN PARA ACESSAR A SALA DE ORAÇÃO
-document.getElementById('token-input').addEventListener('input', function(e) {
-    // REMOVE CARACTER QUE NÃO SEJA LETRA
-    this.value = this.value.replace(/[^a-zA-Z]/g, '');
-    
-    // LIMITA A 6 CHARS E DEIXA TUDO EM MAIUSCULO
-    this.value = this.value.toUpperCase().slice(0, 6);
-});
+try {
+    // EVENTO PARA QUANDO O USUARIO INSIRA O TOKEN PARA ACESSAR A SALA DE ORAÇÃO
+    document.getElementById('token-input').addEventListener('input', function(e) {
+        // REMOVE CARACTER QUE NÃO SEJA LETRA
+        this.value = this.value.replace(/[^a-zA-Z]/g, '');
+        
+        // LIMITA A 6 CHARS E DEIXA TUDO EM MAIUSCULO
+        this.value = this.value.toUpperCase().slice(0, 6);
+    });    
+} catch (error) {
+    console.log(error)
+}
+
+// EVENTO PARA DEIXAR O NOME DE USUARIO SEMPRE EM MINUSCULO E SEM ESPAÇO
+inputUserAdm = document.getElementById('nomeAdm')
+
+inputUserAdm.addEventListener('input', function(e){
+    // PERMITE APENAS LETRAS MINUSCULAS
+    this.value = this.value.replace(/[^a-z]/g, '')
+
+    // MAXIMO DE 15 CARACTERES
+    this.value = this.value.slice(0,15)
+
+    console.log(inputUserAdm.value)
+})
+
+// EVENTO PARA 
+
+// EVENTO PARA CRIAR USUARIO DE LOGGIN ADM
+btn_criar_adm = document.getElementById('criar-adm')
+
+btn_criar_adm?.addEventListener('click', function(){
+    // OBTENDO VALORES DOS ELEMENTOS
+    // NOME DO USUARIO
+    nome = document.getElementById('nomeAdm').value
+    // SENHA E SENHA DE CONFIRMAÇÃO
+    senha1 = document.getElementById('senhaAdm1').value
+    senha2 = document.getElementById('senhaAdm2').value
+
+    // ADD NUM DICIO
+    const dataAdm = {
+        nome:nome,
+        senha1:senha1,
+        senha2:senha2
+    }    
+
+    // REQUISIÇÃO PARA O BACK PARA VALIDAR E CRIAR USUARIO
+    axios.post('criarAdm', dataAdm)
+        .then(response=>{
+            data = response.data
+
+            console.log(data)
+        })
+})

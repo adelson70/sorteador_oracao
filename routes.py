@@ -47,6 +47,16 @@ def configure_app(app, socketio):
         else:
             return jsonify(msg)
         
+    # ROTA PARA CRIAR LOGGIN ADM
+    @app.route('/criarAdm', methods=['POST'])
+    def criarAdm():
+        data = {}
+        data = request.get_json()
+
+        print(data)
+
+        return jsonify(data)
+        
     # ROTA PARA SAIR DO MODO ADM
     @app.route('/exitAdm', methods=['POST'])
     def exitAdm():

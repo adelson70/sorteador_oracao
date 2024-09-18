@@ -103,9 +103,52 @@
       <input type="password" class="input-nome-usuario-senha" id="input-pass">
     </div>
     <br>
+    <!-- CRIAR CONTA -->
+    <div>
+      <a href="#" class="link criar-conta" data-bs-toggle="modal" data-bs-target="#modal-criar-conta">Ainda não possui uma conta?</a>
+    </div>
+    <br>
     <!-- BOTÃO DE ACESSO -->
     <div class="d-flex justify-content-center">
       <button class="btn btn-primary btn-loggin" id="btn-loggin">Acessar</button>
+    </div>
+
+    <!-- MODAL PARA CRIAR CONTA -->
+    <div class="modal fade" id="modal-criar-conta" tabindex="-1" style="margin-top: 10vh;" aria-labelledby="modal-criar-conta" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title-sala text-center w-100">Criar Conta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            
+            <!-- INPUT PARA NOME DE USUARIO -->
+            <div>
+              <label class="label-loggin">Nome de Usuario</label>
+              <input type="text" class="input-nome-usuario-senha" placeholder="Digite o nome do usuario" id="nomeAdm">
+            </div>
+            <br>
+            <!-- INPUT PARA SENHA DO USUARIO -->
+            <div>
+              <label class="label-loggin">Senha de Usuario</label>
+              <input type="password" class="input-nome-usuario-senha" placeholder="Digite a senha de usuario" id="senhaAdm1">
+            </div>
+            <br>
+            <!-- INPUT PARA CONFIRMAR SENHA DO USUARIO -->
+            <div>
+              <label class="label-loggin">Confirme a Senha</label>
+              <input type="password" class="input-nome-usuario-senha" placeholder="Confirme a senha digitada" id="senhaAdm2">
+            </div>
+            <br>
+            <!-- BOTÃO PARA CRIAR USUARIO -->
+            <div>
+              <button class="btn btn-primary btn-loggin" id="criar-adm">Criar Usuario</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
 
 </div>
