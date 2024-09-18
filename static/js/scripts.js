@@ -470,8 +470,6 @@ inputUserAdm.addEventListener('input', function(e){
     console.log(inputUserAdm.value)
 })
 
-// EVENTO PARA 
-
 // EVENTO PARA CRIAR USUARIO DE LOGGIN ADM
 btn_criar_adm = document.getElementById('criar-adm')
 
