@@ -399,3 +399,57 @@ def retornarInfoSala(token):
     data['nomes'] = resultado['nomes']
 
     return data
+
+# FUNÇÃO PARA VERIFICAR A CRIAÇÃO DO USUARIO ADM
+def verificarCriarAdm(dados):
+    nome = dados['nome']
+    senha1 = dados['senha1']
+    senha2 = dados['senha2']
+    data = {}
+
+    # CASO ESTEJA TUDO VAZIO
+    if nome == '' and senha1 == '' and senha2 == '':
+        msg = 'vazio'
+
+    # CASO NOME SEJA MUITO CURTO
+    elif len(nome) < 3:
+        msg = 'nome_curto'
+
+    # CASO AS SENHAS NÃO CORRESPONDAM
+    elif senha1 != senha2:
+        msg = 'senhas_ncorresponde'
+
+    # CASO A SENHA SENHA MENOR QUE 8 CHARACTERES
+    elif len(senha1) < 8 and len(senha2) < 8:
+        msg = 'senha_curta'
+
+    else:
+        msg = 'success'
+
+    data['msg'] = msg
+
+    return data
+    
+
+# FUNÇÃO PARA CRIAR O USUARIO ADM
+def fcriarAdm(nome,senha):
+    data = {}
+    conexao, cursor = conectarDB()
+
+    cursor.execute('SELECT COUNT(*) FROM usuarios WHERE nome=?',(nome,))
+    r = cursor.fetchone()[0]
+
+    # CASO TENHA UM USUARIO COM ESSE NOME DE LOGIN
+    if r == 1:
+        msg = 'usuario_existente'
+
+    # CASO NÃO TENHA
+    else:
+        cursor.execute('INSERT INTO usuarios (nome, senha) VALUES (?,?)',(nome,senha,))
+        conexao.commit()
+        msg = 'success'
+
+    data['msg'] = msg
+    conexao.close()
+
+    return data

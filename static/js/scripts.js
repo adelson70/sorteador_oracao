@@ -150,14 +150,19 @@ axios.get('/verificarSorteio')
             eleLoad.style.display = 'none'
             
             // MENSAGEM QUE IRA APARECER
-            msg = `<div class="nomePessoaOracao">${nomePessoaSorteada}</div> é seu amigo de oração da semana!`
-
-            // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO E TITULO
-            const eleMsgOracao = document.getElementById('oracao')
-            const eleTituloLoad = document.querySelector('.titulo-pessoas')
-            
-            eleTituloLoad.innerHTML = 'Amigo de Oração'
-            eleMsgOracao.innerHTML = msg
+            if (nomePessoaSorteada==undefined){
+                console.log('sala não encontrada!')
+            }
+            else{
+                msg = `<div class="nomePessoaOracao">${nomePessoaSorteada}</div> é seu amigo de oração da semana!`
+    
+                // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO E TITULO
+                const eleMsgOracao = document.getElementById('oracao')
+                const eleTituloLoad = document.querySelector('.titulo-pessoas')
+                
+                eleTituloLoad.innerHTML = 'Amigo de Oração'
+                eleMsgOracao.innerHTML = msg
+            }
         }
     })
 
@@ -238,11 +243,12 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://10.30.0.203:5000");
+var socket = io("http://192.168.10.28:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
     // ENVIA LISTA VAZIA POIS O BACK IRA BUSCAR AS INFORMAÇÕES NO DB
+    alert('Nomes Sorteados!')
     socket.emit('enviar_nome', tokenSala)
 });
 
@@ -301,7 +307,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://10.30.0.203:5000");
+    const socket = io("http://192.168.10.28:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
@@ -332,20 +338,24 @@ window.onload =  function(){
                         const eleLoad = document.querySelector('.spinner-border')
                         eleLoad.style.display = 'none'
                         
-                        // MENSAGEM QUE IRA APARECER
-                        msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
-        
-                        // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
-                        const eleMsgOracao = document.getElementById('oracao')
-        
+                        if (pessoaOracao != undefined){
+                            // MENSAGEM QUE IRA APARECER
+                            msg = `<div class="nomePessoaOracao">${pessoaOracao}</div> é seu amigo de oração da semana!`
+            
+                            // CAPTURANDO ELEMENTO ONDE MOSTRA A MENSAGEM DA PESSOA DE ORAÇÃO
+                            var eleMsgOracao = document.getElementById('oracao')
+                        }
+                        
                         // ATRIBUINDO VALOR AO ELEMENTO
                         try {
                             eleMsgOracao.innerHTML = msg
                             // MOSTRANDO ALERT
-                            alert(`${pessoaOracao} é seu amigo de oração da semana!`)
+                            if (pessoaOracao!=undefined){
+                                alert(`${pessoaOracao} é seu amigo de oração da semana!`)   
+                            }
     
                         } catch (error) {
-                            alert('Nomes sorteados!')
+                            // alert('Nomes sorteados!')
                         }
         
                     })
@@ -467,7 +477,6 @@ inputUserAdm.addEventListener('input', function(e){
     // MAXIMO DE 15 CARACTERES
     this.value = this.value.slice(0,15)
 
-    console.log(inputUserAdm.value)
 })
 
 // EVENTO PARA CRIAR USUARIO DE LOGGIN ADM
@@ -493,6 +502,32 @@ btn_criar_adm?.addEventListener('click', function(){
         .then(response=>{
             data = response.data
 
-            console.log(data)
+            msg = data.msg
+
+            if (msg=='success'){
+                alert('Usuario Criado')
+                location.reload()
+            }
+
+            else if(msg=='vazio'){
+                alert('Preencha todos os campos!')
+            }
+
+            else if(msg=='nome_curto'){
+                alert('Nome deve ter no minimo 3 caracteres!')
+            }
+
+            else if(msg=='senhas_ncorresponde'){
+                alert('Senhas não correspondem!')
+            }
+
+            else if(msg=='senha_curta'){
+                alert('Senha deve ter no minimo 8 caracteres')
+            }
+
+            else if(msg=='usuario_existente'){
+                alert('Este usuário já existe!')
+            }
+            
         })
 })

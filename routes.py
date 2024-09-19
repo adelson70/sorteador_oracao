@@ -50,12 +50,18 @@ def configure_app(app, socketio):
     # ROTA PARA CRIAR LOGGIN ADM
     @app.route('/criarAdm', methods=['POST'])
     def criarAdm():
-        data = {}
         data = request.get_json()
 
-        print(data)
+        msg = verificarCriarAdm(data)
 
-        return jsonify(data)
+        # CASO PASSE POR TODOS TRATAMENTOS DOS INPUTS
+        if 'success' in msg.values():
+            nome = data['nome']
+            senha = data['senha1']
+            # VERIFICA A EXISTENCIA DO USUARIO E SE POSSIVEL CRIA O USUARIO
+            msg = fcriarAdm(nome,senha)
+
+        return jsonify(msg)
         
     # ROTA PARA SAIR DO MODO ADM
     @app.route('/exitAdm', methods=['POST'])
