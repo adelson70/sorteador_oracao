@@ -18,4 +18,4 @@ app.config['PERMANENT_SESSION_LIFETIME'] = dia
 if __name__ == '__main__':
     configure_app(app, socketio)
 
-    socketio.run(app, debug=True, host='192.168.10.28')
+    socketio.run(app, debug=True)

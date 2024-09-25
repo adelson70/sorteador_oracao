@@ -22,6 +22,7 @@ def conectarDB():
                    token TEXT,
                    status TEXT,
                    nome_sala TEXT,
+                   quantidade INTEGER,
                    PRIMARY KEY (token)
                    )
                    """)

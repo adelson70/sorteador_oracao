@@ -16,29 +16,41 @@ def adicionarNomeDB(nome, tokenSala):
         conexao, cursor = conectarDB()
         msg = ''
 
-        # CONSULTANDO PARA AVERIGUAR SE O NOME EM QUESTÃO NÃO ESTA EM USO
-        cursor.execute('SELECT COUNT(nome) FROM pessoas WHERE nome=? AND id_token=?',(nome,tokenSala,))
-        qtdNomes = cursor.fetchone()[0]
-        
-        # CASO O NOME NÃO ESTEJA EM USO
-        if qtdNomes == 0:
-            cursor.execute('INSERT INTO pessoas (nome,id_token) VALUES (?,?)',(nome,tokenSala,))
-            conexao.commit()
+        # CONSULTADO PARA VERIFICAR SE A SALA ATINGIU O LIMITE MAXIMO
+        cursor.execute('SELECT COUNT(nome) FROM pessoas WHERE id_token=?',(tokenSala,))
+        qtdPessoas = cursor.fetchone()[0]
 
-            # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
-            guardarNomeCookie(nome)
-            cadastrarNome() #USADO PARA VERIFICAR SE O USUARIO JÁ FEZ O CADASTRAMENTO DO SEU NOME NO INPUT E ENTROU NUMA SALA
+        cursor.execute('SELECT quantidade FROM salas WHERE token=?',(tokenSala,))
+        limiteSala = cursor.fetchone()[0]
 
-            msg = 'success'
-            data['token'] = tokenSala
-        
-        # CASO O NOME ESTEJA EM USO
+        if qtdPessoas < limiteSala:
+
+            # CONSULTANDO PARA AVERIGUAR SE O NOME EM QUESTÃO NÃO ESTA EM USO
+            cursor.execute('SELECT COUNT(nome) FROM pessoas WHERE nome=? AND id_token=?',(nome,tokenSala,))
+            qtdNomes = cursor.fetchone()[0]
+            
+            # CASO O NOME NÃO ESTEJA EM USO
+            if qtdNomes == 0:
+                cursor.execute('INSERT INTO pessoas (nome,id_token) VALUES (?,?)',(nome,tokenSala,))
+                conexao.commit()
+
+                # SE O RETORNO FOR DE SUCESSO IRA GUARDAR O NOME DA PESSOA NO COOKIE DO NAVEGADOR
+                guardarNomeCookie(nome)
+                cadastrarNome() #USADO PARA VERIFICAR SE O USUARIO JÁ FEZ O CADASTRAMENTO DO SEU NOME NO INPUT E ENTROU NUMA SALA
+
+                msg = 'success'
+                data['token'] = tokenSala
+            
+            # CASO O NOME ESTEJA EM USO
+            else:
+                msg = 'nome_repetido'
+
+            conexao.close()
+
+            data['msg'] = msg
+
         else:
-            msg = 'nome_repetido'
-
-        conexao.close()
-
-        data['msg'] = msg
+            data['msg'] = 'limite_atingido'
 
         return data
 
@@ -214,7 +226,7 @@ def gerarTokenSala():
     return token
 
 # FUNÇÃO PARA CRIAR SALA DE ORAÇÃO E GERAR TOKEN
-def criarSalaOracao(nomeSala):
+def criarSalaOracao(nomeSala, qtd):
     conexao, cursor = conectarDB()
     data = {}
 
@@ -232,7 +244,7 @@ def criarSalaOracao(nomeSala):
     
     # CASO SEJA UM TOKEN VALIDO (UNICO)
     # IRA ADICIONAR NO DB AS INFOS
-    cursor.execute('INSERT INTO salas (token,status,nome_sala) VALUES (?,?,?)',(token, 'on', nomeSala,))
+    cursor.execute('INSERT INTO salas (token,status,nome_sala,quantidade) VALUES (?,?,?,?)',(token, 'on', nomeSala,qtd,))
 
     conexao.commit()
 

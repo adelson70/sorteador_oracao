@@ -336,3 +336,10 @@ CASO JA A SALA ESTEJA EXPIRADA */
     color: #003366;
     font-weight: 550;
 }
+
+/* ESTILO DO SELECT */
+.selectQtd{
+    width: 30% !important;
+    color: #003366 !important;
+    text-align: center;
+}

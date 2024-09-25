@@ -213,6 +213,11 @@ botao_adicionar_nome?.addEventListener('click', function(){
                     alert('TOKEN Inválido!')
                 }
 
+                // CASO TENHA ATINGIDO O LIMITE MAXIMO DA SALA
+                else if (msgServidor == 'limite_atingido'){
+                    alert('Limite Máximo de Pessoas Atingido!')
+                }
+
                 // CASO A REQUISIÇÃO TENHA OCORRIDO CORRETAMENTE
                 else if (msgServidor == 'success'){
                     // SELECIONA TODO ELEMENTO EM QUE CADASTRA O NOME DA PESSOA
@@ -243,7 +248,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://192.168.10.28:5000");
+var socket = io("http://127.0.0.1:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -307,7 +312,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://192.168.10.28:5000");
+    const socket = io("http://127.0.0.1:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
@@ -442,9 +447,15 @@ btnCriarSala?.addEventListener('click', function(){
 
     }
 
-    // CASO TENHA INSERIDO ALGUM NOME PARA SALA
+    // CASO TENHA INSERIDO ALGUM NOME PARA SALA E DEFINIDO A QUANTIDADE DE PESSOAS
     else{
-        data = {nomeSala: nomeSala}
+        qtdPessoas = document.getElementById('selectQtd').value
+
+        data = {
+            nomeSala: nomeSala,
+            qtd: qtdPessoas
+        }
+
         // REQUISIÇÃO PARA CRIAR A SALA DE ORAÇÃO
         axios.post('/criarSala', data)
             .then(response=>{
@@ -470,7 +481,7 @@ try {
 // EVENTO PARA DEIXAR O NOME DE USUARIO SEMPRE EM MINUSCULO E SEM ESPAÇO
 inputUserAdm = document.getElementById('nomeAdm')
 
-inputUserAdm.addEventListener('input', function(e){
+inputUserAdm?.addEventListener('input', function(e){
     // PERMITE APENAS LETRAS MINUSCULAS
     this.value = this.value.replace(/[^a-z]/g, '')
 

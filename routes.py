@@ -122,8 +122,9 @@ def configure_app(app, socketio):
         if verificarAuth():
             data = request.get_json()
             nomeSala = data.get('nomeSala')
+            qtdPessoas = data.get('qtd')
 
-            msg = criarSalaOracao(nomeSala)
+            msg = criarSalaOracao(nomeSala, qtdPessoas)
 
             # CRIANDO UMA SESSÃO INFORMANDO QUE A SALA FORA GERADO COM SUCESSO
             session['salaOracao'] = True
