@@ -449,7 +449,7 @@ btnCriarSala?.addEventListener('click', function(){
 
     // CASO TENHA INSERIDO ALGUM NOME PARA SALA E DEFINIDO A QUANTIDADE DE PESSOAS
     else{
-        qtdPessoas = document.getElementById('selectQtd').value
+        qtdPessoas = document.getElementById('qtdParticipantes').value
 
         data = {
             nomeSala: nomeSala,
