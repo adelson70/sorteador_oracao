@@ -248,7 +248,7 @@ botao_adicionar_nome?.addEventListener('click', function(){
 
 // EVENTO PARA SORTEAR OS NOMES
 // PARA SORTEAR O NOME
-var socket = io("http://127.0.0.1:5000");
+var socket = io("http://192.168.10.24:5000");
 let btnSortearNome = document.getElementById('sortearNome')
 
 btnSortearNome?.addEventListener('click', function() {
@@ -312,7 +312,7 @@ eleLimparDB?.addEventListener('click', function(){
 })
 
 window.onload =  function(){
-    const socket = io("http://127.0.0.1:5000");
+    const socket = io("http://192.168.10.24:5000");
 
     // EVENTO PARA QUANDO RECEBER A MSG DE EMISSÃO 'receber_nome', IRA TRATAR OS DADOS E MOSTRAR APENAS O NECESSARIO PARA O CLIENT
     try {
@@ -541,4 +541,25 @@ btn_criar_adm?.addEventListener('click', function(){
             }
             
         })
+})
+
+inputQuatidadeParticipantes = document.getElementById('qtdParticipantes')
+
+inputQuatidadeParticipantes.addEventListener('input', function(e){
+    var texto = this.value
+    this.value = texto.replace(/[^0-9]/g, '');
+
+    try{
+        var qtd = Number(texto)
+
+        if (qtd > 30){
+            this.value = 30
+        }
+        else if(qtd < 0){
+            this.value = 0
+        }
+    }
+    catch{
+        console.log('letra')
+    }
 })

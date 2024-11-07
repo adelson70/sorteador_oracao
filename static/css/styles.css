@@ -343,3 +343,11 @@ CASO JA A SALA ESTEJA EXPIRADA */
     color: #003366 !important;
     text-align: center;
 }
+
+#qtdParticipantes{
+    padding-top: 5px;
+    font-size: 18px;
+    color: #003366;
+    border-radius: 6px;
+    text-align: center;
+}
