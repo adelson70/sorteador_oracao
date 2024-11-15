@@ -2,15 +2,15 @@
 from app.services import *
 from database import *
 
-# função para cria linha na tabela sala
-def inserirSalaDB(token, nome, limite, dataCriacao, dataRevelacao, link, status, estado):
+# função criar sala de oração
+def criarSalaDB(token, nome, limite, dataCriacao, dataRevelacao, link, status, estado, idUsuario):
     try:
         conn, cursor = connSQL()
 
         cursor.execute("""
-                       INSERT INTO sala (token, nome, limiteParticipante, dataCriacao, dataRevelacao, link, status, estado)
+                       INSERT INTO sala (token, nome, limiteParticipante, dataCriacao, dataRevelacao, link, status, estado, idUsuario)
                        VALUES (?,?,?,?,?,?,?,?)
-                       """,(token, nome, limite, dataCriacao, dataRevelacao, link, status, estado))
+                       """,(token, nome, limite, dataCriacao, dataRevelacao, link, status, estado, idUsuario))
         conn.commit()
         conn.close()
 
@@ -18,7 +18,21 @@ def inserirSalaDB(token, nome, limite, dataCriacao, dataRevelacao, link, status,
 
     except Exception as e:
         print('erro ao inserir dados na tabela sala: ',e)
-        
+
+# consultar as informações da sala
+def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
+    # caso o token esteja com valor None, será retornado todas as salas que o usuario criou
+    conn, cursor = connSQL()
+    
+    cursor.execute("""
+                   SELECT *
+                   FROM sala
+                   WHERE idUsuario=?
+                   """,(idUsuario))
+    
+    resultado = cursor.fetchall()
+
+    print(resultado)
 
 # "deletar sala"
 def deleteSalaDB(id):
@@ -129,6 +143,18 @@ def editarUsuarioDB(id=None, nome=None, senha=None, plano=None):
     
     except Exception as e:
         print('erro ao editar o usuario: ',e)
+
+# função para retornar todas informações da sala de oração no nosql
+def consultarSalaNDB(token):
+    try:
+        response = None
+
+
+
+        return response
+    
+    except Exception as e:
+        print("erro ao consultar a sala de oração: ", e)
 
 # função para criar objeto no db nosql
 def adicionarSorteioDB(data):

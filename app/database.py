@@ -16,7 +16,9 @@ def connSQL():
                    dataRevelacao DATE,
                    link TEXT(45),
                    status TEXT(10),
-                   estado TEXT(10)
+                   estado TEXT(10),
+                   idUsuario INTEGER,
+                   FOREIGN KEY (idUsuario) REFERENCES usuario (id)
                    )
                    """)
     
