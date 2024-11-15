@@ -131,3 +131,46 @@ def editarUsuarioDB(id=None, nome=None, senha=None, plano=None):
         print('erro ao editar o usuario: ',e)
 
 # função para criar objeto no db nosql
+def adicionarSorteioDB(data):
+    try:
+        db = connNsql()
+
+        db.insert(data)
+
+        return True
+    
+    except Exception as e:
+        print('erro ao inserir valores no banco noSql: ', e)
+
+# função para retornar a respectiva pessoa que tirou o amigo secreto de oração
+def retornarNomeSorteadoDB(token, meuNome):
+    try:
+        db = connNsql()
+        q = nosql.Query()
+
+        response = {}
+
+        busca = db.search(q.token == token)
+
+        # verifica se houve sorteio
+        if len(busca) != 0:
+            nomeSorteado = None
+
+            resultado = dict(busca[0])
+
+            revelacao = resultado["revelacao"]
+            minhaRevelacao = revelacao[meuNome]
+
+            response[meuNome] = minhaRevelacao
+
+            return response
+
+
+        # caso não encontre o banco de dados significa que não houve sorteio
+        else:
+            return 'nao_sorteado'
+
+    
+    except Exception as e:
+        print('erro ao consultar nome sorteado: ',e)
+        
