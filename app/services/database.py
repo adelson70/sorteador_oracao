@@ -32,6 +32,8 @@ def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
     
     resultado = cursor.fetchall()
 
+    conn.close()
+    
     print(resultado)
 
 # "deletar sala"
