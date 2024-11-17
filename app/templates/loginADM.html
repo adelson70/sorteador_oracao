@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+
+{% block conteudo %}
+
+<body>
+    <div class="caixaLoginAdm">
+        <br>
+        <div><strong>Área do Administrador</strong></div>
+        <br>
+        <div>
+            <label class="labelInputCredencial" for="nomeUsuario">Usuario</label>
+            <div><input type="text" id="nomeUsuario" maxlength="16"></div>
+        </div>
+        <br>
+        <div>
+            <label class="labelInputCredencial" for="senhaUsuario">Senha</label>
+            <div><input type="password" id="senhaUsuario" minlength="8" maxlength="16"></div>
+        </div>
+        <br>
+        <button class="btnGreen">Entrar</button>
+        <br>
+        <div>Esqueci meu Acesso</div>
+        <br>
+        <div>Não tem acesso?<strong> Criar conta</strong></div>
+    </div>
+</body>
+
+
+{% endblock %}

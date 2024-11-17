@@ -107,3 +107,26 @@ label{
 h2{
     font-size: 50px;
 }
+
+.caixaLoginAdm{
+    text-align: center;
+    margin: auto;
+    margin-top: 20vh;
+    border: 2px solid #003366;
+    background-color: #ffffff;
+    width: 30vw;
+    border-radius: 8px;
+}
+
+#nomeUsuario, #senhaUsuario{
+    text-align: center;
+    font-size: 26px;
+    color: #003366 !important;
+    background-color: #ffffff !important;
+    width: 22vw !important;
+}
+
+.labelInputCredencial{
+    margin-top: 10px;
+    font-weight: 500;
+}

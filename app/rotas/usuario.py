@@ -2,4 +2,7 @@ from app.rotas import *
 from app.services.usuario import *
 
 def registerUsuario(app):
-    return ...
+    
+    @app.route('/usuario/admin',methods=['POST','GET'])
+    def loginADM():
+        return render_template('loginADM.html')
