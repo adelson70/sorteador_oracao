@@ -36,6 +36,36 @@ def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
     
     print(resultado)
 
+# consultar se a sala existe
+def salaExistsDB(token):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT COUNT(token), limiteParticipante
+                   FROM sala
+                   WHERE token=? AND status="online"
+                   """,(token,))
+    
+    result = cursor.fetchone()
+    conn.close()
+
+    return result
+
+# consulta a quantidade de usuarios que entraram na sala
+def consultarLimiteSalaDB(token):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT COUNT(nome)
+                   FROM participante
+                   WHERE salaToken=?
+                   """,(token,))
+
+    result = cursor.fetchone()[0]
+    conn.close()
+
+    return result
+
 # "deletar sala"
 def deleteSalaDB(id):
     try:

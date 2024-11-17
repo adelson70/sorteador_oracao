@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+{% block conteudo %}
+<body>
+    <!-- texto de inspiração -->
+    <div class="texto" id="textoInspiracao"></div>
+    
+    <!-- div para acesso por token -->
+    <div class="texto inserirToken">
+        <label for="inserirToken"><strong>Digite o TOKEN da sala de oração</strong></label>
+        <div>
+            <input type="text" id="inserirToken" maxlength="6">
+        </div>
+    </div>
+    <!-- importando os scripts necessarios para essa template -->
+    <script src="../static/js/participante.js"></script>
+    <script src="../static/js/sala.js"></script>
+</body>
+{% endblock %}

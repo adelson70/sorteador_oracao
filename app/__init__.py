@@ -5,7 +5,7 @@ from app.services.seguranca import *
 socketio = SocketIO()
 
 def createApp():
-    app = Flask(__name__, template_folder='app/templates')
+    app = Flask(__name__, template_folder='templates')
     app.config['SECRET_KEY'] = 'TEMPORARIO'
 
     # registro das rotas
