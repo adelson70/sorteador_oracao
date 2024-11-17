@@ -3,6 +3,19 @@ body{
     color: #003366;
 }
 
+input{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid #003366;
+    border-radius: 0px !important;
+    background-color: #FFF8DC !important;
+}
+
+input:focus{
+    outline: none;
+}
+
 /* estilo do conteudo dentro da pagina */
 .conteudoPagina{
     margin: auto;
@@ -17,7 +30,14 @@ body{
     margin-top: 2vh;
 }
 
-/* inserir token */
+.nomeSala{
+    font-size: 35px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-top: 2vh;
+    font-weight: 400;
+}
+
 .inserirToken{
     padding-top: 15vh;
 }
@@ -35,4 +55,55 @@ label{
     background-color: #ffffff;
     width: 220px;
     border-radius: 8px;
+    letter-spacing: 5px;
+}
+
+.inserirNome{
+    padding-top: 15vh;
+}
+
+#inserirNome{
+    text-align: center;
+    color: #003366;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    background-color: #ffffff;
+    width: 220px;
+    border-radius: 8px;
+}
+
+.btnGreen{
+    border-radius: 8px;
+    background-color: #6FA600;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    width: 100px;
+    border: 1px solid #6FA600;;
+}
+
+.btnGreen:hover{
+    background-color: #ffffff;
+    color: #6FA600;
+    box-shadow: 0 0 10px #6FA600;
+}
+
+.conteudoAguardandoSorteio{
+    text-align: center;
+}
+
+.spinner-border{
+    width: 5rem;
+    height: 5rem;
+    border-width: 5px;
+}
+
+.conteudo404{
+    text-align: center;
+    margin-top: 30vh;
+}
+
+h2{
+    font-size: 50px;
 }

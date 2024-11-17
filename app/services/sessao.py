@@ -35,3 +35,13 @@ def editarSessao(nomeSessao, novoValor):
 
     except Exception as e:
         print(f'erro ao editar a sessao "{nomeSessao}": ',e)
+
+# busca sessao especifica
+def buscarSessao(nomeSessao):
+    try:
+        valor = session.get(nomeSessao)
+
+        return valor
+
+    except Exception as e:
+        print(f'erro ao buscar a sessao especifica de nome "{nomeSessao}" ',e)

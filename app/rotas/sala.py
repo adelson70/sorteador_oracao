@@ -5,5 +5,5 @@ def registerSala(app):
     
     @app.route('/sala/acessar/<token>', methods=['POST','GET'])
     def acessarSala(token):
-        resp = verificarSalaExistente(token)
+        resp = entrarSala(token)
         return jsonify(resp)

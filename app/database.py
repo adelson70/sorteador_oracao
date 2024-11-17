@@ -30,8 +30,7 @@ def connSQL():
                    nome TEXT(20),
                    whatsapp TEXT(13),
                    email TEXT(45),
-                   salaToken TEXT(6),
-                   FOREIGN KEY (salaToken) REFERENCES sala (token)
+                   salaToken TEXT(6)
                    )
                    """)
     conexao.commit()

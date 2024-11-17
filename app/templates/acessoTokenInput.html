@@ -5,12 +5,26 @@
     <div class="texto" id="textoInspiracao"></div>
     
     <!-- div para acesso por token -->
-    <div class="texto inserirToken">
+    <div class="texto inserirToken" id="conteudoInserirToken">
         <label for="inserirToken"><strong>Digite o TOKEN da sala de oração</strong></label>
         <div>
             <input type="text" id="inserirToken" maxlength="6">
         </div>
+        <input type="hidden" id="token">
     </div>
+    
+    <!-- div para inserir o nome de participante da sala -->
+    <div class="texto inserirNome" id="conteudoInserirNome" style="display: none;">
+        <label for="inserirNome"><strong>Digite seu nome</strong></label>
+        <div>
+            <input type="text" id="inserirNome" maxlength="15">
+        </div>
+        <br>
+        <button class="btnGreen" id="entrarSalaOracao">
+            Entrar
+        </button>
+    </div>
+
     <!-- importando os scripts necessarios para essa template -->
     <script src="../static/js/participante.js"></script>
     <script src="../static/js/sala.js"></script>

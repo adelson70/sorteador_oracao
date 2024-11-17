@@ -36,6 +36,21 @@ def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
     
     print(resultado)
 
+# consultar o as informações da sala
+def consultarSalaDBToken(token):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT *
+                   FROM sala
+                   WHERE token=?
+                   """,(token,))
+    
+    result = cursor.fetchall()[0]
+    conn.close()
+
+    return result
+
 # consultar se a sala existe
 def salaExistsDB(token):
     conn, cursor = connSQL()
@@ -61,6 +76,21 @@ def consultarLimiteSalaDB(token):
                    WHERE salaToken=?
                    """,(token,))
 
+    result = cursor.fetchone()[0]
+    conn.close()
+
+    return result
+
+# consulta se o nome do participante já esta em uso
+def consultarNomeUso(nome,token):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT COUNT(nome)
+                   FROM participante
+                   WHERE nome=? AND salaToken=?
+                   """,(nome,token,))
+    
     result = cursor.fetchone()[0]
     conn.close()
 
@@ -111,7 +141,7 @@ def inserirParticipanteDB(nome, salaToken, whatsapp=None, email=None):
         cursor.execute("""
                        INSERT INTO participante(nome, whatsapp, email, salaToken)
                        VALUES (?,?,?,?)
-                       """, nome, whatsapp, email, salaToken)
+                       """, (nome, whatsapp, email, salaToken))
         conn.commit()
         conn.close()
 
