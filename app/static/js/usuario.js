@@ -18,6 +18,7 @@ eleBtnEntrar?.addEventListener('click', function(){
             switch (data) {
                 case 'ok':
                     console.log('usuario encontrado')
+                    window.location.reload()
                     break;
             
                 case 'usuario_nao_encontrado':

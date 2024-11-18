@@ -1,11 +1,16 @@
 from app.rotas import *
 from app.services.usuario import *
+from app.services.sessao import *
 
 def registerUsuario(app):
     
     @app.route('/usuario/admin',methods=['POST','GET'])
     def templateADM():
-        return render_template('loginADM.html')
+        if buscarSessao('userType') == 'admin':
+            return render_template('menuADM.html')
+        
+        else:
+            return render_template('loginADM.html')
     
     @app.route('/usuario/login',methods=['POST'])
     def loginADM():
@@ -19,6 +24,7 @@ def registerUsuario(app):
         data = {}
 
         if respo:
+            criarSessao('userType','admin')
             data['msg'] = 'ok'
 
         else:
