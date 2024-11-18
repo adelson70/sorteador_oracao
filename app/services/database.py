@@ -167,6 +167,21 @@ def inserirUsuarioDB(nome, senha, plano):
     except Exception as e:
         print('erro ao inserir dados na tabela usuario: ',e)
 
+# função para consultar a existencia do login do usuario no DB
+def consultarUsuario(nome,senha):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT COUNT(*)
+                   FROM usuario
+                   WHERE nome=? and senha=?
+                   """,(nome,senha,))
+    
+    result = cursor.fetchone()[0]
+    conn.close()
+
+    return result
+
 # função para editar o usuario
 def editarUsuarioDB(id=None, nome=None, senha=None, plano=None):
     try:
