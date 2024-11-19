@@ -18,3 +18,13 @@ async function entrarSala(nome,token) {
 
     return data
 }
+
+// requisição para criar sala de oração
+async function criarSala(data) {
+    
+    var response = await axios.post('sala/criar',{data:data})
+
+    var data = response.data
+
+    return data
+}

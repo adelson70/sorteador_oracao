@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block conteudo %}
+<nav>
+    <div>
+        <div id="criarSala" class="criarSala">Criar Sala</div>
+    </div>
+  </nav>
+  <hr>
+<body>
+    <!-- modal para criar sala -->
+    <div class="modal fade" tabindex="-1" id="modalCriarSala">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div>
+                  <label for="nomeSala" class="labelCriarSala">Nome da Sala</label>
+                  <input type="text" id="nomeSala" class="inputCriarSala" maxlength="20">
+              </div>
+              <br><br>
+              <div>
+                <label for="dataRevelacao" class="labelCriarSala">Data da Revelação</label>
+                <input type="date" id="dataRevelacao" class="inputCriarSala">
+            </div>
+            <br><br>
+            <div>
+                <label for="limiteSala" class="labelCriarSala">Limite de Participantes</label>
+                <input type="text" id="limiteSala" class="inputCriarSala" style="width: 30px;" maxlength="2">
+            </div>
+            <br><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btnBlue" id="btnCriarSala">Criar Sala</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <script src="../static/js/usuario.js"></script>
+    <script src="../static/js/sala.js"></script>
+</body>
+
+{%  endblock %}

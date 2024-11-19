@@ -16,10 +16,22 @@ input:focus{
     outline: none;
 }
 
+.inputCriarSala{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid #003366;
+    border-radius: 0px !important;
+    background-color: #ffffff !important;
+    text-align: center;
+    font-size: 20px;
+    color: #003366 !important;
+}
+
 /* estilo do conteudo dentro da pagina */
 .conteudoPagina{
     margin: auto;
-    width: 95%
+    width: 100%
 }
 
 /* texto */
@@ -89,6 +101,22 @@ label{
     box-shadow: 0 0 10px #6FA600;
 }
 
+.btnBlue{
+    border-radius: 8px;
+    background-color: #003366;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    width: 100px;
+    border: 1px solid #003366;;
+}
+
+.btnBlue:hover{
+    background-color: #ffffff;
+    color: #003366;
+    box-shadow: 0 0 10px #003366;
+}
+
 .conteudoAguardandoSorteio{
     text-align: center;
 }
@@ -129,4 +157,35 @@ h2{
 .labelInputCredencial{
     margin-top: 10px;
     font-weight: 500;
+}
+
+nav{
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.criarSala{
+    font-weight: 600;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+hr{
+    border: none;
+    border-top: 5px solid #003366;
+}
+
+.modal-footer{
+    justify-content: center;
+}
+
+.labelCriarSala{
+    display: block;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.modal-body{
+    justify-content: center;
+    text-align: center;
 }
