@@ -1,3 +1,6 @@
+// importando rotas
+import { acessarSala, entrarSala } from '../routes/sala.js'
+
 // texto de inspiração
 const texto = `A oração é a respiração da alma. É o segredo do poder espiritual. Nenhum outro recurso da graça pode substituí-la, e a saúde da alma ser  conservada. <div class="livro"> <strong> Mensagens aos Jovens - Pag. 249 </strong> </div>`
 
@@ -18,7 +21,8 @@ eleInputToken?.addEventListener('input', function(e){
         const token = e.target.value
         
         acessarSala(token).then(data => {
-            msg = data.msg
+        
+            var msg = data.msg
 
             switch (msg) {
                 case 'sala_nao_existe':

@@ -1,3 +1,6 @@
+// importando rotas
+import { loginAdm } from '../routes/usuario.js'
+
 // evento quando clica em entrar
 const eleNomeUsuario = document.getElementById('nomeUsuario')
 const eleSenhaUsuario = document.getElementById('senhaUsuario')
@@ -28,14 +31,6 @@ eleBtnEntrar?.addEventListener('click', function(){
         })
     }
 })
-
-async function loginAdm(nome,senha) {
-    var response = await axios.post('/usuario/login',{nome:nome,senha:senha})
-
-    var data = response.data
-
-    return data
-}
 
 // evento quando clica em criar sala
 const eleCriarSala = document.getElementById('criarSala')
