@@ -189,3 +189,16 @@ hr{
     justify-content: center;
     text-align: center;
 }
+
+.table{
+    --bs-table-bg: none;
+    border-color: #FFF8DC;
+    --bs-table-hover-bg: #00336624;
+    /* width: 90%; */
+    margin: auto;
+}
+
+th, tr, td {
+    text-align: center;
+    color: #003366 !important;
+}

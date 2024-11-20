@@ -75,7 +75,7 @@ eleBtnCriarSala?.addEventListener('click', function(){
     var data = {}
     var nomeSala = document.getElementById('nomeSala').value
     var dataRevelacao = document.getElementById('dataRevelacao').value
-    const [dia, mes, ano] = dataRevelacao.split('-')
+    const [ano, mes, dia] = dataRevelacao.split('-')
     const dataFormatada = `${dia}/${mes}/${ano}`
 
     var limiteSala = document.getElementById('limiteSala').value
@@ -92,8 +92,8 @@ eleBtnCriarSala?.addEventListener('click', function(){
         switch (msg) {
             case 'ok':
                 alert('Sala criada com sucesso!')
-                window.location.reload
-                break;
+                window.location.reload()
+                
         
             case 'sala_existente':
                 alert(`Nome da sala "${nomeSala}" já existe!`)
