@@ -64,6 +64,11 @@ addEventListener('DOMContentLoaded', function(){
 
 
                     // adicionando botões a celula
+                    // definindo estilo da celula
+                    celulaAcoes.style.display = 'flex'
+                    celulaAcoes.style.gap = '2px'
+                    celulaAcoes.style.justifyContent = 'center'
+                    
                     celulaAcoes.appendChild(btnVisualizar)
                     celulaAcoes.appendChild(btnCompartilhar)
                     celulaAcoes.appendChild(btnRemover)
@@ -89,6 +94,11 @@ addEventListener('DOMContentLoaded', function(){
                     btnRemover.id = data[1]
 
                     // adicionando botões a celula
+                    // definindo estilo da celula
+                    celulaAcoes.style.display = 'flex'
+                    celulaAcoes.style.gap = '2px'
+                    celulaAcoes.style.justifyContent = 'center'
+
                     celulaAcoes.appendChild(btnEspiar)
                     celulaAcoes.appendChild(btnRemover)
                     
@@ -130,12 +140,8 @@ addEventListener('DOMContentLoaded', function(){
             if (e.target.classList.contains('btnRemover') || e.target.classList.contains('fa-trash')){
                 // captura a respectiva linha e a remove
                 const linhaRemovida = e.target.closest('tr')
-
-                console.log(linhaRemovida)
                 
                 var tokenSala = linhaRemovida.querySelector('.btnRemover').id
-
-                console.log(tokenSala)
 
                 linhaRemovida.remove()
 

@@ -215,3 +215,62 @@ th, tr, td {
     color: #B22222 !important;
 }
 
+.btnEspiar{
+    color: #929292;
+    border: 2px solid #929292;
+    border-radius: 6px;
+    margin-left: 10px;
+    height: 30px;
+    width: 40px;
+}
+
+.btnEspiar:hover{
+    color: #ffffff;
+    background-color: #929292;
+}
+
+.btnRemover{
+    color: #B22222;
+    border: 2px solid #B22222;
+    border-radius: 6px;
+    margin-left: 10px;
+    height: 30px;
+    width: 40px;
+}
+
+.btnRemover:hover{
+    color: #ffffff;
+    background-color: #B22222;
+}
+
+.btnCompartilhar {
+    color: #1E90FF;
+    border: 2px solid #1E90FF;
+    border-radius: 6px;
+    margin-left: 10px;
+    height: 30px;
+    width: 40px;
+}
+
+.btnCompartilhar:hover{
+    color: #ffffff;
+    background-color: #1E90FF;
+}
+
+.btnVisualizar{
+    color: #3CB371;
+    border: 2px solid #3CB371;
+    border-radius: 6px;
+    margin-left: 10px;
+    height: 30px;
+    width: 40px;
+}
+
+.btnVisualizar:hover{
+    color: #ffffff;
+    background-color: #3CB371;   
+}
+
+.fa-solid{
+    font-size: 16px;
+}
