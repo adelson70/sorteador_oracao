@@ -22,7 +22,18 @@ export async function entrarSala(nome,token) {
 // requisição para criar sala de oração
 export async function criarSala(data) {
     
-    var response = await axios.post('sala/criar',{data:data})
+    var response = await axios.post('criarSala',{data:data})
+
+    var data = response.data
+
+    return data
+}
+
+// requisição para carregar todas as salas pertencentes ao usuario
+
+export async function carregarSalas(idUsuario) {
+
+    var response = await axios.get(`carregarSala/${idUsuario}`)
 
     var data = response.data
 

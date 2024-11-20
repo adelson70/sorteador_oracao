@@ -1,5 +1,17 @@
 // importando rotas
+import { carregarSalas, criarSala } from '../routes/sala.js'
 import { loginAdm } from '../routes/usuario.js'
+
+// evento para quando carregar todo o DOM
+
+addEventListener('DOMContentLoaded', function(){
+    var idUsuario = document.getElementById('idAdm').value
+    carregarSalas(idUsuario).then(response => {
+        var data = response
+
+        console.log(data)
+    })
+})
 
 // evento quando clica em entrar
 const eleNomeUsuario = document.getElementById('nomeUsuario')
@@ -17,7 +29,7 @@ eleBtnEntrar?.addEventListener('click', function(){
 
     else{
         loginAdm(nomeUsuario,senhaUsuario).then(response => {
-            data = response.msg
+            var data = response.msg
     
             switch (data) {
                 case 'ok':
@@ -51,11 +63,43 @@ eleLimiteSala?.addEventListener('input', function(e){
     if (valorNumerico > 31){
         e.target.value = 30
     }
-    // token, nome, limite, dataCriacao, dataRevelacao, link, status, estado, idUsuario
+
+    else if (valorNumerico < 2){
+        alert('Limite minimo é de 2 participantes!')
+    }
 })
 
 // evento para quando clicar no botão de criar sala
 const eleBtnCriarSala = document.getElementById('btnCriarSala')
 eleBtnCriarSala?.addEventListener('click', function(){
-    console.log('criar sala!')
+    var data = {}
+    var nomeSala = document.getElementById('nomeSala').value
+    var dataRevelacao = document.getElementById('dataRevelacao').value
+    const [dia, mes, ano] = dataRevelacao.split('-')
+    const dataFormatada = `${dia}/${mes}/${ano}`
+
+    var limiteSala = document.getElementById('limiteSala').value
+
+    data = {
+        nomeSala:nomeSala,
+        dataRevelacao:dataFormatada,
+        limiteSala:limiteSala
+    }
+
+    criarSala(data).then(response => {
+        var msg = response.msg
+
+        switch (msg) {
+            case 'ok':
+                alert('Sala criada com sucesso!')
+                window.location.reload
+                break;
+        
+            case 'sala_existente':
+                alert(`Nome da sala "${nomeSala}" já existe!`)
+                document.getElementById('nomeSala').value = ''
+                break;
+        }
+    
+    })
 })

@@ -4,8 +4,13 @@ import { acessarSala, entrarSala } from '../routes/sala.js'
 // texto de inspiração
 const texto = `A oração é a respiração da alma. É o segredo do poder espiritual. Nenhum outro recurso da graça pode substituí-la, e a saúde da alma ser  conservada. <div class="livro"> <strong> Mensagens aos Jovens - Pag. 249 </strong> </div>`
 
-var eleTextoInspiracao = document.getElementById('textoInspiracao')
-eleTextoInspiracao.innerHTML = texto
+try {
+    var eleTextoInspiracao = document.getElementById('textoInspiracao')
+    eleTextoInspiracao.innerHTML = texto
+}
+catch{
+    console.log('elemento não encontrado nessa pagina')
+}
 
 // evento permitir apenas letras no input do token
 var eleInputToken = document.getElementById('inserirToken')
@@ -73,7 +78,7 @@ eleBtnEntrarSala?.addEventListener('click', function(){
 
     else {
         entrarSala(nome, token).then(response => {
-            data = response.msg
+            var data = response.msg
 
             switch (data) {
                 case 'ok':

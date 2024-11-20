@@ -9,8 +9,8 @@ def criarSalaDB(token, nome, limite, dataCriacao, dataRevelacao, link, status, e
 
         cursor.execute("""
                        INSERT INTO sala (token, nome, limiteParticipante, dataCriacao, dataRevelacao, link, status, estado, idUsuario)
-                       VALUES (?,?,?,?,?,?,?,?)
-                       """,(token, nome, limite, dataCriacao, dataRevelacao, link, status, estado, idUsuario))
+                       VALUES (?,?,?,?,?,?,?,?,?)
+                       """,(token, nome, limite, dataCriacao, dataRevelacao, link, status, estado, idUsuario,))
         conn.commit()
         conn.close()
 
@@ -18,6 +18,21 @@ def criarSalaDB(token, nome, limite, dataCriacao, dataRevelacao, link, status, e
 
     except Exception as e:
         print('erro ao inserir dados na tabela sala: ',e)
+
+def consultarNomeSala(nomeSala):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT COUNT(*)
+                   FROM sala
+                   WHERE nome=?
+                   """,(nomeSala,))
+    
+    result = cursor.fetchone()[0]
+    conn.close()
+
+    return result
+
 
 # consultar as informações da sala
 def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
@@ -28,13 +43,13 @@ def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
                    SELECT *
                    FROM sala
                    WHERE idUsuario=?
-                   """,(idUsuario))
+                   """,(idUsuario,))
     
     resultado = cursor.fetchall()
 
     conn.close()
     
-    print(resultado)
+    return resultado
 
 # consultar o as informações da sala
 def consultarSalaDBToken(token):
@@ -46,7 +61,7 @@ def consultarSalaDBToken(token):
                    WHERE token=?
                    """,(token,))
     
-    result = cursor.fetchall()[0]
+    result = cursor.fetchall()
     conn.close()
 
     return result
@@ -172,12 +187,12 @@ def consultarUsuario(nome,senha):
     conn, cursor = connSQL()
 
     cursor.execute("""
-                   SELECT COUNT(*)
+                   SELECT COUNT(*), id
                    FROM usuario
                    WHERE nome=? and senha=?
                    """,(nome,senha,))
     
-    result = cursor.fetchone()[0]
+    result = cursor.fetchone()
     conn.close()
 
     return result

@@ -1,6 +1,8 @@
 # buscando os modulos do init
 from app.services import *
 from app.services.database import *
+from app.services.token import *
+from app.services.sessao import *
 
 def entrarSala(token):
     
@@ -27,6 +29,37 @@ def entrarSala(token):
 
     return data
 
+def fcriarSala(data):
+    nomeSala = data['nomeSala']
+
+    respo = consultarNomeSala(nomeSala)
+
+    if respo == 1:
+        return {'msg':'sala_existente'}
+
+    else:
+        limiteSala = data['limiteSala']
+        dataRevelacao = data['dataRevelacao']
+        idUsuario = buscarSessao('idAdm')
+
+        dataCriacao = horario()
+        token = gerarToken()
+        link = None
+        
+        respo = criarSalaDB(
+            token,
+            nomeSala,
+            limiteSala,
+            dataCriacao,
+            dataRevelacao,
+            link,
+            'online',
+            'ativo',
+            idUsuario
+        )
+
+        return {'msg':'ok'}
+
 def consultarSalaTokenDB(token):
     data = {}
 
@@ -43,4 +76,34 @@ def consultarSalaTokenDB(token):
     data['estado'] = result[8]
     data['idUsuario'] = result[9]
     
+    return data
+
+def retornarSalasCriadas(idUsuario):
+    data = []
+
+    salas = consultarSalaDB(idUsuario)
+
+    # tratando os dados que estão assim
+    # [(""),("")]
+    # ficarao assim
+    # [{},{}]
+
+    for sala in salas:
+        temp = {}
+        # desempacotando as informações
+        idSala, tokenSala, nomeSala, limiteSala, dataCriacao, dataRevelacao, link, status, estado, idUsuarioAdm = sala
+
+        temp['idSala'] = idSala
+        temp['tokenSala'] = tokenSala
+        temp['nomeSala'] = nomeSala
+        temp['limiteSala'] = limiteSala
+        temp['dataCriacao'] = dataCriacao
+        temp['dataRevelacao'] = dataRevelacao
+        temp['link'] = link
+        temp['status'] = status
+        temp['estado'] = estado
+        temp['idUsuarioAdm'] = idUsuarioAdm
+
+        data.append(temp)
+
     return data
