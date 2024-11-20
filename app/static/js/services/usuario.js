@@ -130,8 +130,12 @@ addEventListener('DOMContentLoaded', function(){
             if (e.target.classList.contains('btnRemover') || e.target.classList.contains('fa-trash')){
                 // captura a respectiva linha e a remove
                 const linhaRemovida = e.target.closest('tr')
+
+                console.log(linhaRemovida)
                 
-                var tokenSala = linhaRemovida.querySelector('button').id
+                var tokenSala = linhaRemovida.querySelector('.btnRemover').id
+
+                console.log(tokenSala)
 
                 linhaRemovida.remove()
 
