@@ -39,3 +39,13 @@ export async function carregarSalas(idUsuario) {
 
     return data
 }
+
+// requisição para "deletar" sala de oração
+export async function deletarSala(tokenSala) {
+    
+    var response = await axios.delete('/sala/remover', {data:{tokenSala:tokenSala}})
+
+    var data = response.data
+
+    return data
+}

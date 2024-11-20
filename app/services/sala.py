@@ -53,7 +53,7 @@ def fcriarSala(data):
             dataCriacao,
             dataRevelacao,
             link,
-            'online',
+            'Aberta',
             'ativo',
             idUsuario
         )
@@ -107,3 +107,11 @@ def retornarSalasCriadas(idUsuario):
         data.append(temp)
 
     return data
+
+def fdeletarSala(token):
+    respo = deleteSalaDB(token)
+    if respo:
+        return {'msg':'ok'}
+    
+    else:
+        return {'msg':'error'}

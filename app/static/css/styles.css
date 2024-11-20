@@ -202,3 +202,16 @@ th, tr, td {
     text-align: center;
     color: #003366 !important;
 }
+
+.statusSalaON {
+    font-family: 20px;
+    font-weight: 600;
+    color: #6FA600 !important;
+}
+
+.statusSalaOFF {
+    font-family: 20px;
+    font-weight: 600;
+    color: #B22222 !important;
+}
+

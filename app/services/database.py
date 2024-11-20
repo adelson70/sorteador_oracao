@@ -42,8 +42,8 @@ def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
     cursor.execute("""
                    SELECT *
                    FROM sala
-                   WHERE idUsuario=?
-                   """,(idUsuario,))
+                   WHERE idUsuario=? and estado=?
+                   """,(idUsuario,'ativo',))
     
     resultado = cursor.fetchall()
 
@@ -112,15 +112,15 @@ def consultarNomeUso(nome,token):
     return result
 
 # "deletar sala"
-def deleteSalaDB(id):
+def deleteSalaDB(token):
     try:
         conn, cursor = connSQL()
         novoEstado = 'nativo'
         cursor.execute("""
                        UPDATE sala
                        SET estado=?
-                       WHERE id=?
-                       """, novoEstado, id)
+                       WHERE token=?
+                       """, (novoEstado, token,))
         conn.commit()
         conn.close()
 
@@ -132,7 +132,7 @@ def deleteSalaDB(id):
 # desativando sala
 def desativarSalaDB(id):
     try:
-        novoStatus = 'offline'
+        novoStatus = 'Fechada'
         conn, cursor = connSQL()
 
         cursor.execute("""
