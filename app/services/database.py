@@ -50,8 +50,8 @@ def consultarSalaDB(idUsuario, params=None):
         cursor.execute("""
                     SELECT *
                     FROM sala
-                    WHERE idUsuario=? and estado=? and (nome LIKE ? or token LIKE ? or dataCriacao LIKE ?)
-                    """,(idUsuario,'ativo',PARAMS,PARAMS,PARAMS))
+                    WHERE idUsuario=? and estado=? and (nome LIKE ? or token LIKE ? or dataCriacao LIKE ? or status LIKE ?)
+                    """,(idUsuario,'ativo',PARAMS,PARAMS,PARAMS,PARAMS))
     
     resultado = cursor.fetchall()
 

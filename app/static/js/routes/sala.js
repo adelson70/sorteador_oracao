@@ -33,7 +33,7 @@ export async function criarSala(data) {
 
 export async function carregarSalas(idUsuario,params=null) {
 
-    var response = await axios.get(`sala/carregar`,{params:{idUsuario:idUsuario,params:params}})
+    var response = await axios.get(`/sala/carregar`,{params:{idUsuario:idUsuario,params:params}})
 
     var data = response.data
 

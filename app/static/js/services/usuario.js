@@ -2,174 +2,112 @@
 import { carregarSalas, criarSala, deletarSala } from '../routes/sala.js'
 import { loginAdm } from '../routes/usuario.js'
 
-// evento para quando carregar todo o DOM buscar as salas criadas suas respectivas informações
-addEventListener('DOMContentLoaded', function(){
-    var idUsuario = document.getElementById('idAdm').value
-    carregarSalas(idUsuario).then(response => {
-        var data = response
+// Função para criar botões dinamicamente
+function criarBotao(classe, icone, titulo, eventoClick = null, id = null) {
+    const btn = document.createElement('button');
+    btn.className = classe;
+    btn.innerHTML = `<i class="fa-solid ${icone}"></i>`;
+    btn.title = titulo;
+    if (id) btn.id = id;
+    if (eventoClick) btn.addEventListener('click', eventoClick);
+    return btn;
+}
 
-        const tabela = this.document.getElementById('tabela').querySelector('tbody')
+// Função para incrementar uma linha na tabela
+function incrementarLinha(tabela, data) {
+    const novaLinha = tabela.insertRow();
+    const [nome, token, criacao, revelacao, limite, status, link, idSala] = data;
+
+    // Criar células
+    const celulas = [
+        nome, token, criacao, revelacao, limite, status
+    ].map((text) => {
+        const celula = novaLinha.insertCell();
+        celula.textContent = text;
+        return celula;
+    });
+
+    // Célula de ações
+    const celulaAcoes = novaLinha.insertCell();
+    celulaAcoes.style.display = 'flex';
+    celulaAcoes.style.gap = '2px';
+    celulaAcoes.style.justifyContent = 'center';
+
+    if (status === 'Aberta') {
+        // Botões para sala aberta
         
-        // função para incrementar linha da tabela
-        function incrementarLinha(data){
-            var novaLinha = tabela.insertRow()
-           
-            var celulaNome = novaLinha.insertCell()
-            var celulaToken = novaLinha.insertCell()
-            var celulaDataCriacao = novaLinha.insertCell()
-            var celulaDataRevelacao = novaLinha.insertCell()
-            var celulaLimite = novaLinha.insertCell()
-            var celulaStatus = novaLinha.insertCell()
-            var celulaAcoes = novaLinha.insertCell()
-            
-            // incrementando informações nas celulas
-            const linha = [celulaNome,celulaToken,celulaDataCriacao,celulaDataRevelacao,celulaLimite,celulaStatus]
-
-            for (let i = 0; i < linha.length; i++) {
-                const celula = linha[i];
-                const text = data[i]
-                const idSala = data[7]
-                const link = data[6]
-
-                if (text == 'Aberta'){
-                    celula.className = 'statusSalaON'
-
-                    // botões de ações para sala aberta
-                    // botão de visualizar sala de oração
-                    var btnVisualizar = document.createElement('button')
-                    btnVisualizar.className = 'btnVisualizar'
-                    btnVisualizar.innerHTML = `<i class="fa-solid fa-eye"></i>`
-                    btnVisualizar.title = 'Visualizar Sala de Oração'
-                    btnVisualizar.id = data[1]
-                    // evento ao clicar para visualizar sala de oração
-
-                    // botão de compartilhar sala de oração
-                    var btnCompartilhar = document.createElement('button')
-                    btnCompartilhar.className = 'btnCompartilhar'
-                    btnCompartilhar.innerHTML = `<i class="fa-solid fa-share"></i>`
-                    btnCompartilhar.title = 'Compartilhar Sala de Oração'
-                    // evento ao clicar no botão de compartilhar sala de oração
-                    btnCompartilhar?.addEventListener('click', function(){
-                        // copiando link para area de transferencia
-                        navigator.clipboard.writeText(link)
-                        console.log('link para acessar sala copiado')
-                    })
-                    
-                    // botão de remover sala de oração
-                    var btnRemover = document.createElement('button')
-                    btnRemover.className = 'btnRemover'
-                    btnRemover.innerHTML = `<i class="fa-solid fa-trash"></i>`
-                    btnRemover.title = 'Remover Sala de Oração'
-                    btnRemover.id = data[1]
-
-
-                    // adicionando botões a celula
-                    // definindo estilo da celula
-                    celulaAcoes.style.display = 'flex'
-                    celulaAcoes.style.gap = '2px'
-                    celulaAcoes.style.justifyContent = 'center'
-                    
-                    celulaAcoes.appendChild(btnVisualizar)
-                    celulaAcoes.appendChild(btnCompartilhar)
-                    celulaAcoes.appendChild(btnRemover)
-                    
-                }
-
-                else if (text == 'Fechada'){
-                    celula.className = 'statusSalaOFF'
-
-                    // botões de ações para sala fechada
-                    // botão de espiar a sala de oração fechada
-                    var btnEspiar = document.createElement('button')
-                    btnEspiar.className = 'btnEspiar'
-                    btnEspiar.innerHTML = `<i class="fa-solid fa-users"></i>`
-                    btnEspiar.title = 'Ver quem orou por quem'
-                    // evento ao clicar no botão de espiar sala de oração
-
-                    // botão de remover sala de oração
-                    var btnRemover = document.createElement('button')
-                    btnRemover.className = 'btnRemover'
-                    btnRemover.innerHTML = `<i class="fa-solid fa-trash"></i>`
-                    btnRemover.title = 'Remover Sala de Oração'
-                    btnRemover.id = data[1]
-
-                    // adicionando botões a celula
-                    // definindo estilo da celula
-                    celulaAcoes.style.display = 'flex'
-                    celulaAcoes.style.gap = '2px'
-                    celulaAcoes.style.justifyContent = 'center'
-
-                    celulaAcoes.appendChild(btnEspiar)
-                    celulaAcoes.appendChild(btnRemover)
-                    
-
-                }
-                
-                celula.textContent = text
-            }
-
-
-        }
-        // fim da função de incremento de linha
-
-        // percorre cada sala criada
-        for (let i = 0; i < data.length; i++) {
-            const sala = data[i];
-
-            var nomeSala = sala.nomeSala
-            var tokenSala = sala.tokenSala
-            var dataCriacao = sala.dataCriacao
-            var dataRevelacao = sala.dataRevelacao
-            var limiteSala = sala.limiteSala
-            var status = sala.status
-            var link = sala.link
-            var idSala = sala.idSala
-
-            var arrSala = [nomeSala,tokenSala,dataCriacao,dataRevelacao,limiteSala,status,link,idSala]
-
-            incrementarLinha(arrSala)
-            
-            
-        }
-
-        // evento para caso click no botão de remover sala de oração
-        tabela?.addEventListener('click', (e) => {
-
-            // se o elemento clicado for um botão da classe btnRemover ou fa-trash
-            // ira remover a linha
-            if (e.target.classList.contains('btnRemover') || e.target.classList.contains('fa-trash')){
-                // captura a respectiva linha e a remove
-                const linhaRemovida = e.target.closest('tr')
-                
-                var tokenSala = linhaRemovida.querySelector('.btnRemover').id
-
-                linhaRemovida.remove()
-
-                // requisição para "deletar a sala de oração"
-                deletarSala(tokenSala).then(response => {
-                    var msg = response.msg
-
-                    console.log(msg)
-                })
-            }
-        })
-
+        // 
+        celulaAcoes.appendChild(criarBotao('btnVisualizar', 'fa-eye', 'Visualizar Sala de Oração', null, token));
         
-    })
-})
+        // 
+        celulaAcoes.appendChild(criarBotao('btnCompartilhar', 'fa-share', 'Compartilhar Sala de Oração', () => {
+            navigator.clipboard.writeText(link);
+            console.log('Link copiado para a área de transferência.');
+        }));
+        
+        // 
+        celulaAcoes.appendChild(criarBotao('btnRemover', 'fa-trash', 'Remover Sala de Oração', null, token));
 
-// evento de pesquisa da sala
-const eleInputBuscaSala = document.getElementById('pesquisarSala')
-eleInputBuscaSala?.addEventListener('input',(e)=>{
-    var param = e.target.value
-    var idUsuario = document.getElementById('idAdm').value
+    } else {
+        // Botões para sala fechada
+        
+        // 
+        celulaAcoes.appendChild(criarBotao('btnEspiar', 'fa-users', 'Ver quem orou por quem', null, token));
+        
+        // 
+        celulaAcoes.appendChild(criarBotao('btnRemover', 'fa-trash', 'Remover Sala de Oração', null, token));
+    }
+}
 
-    carregarSalas(idUsuario,param).then(response => {
-        var data = response
+// Carregar salas ao carregar o DOM
+document.addEventListener('DOMContentLoaded', function () {
+    const idUsuario = document.getElementById('idAdm').value;
+    const tabela = document.getElementById('tabela').querySelector('tbody');
 
-        console.log(data)
-    })
-})
+    carregarSalas(idUsuario).then((response) => {
+        tabela.innerHTML = ''; // Limpar tabela
+
+        response.forEach((sala) => {
+            const arrSala = [
+                sala.nomeSala, sala.tokenSala, sala.dataCriacao, sala.dataRevelacao,
+                sala.limiteSala, sala.status, sala.link, sala.idSala
+            ];
+            incrementarLinha(tabela, arrSala);
+        });
+    });
+
+    // Evento para remover sala
+    tabela.addEventListener('click', (e) => {
+        if (e.target.closest('.btnRemover')) {
+            const linhaRemovida = e.target.closest('tr');
+            const tokenSala = linhaRemovida.querySelector('.btnRemover').id;
+            linhaRemovida.remove();
+
+            deletarSala(tokenSala).then((response) => {
+                console.log(response.msg);
+            });
+        }
+    });
+});
+
+// Pesquisa de salas
+const eleInputBuscaSala = document.getElementById('pesquisarSala');
+eleInputBuscaSala?.addEventListener('input', (e) => {
+    const param = e.target.value;
+    const idUsuario = document.getElementById('idAdm').value;
+    const tabela = document.getElementById('tabela').querySelector('tbody');
+
+    carregarSalas(idUsuario, param).then((response) => {
+        tabela.innerHTML = ''; // Limpar tabela antes de recarregar
+        response.forEach((sala) => {
+            const arrSala = [
+                sala.nomeSala, sala.tokenSala, sala.dataCriacao, sala.dataRevelacao,
+                sala.limiteSala, sala.status, sala.link, sala.idSala
+            ];
+            incrementarLinha(tabela, arrSala);
+        });
+    });
+});
 
 // evento quando clica em entrar
 const eleNomeUsuario = document.getElementById('nomeUsuario')
