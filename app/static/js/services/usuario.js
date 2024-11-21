@@ -33,28 +33,33 @@ function incrementarLinha(tabela, data) {
     celulaAcoes.style.gap = '2px';
     celulaAcoes.style.justifyContent = 'center';
 
+    // ajustando classe do td onde mostra o status da sala de oração
+    var celulaStatus = celulas[5]
+
     if (status === 'Aberta') {
+        celulaStatus.className = 'statusSalaON'
         // Botões para sala aberta
         
-        // 
+        // criando botão de ação de visualizar sala de oração
         celulaAcoes.appendChild(criarBotao('btnVisualizar', 'fa-eye', 'Visualizar Sala de Oração', null, token));
         
-        // 
+        // criando botão de ação de compartilhar sala de oração
         celulaAcoes.appendChild(criarBotao('btnCompartilhar', 'fa-share', 'Compartilhar Sala de Oração', () => {
             navigator.clipboard.writeText(link);
             console.log('Link copiado para a área de transferência.');
         }));
         
-        // 
+        // criando botão de ação de "remover" sala de oração
         celulaAcoes.appendChild(criarBotao('btnRemover', 'fa-trash', 'Remover Sala de Oração', null, token));
 
     } else {
+        celulaStatus.className = 'statusSalaOFF'
         // Botões para sala fechada
         
-        // 
+        // criando botão de ação de espiar sala de oração
         celulaAcoes.appendChild(criarBotao('btnEspiar', 'fa-users', 'Ver quem orou por quem', null, token));
         
-        // 
+        // criando botção de ação de "remover" sala de oração
         celulaAcoes.appendChild(criarBotao('btnRemover', 'fa-trash', 'Remover Sala de Oração', null, token));
     }
 }
