@@ -4,21 +4,27 @@ from app.services.database import *
 from app.services.token import *
 from app.services.sessao import *
 
-def entrarSala(token):
+def fentrarSala(token):
     
     data = {'msg':None}
 
     respo = salaExistsDB(token)
 
+    existeSala = True if respo[0] == 1 else False
+    limiteSala = respo[1]
+    statusSala = respo[2]
+
     # caso o token de acesso não exista no db
-    if respo[0] == 0:
+    if existeSala == False:
         data['msg'] = 'sala_nao_existe'
+
+    # caso a sala esteja fechada
+    elif existeSala and statusSala == 'Fechada':
+        data['msg'] = 'sala_fechada'
 
     # se o token existir
     # verifica se atingiu o limite
     else:
-        limiteSala = respo[1]
-
         respo = consultarLimiteSalaDB(token)
 
         if limiteSala == respo:
@@ -63,6 +69,8 @@ def fcriarSala(data):
 def consultarSalaTokenDB(token):
     data = {}
 
+    token = token.upper()
+
     result = consultarSalaDBToken(token)
     
     data['idSala'] = result[0]
@@ -78,10 +86,10 @@ def consultarSalaTokenDB(token):
     
     return data
 
-def retornarSalasCriadas(idUsuario):
+def retornarSalasCriadas(idUsuario,params):
     data = []
 
-    salas = consultarSalaDB(idUsuario)
+    salas = consultarSalaDB(idUsuario,params)
 
     # tratando os dados que estão assim
     # [(""),("")]

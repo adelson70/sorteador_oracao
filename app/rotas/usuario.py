@@ -36,20 +36,3 @@ def registerUsuario(app):
             data['msg'] = 'usuario_nao_encontrado'
 
         return jsonify(data)
-    
-    @app.route('/usuario/criarSala', methods=['POST'])
-    def criarSala():
-        data = request.get_json('data')
-
-        data = data['data']
-
-        respo = fcriarSala(data)
-
-        return jsonify(respo)
-    
-    @app.route('/usuario/carregarSala/<int:idUsuario>', methods=['GET'])
-    def carregarSala(idUsuario):
-
-        data = retornarSalasCriadas(idUsuario)
-
-        return jsonify(data)

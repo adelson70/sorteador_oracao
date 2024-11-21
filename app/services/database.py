@@ -35,15 +35,23 @@ def consultarNomeSala(nomeSala):
 
 
 # consultar as informações da sala
-def consultarSalaDB(idUsuario, nome=None, status=None, token=None):
+def consultarSalaDB(idUsuario, params=None):
     # caso o token esteja com valor None, será retornado todas as salas que o usuario criou
     conn, cursor = connSQL()
     
-    cursor.execute("""
-                   SELECT *
-                   FROM sala
-                   WHERE idUsuario=? and estado=?
-                   """,(idUsuario,'ativo',))
+    if params == None:
+        cursor.execute("""
+                        SELECT *
+                        FROM sala
+                        WHERE idUsuario=? and estado=?
+                        """,(idUsuario,'ativo',))
+    else:
+        PARAMS = f'%{params}%'
+        cursor.execute("""
+                    SELECT *
+                    FROM sala
+                    WHERE idUsuario=? and estado=? and (nome LIKE ? or token LIKE ? or dataCriacao LIKE ?)
+                    """,(idUsuario,'ativo',PARAMS,PARAMS,PARAMS))
     
     resultado = cursor.fetchall()
 
@@ -61,7 +69,7 @@ def consultarSalaDBToken(token):
                    WHERE token=?
                    """,(token,))
     
-    result = cursor.fetchall()
+    result = cursor.fetchone()
     conn.close()
 
     return result
@@ -71,9 +79,9 @@ def salaExistsDB(token):
     conn, cursor = connSQL()
 
     cursor.execute("""
-                   SELECT COUNT(token), limiteParticipante
+                   SELECT COUNT(token), limiteParticipante, status
                    FROM sala
-                   WHERE token=? AND status="online"
+                   WHERE token=?
                    """,(token,))
     
     result = cursor.fetchone()

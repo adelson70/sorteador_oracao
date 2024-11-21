@@ -274,3 +274,19 @@ th, tr, td {
 .fa-solid{
     font-size: 16px;
 }
+
+.divBuscaSala{
+    display: flex;
+   justify-content: center !important;
+}
+
+.inputPesquisarSala{
+    display: flex;
+    justify-content: center;
+    width: 50vw;
+    border: 2px solid #003366;
+    border-radius: 8px !important;
+    text-align: center !important;
+    background-color: #ffffff !important;
+    color: #003366 !important;
+}

@@ -1,7 +1,7 @@
 // requisição para acessar a sala primeiro passo
 export async function acessarSala(token){
     // requisição para acessar a sala
-    var response = await axios.post(`sala/acessar/${token}`)
+    var response = await axios.post(`/sala/acessar/${token}`)
 
     // obtendo resposta do servidor
     var data = response.data
@@ -12,7 +12,7 @@ export async function acessarSala(token){
 // requisição para entrar de fato na sala
 export async function entrarSala(nome,token) {
     
-    var response = await axios.post('participante/entrarSala',{nome:nome, token:token})
+    var response = await axios.post('/sala/entrar',{nome:nome, token:token})
 
     var data = response.data
 
@@ -22,7 +22,7 @@ export async function entrarSala(nome,token) {
 // requisição para criar sala de oração
 export async function criarSala(data) {
     
-    var response = await axios.post('criarSala',{data:data})
+    var response = await axios.post('/sala/criar',{data:data})
 
     var data = response.data
 
@@ -31,9 +31,9 @@ export async function criarSala(data) {
 
 // requisição para carregar todas as salas pertencentes ao usuario
 
-export async function carregarSalas(idUsuario) {
+export async function carregarSalas(idUsuario,params=null) {
 
-    var response = await axios.get(`carregarSala/${idUsuario}`)
+    var response = await axios.get(`sala/carregar`,{params:{idUsuario:idUsuario,params:params}})
 
     var data = response.data
 

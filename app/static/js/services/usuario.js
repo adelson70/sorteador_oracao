@@ -158,6 +158,19 @@ addEventListener('DOMContentLoaded', function(){
     })
 })
 
+// evento de pesquisa da sala
+const eleInputBuscaSala = document.getElementById('pesquisarSala')
+eleInputBuscaSala?.addEventListener('input',(e)=>{
+    var param = e.target.value
+    var idUsuario = document.getElementById('idAdm').value
+
+    carregarSalas(idUsuario,param).then(response => {
+        var data = response
+
+        console.log(data)
+    })
+})
+
 // evento quando clica em entrar
 const eleNomeUsuario = document.getElementById('nomeUsuario')
 const eleSenhaUsuario = document.getElementById('senhaUsuario')

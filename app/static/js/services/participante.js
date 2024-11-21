@@ -34,6 +34,10 @@ eleInputToken?.addEventListener('input', function(e){
                     alert('Essa sala não existe, verifique o TOKEN inserido!')
                     break;
 
+                case 'sala_fechada':
+                    alert('Essa sala esta fechada!')
+                    break
+
                 case 'limite_atingido':
                     alert('Limite máximo de participantes atingido!')
             
@@ -49,6 +53,8 @@ eleInputToken?.addEventListener('input', function(e){
                     // atribuindo a um input hidden o token da sala que o usuario ira acessar
                     var eleDivToken = document.getElementById('token')
                     eleDivToken.value = token
+
+                    break
             }
 
         })
