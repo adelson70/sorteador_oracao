@@ -33,10 +33,10 @@ function incrementarLinha(tabela, data) {
     celulaAcoes.style.gap = '2px';
     celulaAcoes.style.justifyContent = 'center';
 
-    // ajustando classe do td onde mostra o status da sala de oração
     var celulaStatus = celulas[5]
 
     if (status === 'Aberta') {
+        // criando uma classe para a celula
         celulaStatus.className = 'statusSalaON'
         // Botões para sala aberta
         
@@ -53,6 +53,7 @@ function incrementarLinha(tabela, data) {
         celulaAcoes.appendChild(criarBotao('btnRemover', 'fa-trash', 'Remover Sala de Oração', null, token));
 
     } else {
+        // criando uma classe para celula
         celulaStatus.className = 'statusSalaOFF'
         // Botões para sala fechada
         
@@ -194,6 +195,7 @@ eleBtnCriarSala?.addEventListener('click', function(){
             case 'ok':
                 alert('Sala criada com sucesso!')
                 window.location.reload()
+                break
 
         
             case 'sala_existente':

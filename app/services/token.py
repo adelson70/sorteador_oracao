@@ -18,9 +18,10 @@ def horario():
 
 def gerarToken():
     token = "".join(sample(upp,6))
+
     result = consultarSalaDBToken(token)
 
-    if len(result) == 0:
+    if result == None:
         return token
     
     else:

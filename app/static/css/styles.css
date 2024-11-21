@@ -196,6 +196,7 @@ hr{
     --bs-table-hover-bg: #00336624;
     /* width: 90%; */
     margin: auto;
+    table-layout: fixed;
 }
 
 th, tr, td {
