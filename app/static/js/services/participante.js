@@ -89,7 +89,7 @@ eleBtnEntrarSala?.addEventListener('click', function(){
             switch (data) {
                 case 'ok':
                     console.log('entrou')
-                    window.location.reload()
+                    window.location = '/'
                     break;
             
                 case 'nome_em_uso':

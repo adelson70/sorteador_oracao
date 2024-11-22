@@ -4,11 +4,25 @@ from app.services.participante import *
 
 def registerSala(app):
     
+    # rota de primeiro acesso quando usuario entra pelo /
     @app.route('/sala/acessar/<token>', methods=['POST','GET'])
     def acessarSala(token):
         token = token.upper()
         resp = fentrarSala(token)
         return jsonify(resp)
+    
+    # rota alternativa de primeiro acesso quando o usuario entra pela leitura do qrcode ou link compartilhado
+    @app.route('/sala/acess/<token>', methods=['POST','GET'])
+    def acessSala(token):
+        token = token.upper()
+
+        resp = fentrarSala(token)
+
+        if resp['msg'] == 'ok':
+            return render_template('acessoTokenInput.html',qrcode=True, token=token)
+        
+        else:
+            return render_template('paginaNaoEncontrada.html')
     
     @app.route('/sala/remover', methods=['DELETE'])
     def removerSala():
