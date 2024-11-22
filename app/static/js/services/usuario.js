@@ -5,7 +5,7 @@ import { loginAdm } from '../routes/usuario.js'
 // Função para criar botões dinamicamente
 function criarBotao(classe, icone, titulo, eventoClick = null, id = null) {
     const btn = document.createElement('button');
-    btn.className = classe;
+    btn.className = classe
     btn.innerHTML = `<i class="fa-solid ${icone}"></i>`;
     btn.title = titulo;
     if (id) btn.id = id;
@@ -47,6 +47,7 @@ function incrementarLinha(tabela, data) {
         celulaAcoes.appendChild(criarBotao('btnCompartilhar', 'fa-share', 'Compartilhar Sala de Oração', () => {
             navigator.clipboard.writeText(link);
             console.log('Link copiado para a área de transferência.');
+            alert('Link copiado!')
         }));
         
         // criando botão de ação de "remover" sala de oração
@@ -94,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+
 });
 
 // Pesquisa de salas
@@ -202,6 +204,10 @@ eleBtnCriarSala?.addEventListener('click', function(){
                 alert(`Nome da sala "${nomeSala}" já existe!`)
                 document.getElementById('nomeSala').value = ''
                 break;
+
+            case 'error':
+                console.error('Erro ao criar a sala, verifique o console do servidor')
+                break
         }
     
     })

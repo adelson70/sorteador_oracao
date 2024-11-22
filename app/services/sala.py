@@ -50,21 +50,25 @@ def fcriarSala(data):
 
         dataCriacao = horario()
         token = gerarToken()
-        link = None
+        link = f'http://127.0.0.1:5000/sala/acessar/{token}'
         
-        respo = criarSalaDB(
-            token,
-            nomeSala,
-            limiteSala,
-            dataCriacao,
-            dataRevelacao,
-            link,
-            'Aberta',
-            'ativo',
-            idUsuario
-        )
+        if gerarQRrcode(token,link):
+            respo = criarSalaDB(
+                token,
+                nomeSala,
+                limiteSala,
+                dataCriacao,
+                dataRevelacao,
+                link,
+                'Aberta',
+                'ativo',
+                idUsuario
+            )
+            return {'msg':'ok'}
 
-        return {'msg':'ok'}
+        else:
+            return {'msg':'error'}
+
 
 def consultarSalaTokenDB(token):
     data = {}

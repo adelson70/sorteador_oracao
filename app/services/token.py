@@ -1,9 +1,11 @@
 # buscando os modulos do init
+import qrcode.constants
 from app.services import *
 from app.services.database import consultarSalaDBToken
 from datetime import datetime
 from string import ascii_uppercase as upp
 from random import sample
+import qrcode
 
 
 def horario():
@@ -26,3 +28,28 @@ def gerarToken():
     
     else:
         return gerarToken()
+    
+def gerarQRrcode(token,url):
+    try:
+        qr = qrcode.QRCode(
+            version=20,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4
+        )
+
+        qr.add_data(url)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color='black', back_color='white')
+
+        nome_arquivo = f'{token}.png'
+        path = f'database/tokens/{nome_arquivo}'
+
+        img.save(path)
+
+        return True
+
+    except Exception as e:
+        print(f'Erro ao criar o qrcode: {e}')
+        return False
