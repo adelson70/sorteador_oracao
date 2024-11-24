@@ -57,9 +57,16 @@ function incrementarLinha(tabela, data) {
         
         // criando botão de ação de compartilhar sala de oração
         celulaAcoes.appendChild(criarBotao('btnCompartilhar', 'fa-share', 'Compartilhar Sala de Oração', () => {
-            navigator.clipboard.writeText(link);
-            console.log('Link copiado para a área de transferência.');
-            alert('Link copiado!')
+            
+            try {
+                navigator.clipboard.writeText(link)
+                alert('Link Copiado!')
+
+            } catch (error) {
+                console.error('Não foi possivel copiar o link, verifique as permissões do navegador')
+            }
+
+
         }));
         
         // criando botão de ação de "remover" sala de oração
