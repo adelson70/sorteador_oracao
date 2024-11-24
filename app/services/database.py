@@ -137,8 +137,8 @@ def deleteSalaDB(token):
     except Exception as e:
         print('erro ao "deletar" a sala: ',e)
 
-# desativando sala
-def desativarSalaDB(id):
+# fechar sala
+def fecharSala(id):
     try:
         novoStatus = 'Fechada'
         conn, cursor = connSQL()
