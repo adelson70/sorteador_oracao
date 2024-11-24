@@ -64,3 +64,14 @@ def registerSala(app):
         respo = participanteEntrarSala(nomeParticipante,tokenSala)
 
         return jsonify(respo)
+    
+    @app.route('/sala/visualizar', methods=['GET','POST'])
+    def visualizarSala():
+        try:
+            token = request.args.get('tokenSala')
+
+            return render_template('painelSala.html',token=token)
+        
+        except Exception as e:
+            print(e)
+            return jsonify({'msg':e})

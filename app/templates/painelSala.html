@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+
+{% block conteudo %}
+<body>
+    <div class="conteudoPainelSala">
+        <div class="texto"><strong>Sala de Oração ""</strong></div>
+
+        <div class="codigoQRCode">
+            <img class="imagemQRCODE" src="{{ url_for('static', filename='images/'+ token + '.png') }}" alt="">
+        </div>
+
+        <div class="listaParticipantes">
+            <div class="texto">Participantes</div>
+
+            <div class="nomeDosParticipantes">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+{% endblock %}

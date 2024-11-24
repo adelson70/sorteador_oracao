@@ -1,12 +1,12 @@
 // importando rotas
-import { carregarSalas, criarSala, deletarSala } from '../routes/sala.js'
+import { carregarSalas, criarSala, deletarSala, visualizarSala } from '../routes/sala.js'
 import { loginAdm } from '../routes/usuario.js'
 
 // Função para criar botões dinamicamente
 function criarBotao(classe, icone, titulo, eventoClick = null, id = null) {
     const btn = document.createElement('button');
     btn.className = classe
-    btn.innerHTML = `<i class="fa-solid ${icone}"></i>`;
+    btn.innerHTML = `<i class="fa-solid ${icone}" data-value="${id}"></i>`;
     btn.title = titulo;
     if (id) btn.id = id;
     if (eventoClick) btn.addEventListener('click', eventoClick);
@@ -41,7 +41,21 @@ function incrementarLinha(tabela, data) {
         // Botões para sala aberta
         
         // criando botão de ação de visualizar sala de oração
-        celulaAcoes.appendChild(criarBotao('btnVisualizar', 'fa-eye', 'Visualizar Sala de Oração', null, token));
+        celulaAcoes.appendChild(criarBotao('btnVisualizar', 'fa-eye', 'Visualizar Sala de Oração', (e) => {
+            // evento para visualizar sala de oração em nova aba
+            var valor
+
+            if (e.target.id) valor = e.target.id
+            
+            else valor = e.target.dataset.value
+            
+            visualizarSala(valor).then((response) => {
+                var msg = response.msg
+
+                console.log(msg)
+            })
+
+        }, token));
         
         // criando botão de ação de compartilhar sala de oração
         celulaAcoes.appendChild(criarBotao('btnCompartilhar', 'fa-share', 'Compartilhar Sala de Oração', () => {
