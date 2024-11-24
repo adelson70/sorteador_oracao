@@ -173,6 +173,21 @@ def inserirParticipanteDB(nome, salaToken, whatsapp=None, email=None):
     except Exception as e:
         print('erro ao inserir dados na tabela participante: ',e)
 
+# função para retornar o nome do participante da sala especifica
+def retornarNomeParticipanteDB(tokenSala):
+    conn, cursor = connSQL()
+
+    cursor.execute("""
+                   SELECT nome
+                   FROM participante
+                   WHERE salaToken=?
+                   """,(tokenSala,))
+    
+    result = cursor.fetchall()
+    conn.close()
+
+    return result
+
 # função para criar linha na tabela usuario
 def inserirUsuarioDB(nome, senha, plano):
     try:

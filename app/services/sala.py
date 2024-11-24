@@ -3,6 +3,7 @@ from app.services import *
 from app.services.database import *
 from app.services.token import *
 from app.services.sessao import *
+from app import SERVER_IP
 
 def fentrarSala(token):
     
@@ -50,7 +51,7 @@ def fcriarSala(data):
 
         dataCriacao = horario()
         token = gerarToken()
-        link = f'http://127.0.0.1:5000/sala/acess/{token}'
+        link = f'http://{SERVER_IP}:5000/sala/acess/{token}'
         
         if gerarQRrcode(token,link):
             respo = criarSalaDB(

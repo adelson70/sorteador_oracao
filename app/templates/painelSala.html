@@ -7,18 +7,16 @@
 
         <div class="codigoQRCode">
             <br>
-            <div class="texto"><strong>{{ data['token'] }}</strong></div>
+            <div class="texto" id="tokenSala"><strong>{{ data['token'] }}</strong></div>
             <img class="imagemQRCODE" src="{{ url_for('static', filename='images/'+ data['token'] + '.png') }}" alt="">
         </div>
 
         <div class="listaParticipantes">
             <br>
             <div class="texto"><strong>Participantes</strong></div>
-
-            <div class="nomeDosParticipantes">
-
-            </div>
-
+            <br>
+            <div class="nomeDosParticipantes"></div>
+            <br>
         </div>
 
         <div class="sortear">

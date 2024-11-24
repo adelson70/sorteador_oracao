@@ -19,3 +19,10 @@ def participanteEntrarSala(nome,token):
         data['msg'] = 'nome_em_uso'
 
     return data
+
+def retornarNomesParticipantes(tokenSala):
+    nomes = retornarNomeParticipanteDB(tokenSala)
+
+    arrNomes = [nome[0].upper() for nome in nomes]
+
+    return arrNomes

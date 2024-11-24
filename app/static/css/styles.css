@@ -35,20 +35,39 @@ input:focus{
 }
 
 /* texto */
-.texto {
-    font-size: 26px;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    margin-top: 2vh;
+@media (orientation:landscape) {
+    .texto {
+        font-size: 26px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin-top: 2vh;
+    }
+
+    .nomeSala{
+        font-size: 35px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin-top: 2vh;
+        font-weight: 400;
+    }
+}
+@media (orientation:portrait) {
+    .texto {
+        font-size: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin-top: 2vh;
+    }
+
+    .nomeSala{
+        font-size: 24px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        margin-top: 2vh;
+        font-weight: 400;
+    }
 }
 
-.nomeSala{
-    font-size: 35px;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    margin-top: 2vh;
-    font-weight: 400;
-}
 
 .inserirToken{
     padding-top: 15vh;
@@ -304,4 +323,20 @@ th, tr, td {
 
 .sortear{
     text-align: center;
+}
+
+.nomeDosParticipantes{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nomeParticipante{
+    border: 2px solid #B0C4DE;
+    background-color: #B0C4DE;
+    color: #003366;
+    border-radius: 8px;
+    font-weight: 600;
+    padding-left: 7px;
+    padding-right: 7px;
 }
