@@ -1,5 +1,5 @@
 // importando rotas
-import { carregarSalas, criarSala, deletarSala, visualizarSala } from '../routes/sala.js'
+import { carregarSalas, criarSala, deletarSala } from '../routes/sala.js'
 import { loginAdm } from '../routes/usuario.js'
 
 // Função para criar botões dinamicamente
@@ -49,11 +49,9 @@ function incrementarLinha(tabela, data) {
             
             else valor = e.target.dataset.value
             
-            visualizarSala(valor).then((response) => {
-                var msg = response.msg
+            const url = `/sala/visualizar/${valor}`
 
-                console.log(msg)
-            })
+            window.open(url, '_blank')
 
         }, token));
         
@@ -82,33 +80,38 @@ function incrementarLinha(tabela, data) {
 
 // Carregar salas ao carregar o DOM
 document.addEventListener('DOMContentLoaded', function () {
-    const idUsuario = document.getElementById('idAdm').value;
-    const tabela = document.getElementById('tabela').querySelector('tbody');
-
-    carregarSalas(idUsuario).then((response) => {
-        tabela.innerHTML = ''; // Limpar tabela
-
-        response.forEach((sala) => {
-            const arrSala = [
-                sala.nomeSala, sala.tokenSala, sala.dataCriacao, sala.dataRevelacao,
-                sala.limiteSala, sala.status, sala.link, sala.idSala
-            ];
-            incrementarLinha(tabela, arrSala);
-        });
-    });
-
-    // Evento para remover sala
-    tabela.addEventListener('click', (e) => {
-        if (e.target.closest('.btnRemover')) {
-            const linhaRemovida = e.target.closest('tr');
-            const tokenSala = linhaRemovida.querySelector('.btnRemover').id;
-            linhaRemovida.remove();
-
-            deletarSala(tokenSala).then((response) => {
-                console.log(response.msg);
+    try {
+        const idUsuario = document.getElementById('idAdm').value;
+        const tabela = document.getElementById('tabela').querySelector('tbody');
+    
+        carregarSalas(idUsuario).then((response) => {
+            tabela.innerHTML = ''; // Limpar tabela
+    
+            response.forEach((sala) => {
+                const arrSala = [
+                    sala.nomeSala, sala.tokenSala, sala.dataCriacao, sala.dataRevelacao,
+                    sala.limiteSala, sala.status, sala.link, sala.idSala
+                ];
+                incrementarLinha(tabela, arrSala);
             });
-        }
-    });
+        });
+    
+        // Evento para remover sala
+        tabela.addEventListener('click', (e) => {
+            if (e.target.closest('.btnRemover')) {
+                const linhaRemovida = e.target.closest('tr');
+                const tokenSala = linhaRemovida.querySelector('.btnRemover').id;
+                linhaRemovida.remove();
+    
+                deletarSala(tokenSala).then((response) => {
+                    console.log(response.msg);
+                });
+            }
+        });
+    }
+    catch{
+        console.log('elementos não encontrados nessa pagina')
+    }
 
 });
 

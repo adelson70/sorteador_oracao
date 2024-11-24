@@ -295,4 +295,13 @@ th, tr, td {
 .imagemQRCODE{
     width: 256px;
     height: 256px;
+    border-radius: 8px;
+}
+
+.codigoQRCode{
+    text-align: center;
+}
+
+.sortear{
+    text-align: center;
 }

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_socketio import SocketIO
 from app.services.seguranca import *
+import socket
 
 socketio = SocketIO()
 

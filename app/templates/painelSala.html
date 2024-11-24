@@ -3,19 +3,26 @@
 {% block conteudo %}
 <body>
     <div class="conteudoPainelSala">
-        <div class="texto"><strong>Sala de Oração ""</strong></div>
+        <div class="texto"><strong>Sala de Oração "{{ data['nome'] }}"</strong></div>
 
         <div class="codigoQRCode">
-            <img class="imagemQRCODE" src="{{ url_for('static', filename='images/'+ token + '.png') }}" alt="">
+            <br>
+            <div class="texto"><strong>{{ data['token'] }}</strong></div>
+            <img class="imagemQRCODE" src="{{ url_for('static', filename='images/'+ data['token'] + '.png') }}" alt="">
         </div>
 
         <div class="listaParticipantes">
-            <div class="texto">Participantes</div>
+            <br>
+            <div class="texto"><strong>Participantes</strong></div>
 
             <div class="nomeDosParticipantes">
 
             </div>
 
+        </div>
+
+        <div class="sortear">
+            <button class="btnGreen" id="btnSortear">Sortear</button>
         </div>
 
     </div>

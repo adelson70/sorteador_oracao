@@ -65,13 +65,12 @@ def registerSala(app):
 
         return jsonify(respo)
     
-    @app.route('/sala/visualizar', methods=['GET','POST'])
-    def visualizarSala():
+    @app.route('/sala/visualizar/<token>', methods=['GET'])
+    def visualizarSala(token):
         try:
-            token = request.args.get('tokenSala')
+            data = consultarSalaTokenDB(token)
 
-            return render_template('painelSala.html',token=token)
+            return render_template('painelSala.html',data=data)
         
         except Exception as e:
             print(e)
-            return jsonify({'msg':e})

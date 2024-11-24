@@ -49,14 +49,3 @@ export async function deletarSala(tokenSala) {
 
     return data
 }
-
-// requisição para visulizar painel da sala de oração
-export async function visualizarSala(tokenSala) {
-
-    var response = await axios.get('/sala/visualizar', {params:{tokenSala:tokenSala}})
-
-    var data = response.data
-
-    return data
-    
-}
