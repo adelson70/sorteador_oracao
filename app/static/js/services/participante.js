@@ -1,5 +1,6 @@
 // importando rotas
 import { acessarSala, entrarSala } from '../routes/sala.js'
+import { socket } from '../index.js'
 
 // texto de inspiração
 const texto = `A oração é a respiração da alma. É o segredo do poder espiritual. Nenhum outro recurso da graça pode substituí-la, e a saúde da alma ser  conservada. <div class="livro"> <strong> Mensagens aos Jovens - Pag. 249 </strong> </div>`
@@ -89,6 +90,10 @@ eleBtnEntrarSala?.addEventListener('click', function(){
             switch (data) {
                 case 'ok':
                     console.log('entrou')
+
+                    // emite um evento para o servidor
+                    socket.emit('entrar_sala_template', {nome: nome, token: token})
+
                     window.location = '/'
                     break;
             

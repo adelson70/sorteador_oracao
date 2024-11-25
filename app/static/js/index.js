@@ -8,3 +8,10 @@ import '../js/services/sortear.js'
 import '../js/services/token.js'
 import '../js/services/usuario.js'
 import "../js/services/sala.js"
+
+const serverIP = '192.168.10.23'
+const porta = '5000'
+
+const host = `${serverIP}:${porta}`
+
+export const socket = io.connect(host)

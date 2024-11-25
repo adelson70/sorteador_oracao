@@ -1,4 +1,5 @@
 // importando rotas
+import { socket } from '../index.js';
 import { carregarSalas, criarSala, deletarSala } from '../routes/sala.js'
 import { loginAdm } from '../routes/usuario.js'
 
@@ -162,6 +163,7 @@ eleBtnEntrar?.addEventListener('click', function(){
             switch (data) {
                 case 'ok':
                     console.log('usuario encontrado')
+
                     window.location.reload()
                     break;
             
