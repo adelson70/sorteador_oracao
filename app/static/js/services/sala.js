@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             divNome.className = 'nomeParticipante'
 
             divNomes.appendChild(divNome)
+
+            console.log(`${nome} entrou na sala`)
         });
     }
 });

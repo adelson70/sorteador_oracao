@@ -65,7 +65,8 @@ eleInputToken?.addEventListener('input', function(e){
 // evento para permitir apenas letras no input do nome
 const eleInputNome = document.getElementById('inserirNome')
 eleInputNome?.addEventListener('input', function(e){
-    const inputFormatadoNome = e.target.value.replace(/[^a-zA-Z\s]/g, '')
+    const inputFormatadoNome = e.target.value.replace(/[^a-zA-Z\u00C0-\u017F\s]/g, '');
+
     e.target.value = inputFormatadoNome
 })
 

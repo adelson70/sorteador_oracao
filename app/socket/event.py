@@ -10,11 +10,11 @@ CLIENTS_ADM = {}
 def handle_connect(data):
     global CLIENTS_ADM
 
-    sid = request.sid
+    sid_adm = request.sid
 
     token = data['tokenSala']
 
-    CLIENTS_ADM[token] = sid
+    CLIENTS_ADM[token] = sid_adm
 
     print(f'ADM entrou na sala {token}')
 
