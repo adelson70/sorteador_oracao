@@ -16,7 +16,7 @@ def registerMain(app):
 
             nomeSala = data['nome'].capitalize()
 
-            return render_template("aguardandoSorteio.html",nomeSala=nomeSala)
+            return render_template("aguardandoSorteio.html",nomeSala=nomeSala, meuNome=meuNome, tokenSala=tokenSala)
 
         criarSessao("nomeSorteado")
         

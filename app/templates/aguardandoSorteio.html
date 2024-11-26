@@ -11,7 +11,18 @@
         <br>
         <div class="spinner-border" role="status"></div>
         <div class="revelacao" style="display: none;"></div>
+
+        <input type="hidden" id="token" value="{{tokenSala}}">
+        <input type="hidden" id="meuNome" value="{{meuNome}}">
     </div>
 </body>
+
+<script type="module">
+    import { socket } from "../static/js/index.js"
+    var nome = document.querySelector('#meuNome').value
+    var token = document.querySelector('#token').value
+
+    socket.emit('entrar_sala_template', {nome: nome, token: token})
+</script>
 
 {% endblock %}

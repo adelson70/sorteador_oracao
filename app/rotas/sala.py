@@ -60,6 +60,10 @@ def registerSala(app):
         data = request.get_json('data')
         nomeParticipante = data['nome']
         tokenSala = data['token']
+        
+        criarSessao('meuNome',nomeParticipante)
+
+        print(nomeParticipante)
 
         respo = participanteEntrarSala(nomeParticipante,tokenSala)
 

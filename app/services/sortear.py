@@ -15,4 +15,4 @@ def sortearNomes(arrNomes):
         
     data = {nome:nomeSorteado for nome,nomeSorteado in zip(meuNome,nomesSortidos) }
 
-    return (meuNome,nomesSortidos,data)
+    return data

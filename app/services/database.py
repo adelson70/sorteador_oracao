@@ -272,7 +272,7 @@ def consultarSalaNDB(token):
         print("erro ao consultar a sala de oração: ", e)
 
 # função para criar objeto no db nosql
-def adicionarSorteioDB(data):
+def adicionarSorteioNDB(data):
     try:
         db = connNsql()
 

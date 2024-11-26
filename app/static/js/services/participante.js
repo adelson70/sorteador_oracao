@@ -92,9 +92,6 @@ eleBtnEntrarSala?.addEventListener('click', function(){
                 case 'ok':
                     console.log('entrou')
 
-                    // emite um evento para o servidor
-                    socket.emit('entrar_sala_template', {nome: nome, token: token})
-
                     window.location = '/'
                     break;
             

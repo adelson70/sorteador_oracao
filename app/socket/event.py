@@ -16,6 +16,8 @@ def handle_connect(data):
 
     CLIENTS_ADM[token] = sid_adm
 
+    join_room(token)
+
     print(f'ADM entrou na sala {token}')
 
 
@@ -35,3 +37,13 @@ def handle_entrar_sala_template(data):
     print(f'{nomeParticipante} entrou na sala {tokenSala}')
 
     emit('receber_nome', nomeParticipante, to=target_sid)
+
+# evento de escuta quando ocorreu o sorteio com sucesso
+@socketio.on('nomes_sorteados')
+def handle_nomes_sorteados(data):
+    data = data['data']
+
+    room = data['token']
+    nomeOracao = data['revelacao']
+
+    emit('receber_nome_oracao', nomeOracao, to=room, include_self=True)
