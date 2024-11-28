@@ -1,5 +1,6 @@
 import sqlite3 as sql
 from tinydb import TinyDB as nosql
+from tinydb import Query
 
 # conexao banco sql
 def connSQL():

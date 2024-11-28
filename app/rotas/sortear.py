@@ -1,33 +1,54 @@
 from app.rotas import *
 from app.services.sortear import *
 from app.services.database import *
+from app.services.sessao import *
 
 def registerSortear(app):
     
     @app.route('/sortear', methods=['POST'])
     def sortear():
-
         data = request.get_json('tokenSala')
 
         token = data['tokenSala']
 
-        nomes = retornarNomeParticipanteDB(token)
+        nomeSessao = f'sorteio-{token}'
 
-        arrNomesParticipantes = [nome[0] for nome in nomes]
+        sorteio = buscarSessao(nomeSessao)
 
-        nomesSortidos = sortearNomes(arrNomesParticipantes)
+        if sorteio:
+            msg = 'sorteio_ja_ocorreu'
+            return jsonify({'msg':msg})
 
-        data = {
-            "token":token,
-            "nomes":arrNomesParticipantes,
-            "revelacao":nomesSortidos
-        }
+        else: 
+            nomes = retornarNomeParticipanteDB(token)
 
-        if (adicionarSorteioNDB(data)):
-            msg = 'ok'
-            dataNDB = data
-        
-        else:
-            msg = 'erro'
+            arrNomesParticipantes = [nome[0] for nome in nomes]
 
-        return jsonify({"msg":msg, "data":dataNDB})
+            nomesSortidos = sortearNomes(arrNomesParticipantes)
+
+            data = {
+                "token":token,
+                "nomes":arrNomesParticipantes,
+                "revelacao":nomesSortidos
+            }
+
+            if len(arrNomesParticipantes) < 2:
+                msg = 'numero_participantes'
+                dataNDB = {}
+                return jsonify({"msg":msg, "data":dataNDB})
+
+            if (adicionarSorteioNDB(data)):
+                dataNDB = data
+
+                # mudando o status da sala de oração
+                result = fecharSala(token)
+
+                if result:
+                    criarSessao(nomeSessao,True)
+                    msg = 'ok'
+
+            
+            else:
+                msg = 'erro'
+
+            return jsonify({"msg":msg, "data":dataNDB})

@@ -26,3 +26,8 @@ def retornarNomesParticipantes(tokenSala):
     arrNomes = [nome[0].upper() for nome in nomes]
 
     return arrNomes
+
+def retornarAmigoSecreto(token,nome):
+    data = retornarNomeSorteadoDB(token,nome)
+
+    return data

@@ -10,3 +10,12 @@ def registerParticipante(app):
         arrNomes = retornarNomesParticipantes(tokenSala)
 
         return jsonify({'data':arrNomes})
+    
+    @app.route('/participante/retornarAmigo', methods=['GET'])
+    def retornarAmigo():
+        meuNome = request.args.get('meuNome')
+        token = request.args.get('tokenSala')
+
+        response = retornarAmigoSecreto(token,meuNome)
+        
+        return jsonify(response)

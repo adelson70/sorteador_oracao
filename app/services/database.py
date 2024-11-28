@@ -138,7 +138,7 @@ def deleteSalaDB(token):
         print('erro ao "deletar" a sala: ',e)
 
 # fechar sala
-def fecharSala(id):
+def fecharSala(token):
     try:
         novoStatus = 'Fechada'
         conn, cursor = connSQL()
@@ -146,8 +146,8 @@ def fecharSala(id):
         cursor.execute("""
                        UPDATE sala
                        SET status=?
-                       WHERE id=?
-                       """, novoStatus, id)
+                       WHERE token=?
+                       """, (novoStatus, token))
         conn.commit()
         conn.close()
 
@@ -287,29 +287,21 @@ def adicionarSorteioNDB(data):
 def retornarNomeSorteadoDB(token, meuNome):
     try:
         db = connNsql()
-        q = nosql.Query()
+        q = Query()
 
-        response = {}
+        registros = db.all()
 
-        busca = db.search(q.token == token)
+        for registro in registros:
+            if registro['token'] == token:
+                revelacao = registro["revelacao"]
+                amigoSecreto = revelacao.get(meuNome)
 
-        # verifica se houve sorteio
-        if len(busca) != 0:
-            nomeSorteado = None
-
-            resultado = dict(busca[0])
-
-            revelacao = resultado["revelacao"]
-            minhaRevelacao = revelacao[meuNome]
-
-            response[meuNome] = minhaRevelacao
-
-            return response
-
-
-        # caso não encontre o banco de dados significa que não houve sorteio
-        else:
-            return 'nao_sorteado'
+                if amigoSecreto:
+                    data = {"meuNome":meuNome, "amigoSecreto":amigoSecreto}
+                    return data
+                
+                else:
+                    "nao_encontrado"
 
     
     except Exception as e:

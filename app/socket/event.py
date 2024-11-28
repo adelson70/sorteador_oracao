@@ -32,11 +32,16 @@ def handle_entrar_sala_template(data):
     
     join_room(tokenSala)
 
-    target_sid = CLIENTS_ADM[tokenSala]
+    try:
+        target_sid = CLIENTS_ADM[tokenSala]
+        
+        print(f'{nomeParticipante} entrou na sala {tokenSala}')
 
-    print(f'{nomeParticipante} entrou na sala {tokenSala}')
+        emit('receber_nome', nomeParticipante, to=target_sid)
 
-    emit('receber_nome', nomeParticipante, to=target_sid)
+    except Exception as e:
+        print(f'ADM não entrou na sala {tokenSala}')
+
 
 # evento de escuta quando ocorreu o sorteio com sucesso
 @socketio.on('nomes_sorteados')
@@ -46,4 +51,4 @@ def handle_nomes_sorteados(data):
     room = data['token']
     nomeOracao = data['revelacao']
 
-    emit('receber_nome_oracao', nomeOracao, to=room, include_self=True)
+    emit('receber_nome_oracao', nomeOracao, to=room, include_self=False)

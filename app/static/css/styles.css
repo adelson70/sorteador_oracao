@@ -343,3 +343,13 @@ th, tr, td {
     padding-left: 7px;
     padding-right: 7px;
 }
+
+.nomeRevelado{
+    border-radius: 8px;
+    border: 2px solid #B0C4DE;
+    background: #B0C4DE;
+    width: fit-content;
+    margin: auto;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}

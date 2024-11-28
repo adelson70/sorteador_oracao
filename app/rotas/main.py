@@ -18,7 +18,11 @@ def registerMain(app):
 
             return render_template("aguardandoSorteio.html",nomeSala=nomeSala, meuNome=meuNome, tokenSala=tokenSala)
 
-        criarSessao("nomeSorteado")
+        elif userType == 'admin':
+            idUsuario = buscarSessao('idAdm')
+    
+            return render_template('menuADM.html',idUsuario=idUsuario)
+
         
         return render_template("acessoTokenInput.html")
     

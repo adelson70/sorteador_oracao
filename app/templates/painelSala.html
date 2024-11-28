@@ -1,6 +1,12 @@
 {% extends 'index.html' %}
 
 {% block conteudo %}
+{% if sorteio %}
+<script>
+    alert('Sala fechada você sera redirecionado...')
+    window.location = '/'
+</script>
+{% else %}
 <body>
     <div class="conteudoPainelSala">
         <div class="texto"><strong>Sala de Oração "{{ data['nome'].capitalize() }}"</strong></div>
@@ -18,12 +24,12 @@
             <div class="nomeDosParticipantes"></div>
             <br>
         </div>
-
         <div class="sortear">
             <button class="btnGreen" id="btnSortear">Sortear</button>
         </div>
-
+        
     </div>
-
+    
 </body>
+{% endif %}
 {% endblock %}

@@ -63,8 +63,6 @@ def registerSala(app):
         
         criarSessao('meuNome',nomeParticipante)
 
-        print(nomeParticipante)
-
         respo = participanteEntrarSala(nomeParticipante,tokenSala)
 
         return jsonify(respo)
@@ -74,7 +72,14 @@ def registerSala(app):
         try:
             data = consultarSalaTokenDB(token)
 
-            return render_template('painelSala.html',data=data)
+            nomeSessao = f'sorteio-{token}'
+
+            sorteio = buscarSessao(nomeSessao)
+
+            if sorteio:
+                return render_template('painelSala.html',data=data, sorteio=sorteio)
+            else:
+                return render_template('painelSala.html',data=data)
         
         except Exception as e:
             print(e)
