@@ -66,33 +66,40 @@ addEventListener('DOMContentLoaded', () => {
 })
 
 addEventListener('DOMContentLoaded', function(){
-    const meuNome = document.querySelector('#meuNome').value
-    const token = document.querySelector('#token').value
-
-    if (meuNome){
-        const user = JSON.parse(this.sessionStorage.getItem(meuNome))
-
-        if (user != null){
-            retornarAmigoSecreto(meuNome,token).then(response => {
-                const nomeSorteado = response.data.amigoSecreto
-
-                const divLoad = document.querySelector('.spinner-border')
-                divLoad.style.display = 'none'
+    try {
         
-                const divTextoAguardando = document.querySelector('#aguardandoSorteio')
-                divTextoAguardando.style.display = 'none'
-        
-                const divRevelacao = document.querySelector('.revelacao')
+        const meuNome = document.querySelector('#meuNome').value
+        const token = document.querySelector('#token').value
     
-                var revelacaoNome = document.createElement('div')
-                revelacaoNome.className = 'nomeRevelado'
-                revelacaoNome.innerHTML = `<strong>${nomeSorteado.toUpperCase()}</strong> será a pessoa que você estará orando!`
+        if (meuNome){
+            const user = JSON.parse(this.sessionStorage.getItem(meuNome))
+    
+            if (user != null){
+                retornarAmigoSecreto(meuNome,token).then(response => {
+                    const nomeSorteado = response.data.amigoSecreto
+                    console.log(response.data)
+    
+                    const divLoad = document.querySelector('.spinner-border')
+                    divLoad.style.display = 'none'
+            
+                    const divTextoAguardando = document.querySelector('#aguardandoSorteio')
+                    divTextoAguardando.style.display = 'none'
+            
+                    const divRevelacao = document.querySelector('.revelacao')
         
-                divRevelacao.appendChild(revelacaoNome)
-                divRevelacao.style.display = 'block'
-
-            })
+                    var revelacaoNome = document.createElement('div')
+                    revelacaoNome.className = 'nomeRevelado'
+                    revelacaoNome.innerHTML = `<strong>${nomeSorteado.toUpperCase()}</strong> será a pessoa que você estará orando!`
+            
+                    divRevelacao.appendChild(revelacaoNome)
+                    divRevelacao.style.display = 'block'
+    
+                })
+            }
         }
+    
     }
-
+    catch{
+        console.log('elementos não encontrados nessa pagina')      
+    }
 })

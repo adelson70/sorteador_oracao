@@ -37,9 +37,10 @@ def fentrarSala(token):
     return data
 
 def fcriarSala(data):
+    idUsuario = buscarSessao('idAdm')
     nomeSala = data['nomeSala']
 
-    respo = consultarNomeSala(nomeSala)
+    respo = consultarNomeSala(nomeSala,idUsuario)
 
     if respo == 1:
         return {'msg':'sala_existente'}
@@ -47,7 +48,6 @@ def fcriarSala(data):
     else:
         limiteSala = data['limiteSala']
         dataRevelacao = data['dataRevelacao']
-        idUsuario = buscarSessao('idAdm')
 
         dataCriacao = horario()
         token = gerarToken()

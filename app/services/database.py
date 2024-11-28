@@ -19,14 +19,14 @@ def criarSalaDB(token, nome, limite, dataCriacao, dataRevelacao, link, status, e
     except Exception as e:
         print('erro ao inserir dados na tabela sala: ',e)
 
-def consultarNomeSala(nomeSala):
+def consultarNomeSala(nomeSala,idAdm):
     conn, cursor = connSQL()
 
     cursor.execute("""
                    SELECT COUNT(*)
                    FROM sala
-                   WHERE nome=?
-                   """,(nomeSala,))
+                   WHERE nome=? and idUsuario=? and status=?
+                   """,(nomeSala,idAdm,'Aberta',))
     
     result = cursor.fetchone()[0]
     conn.close()
