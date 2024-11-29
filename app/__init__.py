@@ -5,7 +5,7 @@ import socket
 
 socketio = SocketIO()
 
-SERVER_IP = '192.168.10.23'
+SERVER_IP = '10.29.0.163'
 
 def createApp():
     app = Flask(__name__, template_folder='templates')
