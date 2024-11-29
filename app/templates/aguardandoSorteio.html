@@ -22,7 +22,19 @@
     var nome = document.querySelector('#meuNome').value
     var token = document.querySelector('#token').value
 
-    socket.emit('entrar_sala_template', {nome: nome, token: token})
+    const user = JSON.parse(sessionStorage.getItem("participante"))
+
+    if (user){
+        console.log('ja entrou na sala')
+    }
+
+    else{
+        console.log('entrou na sala pela primeira vez')
+
+        socket.emit('entrar_sala_template', {nome: nome, token: token})
+        //adicionando ao cache do navegador  
+        sessionStorage.setItem("participante", JSON.stringify({ entrouSala: true }))
+    }
 </script>
 
 {% endblock %}

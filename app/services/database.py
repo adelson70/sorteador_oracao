@@ -260,13 +260,18 @@ def editarUsuarioDB(id=None, nome=None, senha=None, plano=None):
         print('erro ao editar o usuario: ',e)
 
 # função para retornar todas informações da sala de oração no nosql
-def consultarSalaNDB(token):
+def retornarSorteioDB(token):
     try:
-        response = None
+        db = connNsql()
+        q = Query()
 
+        sorteios = db.all()
 
+        for sala in sorteios:
+            if sala['token'] == token:
+                return sala
 
-        return response
+        return 'vazio'
     
     except Exception as e:
         print("erro ao consultar a sala de oração: ", e)

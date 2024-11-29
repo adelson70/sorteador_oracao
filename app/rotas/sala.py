@@ -13,7 +13,7 @@ def registerSala(app):
     
     # rota alternativa de primeiro acesso quando o usuario entra pela leitura do qrcode ou link compartilhado
     @app.route('/sala/acess/<token>', methods=['POST','GET'])
-    def acessSala(token):
+    def acessSala(token):        
         token = token.upper()
 
         resp = fentrarSala(token)

@@ -76,6 +76,12 @@ eleBtnEntrarSala?.addEventListener('click', function(){
     var nome = eleInputNome.value
     var token = document.getElementById('token').value
 
+    const user = JSON.parse(sessionStorage.getItem("participante"))
+
+    if (user){
+        window.location = '/'
+    }
+
     if (nome.length == 0){
         alert('Insira seu nome!')
     }
@@ -91,7 +97,9 @@ eleBtnEntrarSala?.addEventListener('click', function(){
             switch (data) {
                 case 'ok':
                     console.log('entrou')
+                    
 
+                    
                     window.location = '/'
                     break;
             

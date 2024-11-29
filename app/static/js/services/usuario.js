@@ -1,5 +1,6 @@
 // importando rotas
 import { socket } from '../index.js';
+import { retornarSorteio } from '../routes/participante.js';
 import { carregarSalas, criarSala, deletarSala } from '../routes/sala.js'
 import { loginAdm } from '../routes/usuario.js'
 
@@ -79,7 +80,66 @@ function incrementarLinha(tabela, data) {
         // Botões para sala fechada
         
         // criando botão de ação de espiar sala de oração
-        celulaAcoes.appendChild(criarBotao('btnEspiar', 'fa-users', 'Ver quem orou por quem', null, token));
+        celulaAcoes.appendChild(criarBotao('btnEspiar', 'fa-users', 'Ver quem orou por quem', () => {
+            retornarSorteio(token).then(response => {
+                var data = response.data.revelacao
+                var revelacao = data.revelacao
+
+                var eleModalEspiar = document.querySelector('#modalEspiarSala')
+
+                // definindo nome da sala
+                var eleNomeSalaModal = eleModalEspiar.querySelector("#nomeSalaEspiar")
+                eleNomeSalaModal.innerHTML = nome
+
+                // mostrando revelação
+                var eleNomesSorteados = eleModalEspiar.querySelector('#revelacaoSala')
+                
+                for(let nome in revelacao){
+                    var meuNome = nome
+                    var nomeSorteado = revelacao[meuNome]
+
+                    var eleNome = document.createElement('div')
+                    eleNome.className = 'nomeParticipante'
+                    eleNome.style.cursor = 'pointer'
+                    eleNome.style.marginBottom = '10px'
+                    eleNome.innerHTML = meuNome.toUpperCase()
+                    eleNome.setAttribute('data-sorteado',`${nomeSorteado}`)
+                    
+                    eleNome.id = meuNome
+
+                    // evento quando clicado no nome do participante
+                    eleNome.addEventListener('mouseover', function(e){
+                        var nome = e.target.id
+                        var nomeSorteado = e.target.getAttribute('data-sorteado')
+
+                        e.target.innerHTML = `${nome.toUpperCase()} orou por ${nomeSorteado.toUpperCase()}`
+                    })
+
+                    eleNome.addEventListener('mouseout', function(e){
+                        var nome = e.target.id
+
+                        e.target.innerHTML = nome.toUpperCase()
+                    })
+
+
+                    eleNomesSorteados.appendChild(eleNome)
+                }
+
+                
+
+                // visualizando modal
+                var modalEspiar = new bootstrap.Modal(eleModalEspiar)
+                modalEspiar.show()
+
+                // limpando as informações após fechar o modal
+                eleModalEspiar.addEventListener('hidden.bs.modal', function () {
+                    var eleNomesSorteados = eleModalEspiar.querySelector('#revelacaoSala')
+                    eleNomesSorteados.innerHTML = ''
+                  });
+
+
+            })
+        }, token));
         
         // criando botção de ação de "remover" sala de oração
         celulaAcoes.appendChild(criarBotao('btnRemover', 'fa-trash', 'Remover Sala de Oração', null, token));

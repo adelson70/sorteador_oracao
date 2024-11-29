@@ -15,3 +15,12 @@ export async function retornarAmigoSecreto(meuNome, tokenSala) {
     return response
     
 }
+
+// requisição para retornar o sorteio da sala especifica
+export async function retornarSorteio(tokenSala) {
+
+    var response = axios.get('/participante/retornarSorteio', {params:{tokenSala:tokenSala}})
+
+    return response
+    
+}

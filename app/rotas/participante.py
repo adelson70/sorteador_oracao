@@ -19,3 +19,11 @@ def registerParticipante(app):
         response = retornarAmigoSecreto(token,meuNome)
         
         return jsonify(response)
+    
+    @app.route('/participante/retornarSorteio', methods=['GET'])
+    def retornarSorteio():
+        token = request.args.get('tokenSala')
+
+        data = retornarSorteioDB(token)
+
+        return jsonify({"revelacao":data})
