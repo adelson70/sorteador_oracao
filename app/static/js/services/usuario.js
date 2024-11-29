@@ -89,7 +89,7 @@ function incrementarLinha(tabela, data) {
 
                 // definindo nome da sala
                 var eleNomeSalaModal = eleModalEspiar.querySelector("#nomeSalaEspiar")
-                eleNomeSalaModal.innerHTML = nome
+                eleNomeSalaModal.innerHTML = `Sala de Oração <strong>${nome}</strong>`
 
                 // mostrando revelação
                 var eleNomesSorteados = eleModalEspiar.querySelector('#revelacaoSala')
@@ -99,15 +99,13 @@ function incrementarLinha(tabela, data) {
                     var nomeSorteado = revelacao[meuNome]
 
                     var eleNome = document.createElement('div')
+                    eleNome.id = meuNome
                     eleNome.className = 'nomeParticipante'
                     eleNome.style.cursor = 'pointer'
                     eleNome.style.marginBottom = '10px'
                     eleNome.innerHTML = meuNome.toUpperCase()
                     eleNome.setAttribute('data-sorteado',`${nomeSorteado}`)
-                    
-                    eleNome.id = meuNome
 
-                    // evento quando clicado no nome do participante
                     eleNome.addEventListener('mouseover', function(e){
                         var nome = e.target.id
                         var nomeSorteado = e.target.getAttribute('data-sorteado')
