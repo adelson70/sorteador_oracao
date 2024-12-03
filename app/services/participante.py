@@ -5,9 +5,13 @@ from app.services.sessao import criarSessao
 
 def participanteEntrarSala(nome,token):
     data = {'msg':None}
+
+    nome = nome.upper()
+
     respo = consultarNomeUso(nome,token)
 
     if respo == 0:
+        nome = nome.upper()
         inserirParticipanteDB(nome,token)
         criarSessao('userType','participante')
         criarSessao('tokenSala',token)

@@ -25,13 +25,13 @@
     const user = JSON.parse(sessionStorage.getItem("participante"))
 
     if (user){
-        console.log('ja entrou na sala')
+        // como atualizou o sid mudou
+        // por isso será criado um novo sid
+        socket.emit('entrar_sala_template', {nome: nome, token: token, entrou:true})
     }
 
     else{
-        console.log('entrou na sala pela primeira vez')
-
-        socket.emit('entrar_sala_template', {nome: nome, token: token})
+        socket.emit('entrar_sala_template', {nome: nome, token: token, entrou:false})
         //adicionando ao cache do navegador  
         sessionStorage.setItem("participante", JSON.stringify({ entrouSala: true }))
     }

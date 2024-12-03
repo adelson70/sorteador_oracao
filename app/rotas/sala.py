@@ -61,11 +61,24 @@ def registerSala(app):
         nomeParticipante = data['nome']
         tokenSala = data['token']
         
-        criarSessao('meuNome',nomeParticipante)
+        resultado = buscarSessao('meuNome')
 
-        respo = participanteEntrarSala(nomeParticipante,tokenSala)
+        if resultado == None:
+            criarSessao('meuNome',nomeParticipante)
+            respo = participanteEntrarSala(nomeParticipante,tokenSala)
 
-        return jsonify(respo)
+            return jsonify(respo)
+
+        if resultado.upper() == nomeParticipante.upper():
+            respo = participanteEntrarSala(nomeParticipante,tokenSala)
+
+            return jsonify(respo)
+        
+        else:
+            criarSessao('meuNome',nomeParticipante)
+
+            return jsonify({"msg":"ja_entrou"})
+
     
     @app.route('/sala/visualizar/<token>', methods=['GET'])
     def visualizarSala(token):

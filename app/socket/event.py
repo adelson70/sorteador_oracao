@@ -29,18 +29,26 @@ def handle_entrar_sala_template(data):
 
     nomeParticipante = data['nome'].upper()
     tokenSala = data['token']
+    jaEntrou = data['entrou']
+
+    if jaEntrou:
+        join_room(tokenSala)
+
+        print(f'{nomeParticipante} entrou na sala novamente {tokenSala}')
     
-    join_room(tokenSala)
+    else:
+            
+        join_room(tokenSala)
 
-    try:
-        target_sid = CLIENTS_ADM[tokenSala]
-        
-        print(f'{nomeParticipante} entrou na sala {tokenSala}')
+        try:
+            target_sid = CLIENTS_ADM[tokenSala]
+            
+            print(f'{nomeParticipante} entrou na sala {tokenSala}')
 
-        emit('receber_nome', nomeParticipante, to=target_sid)
+            emit('receber_nome', nomeParticipante, to=target_sid)
 
-    except Exception as e:
-        print(f'ADM não entrou na sala {tokenSala}')
+        except Exception as e:
+            print(f'ADM não entrou na sala {tokenSala}')
 
 
 # evento de escuta quando ocorreu o sorteio com sucesso
