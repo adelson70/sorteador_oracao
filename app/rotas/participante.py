@@ -27,3 +27,8 @@ def registerParticipante(app):
         data = retornarSorteioDB(token)
 
         return jsonify({"revelacao":data})
+    
+    @app.route('/participante/teste', methods=['GET'])
+    def rotaTeste():
+        data = {'msg':'ok'}
+        return jsonify(data)

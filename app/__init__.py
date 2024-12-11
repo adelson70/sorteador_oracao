@@ -1,15 +1,18 @@
 from flask import Flask
 from flask_socketio import SocketIO
+from flask_cors import CORS
 from app.services.seguranca import *
 import socket
 
 socketio = SocketIO()
 
-SERVER_IP = '192.168.10.21'
+SERVER_IP = '192.168.10.16'
 
 def createApp():
     app = Flask(__name__, template_folder='templates')
     app.config['SECRET_KEY'] = 'TEMPORARIO'
+
+    CORS(app, resources={"/*":{"origins":"*"}})
 
     # registro das rotas
     with app.app_context():
