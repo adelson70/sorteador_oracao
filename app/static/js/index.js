@@ -11,7 +11,7 @@ import '../js/services/usuario.js'
 import "../js/services/sala.js"
 
 
-const serverIP = '192.168.10.16'
+const serverIP = '10.29.0.163'
 const porta = '5000'
 
 const host = `${serverIP}:${porta}`

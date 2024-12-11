@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TextInput, Alert, Modal } from 'react-native'
-// import api from '../config/api'
+import api from '../config/api'
 import { useRouter } from 'expo-router'
 import { Button } from '../components/Button'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -29,9 +29,14 @@ export default function IndexPage() {
     
     const handleScan = ({ type, data }) => {
         setScan(false)
-        setInput(data)
-        console.log(`QR Code lido: ${data}`)
+        let token = data.slice(-6)
+        setInput(token)
+        
+        api.post(`/sala/acessar/${token}`).then(response => {
+            let msg = response.data
 
+            console.log(msg)
+        })
     }
 
     return (

@@ -10,7 +10,7 @@ app = createApp()
 #         return redirect(request.url.replace("http://", "https://"))
 
 if __name__ == '__main__':
-    serverIp = '192.168.10.16'
+    serverIp = '10.29.0.163'
     porta=5000
     # cert_file = 'cert.pem'
     # key_file = 'key.pem'
