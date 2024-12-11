@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Alert, Modal } from 'react-native'
 import api from '../config/api'
 import { useRouter } from 'expo-router'
 import { Button } from '../components/Button'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { useCameraPermissions, CameraView } from 'expo-camera'
 // import QRCodeScanner from 'react-native-qrcode-scanner'
 // import { RNCamera } from 'react-native-camera'
 // import { request, PERMISSIONS, check } from 'react-native-permissions';
@@ -11,17 +12,15 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default function IndexPage() {
 
-    const [ msg, setMsg ] = useState('')
     const [ input, setInput ] = useState('')
     const [ scan, setScan ] = useState(false)
+    const [ cameraPermission, rqCameraPermission ] = useCameraPermissions()
 
-    // useEffect(() => {
-    //     api.get('/participante/teste')
-    //         .then(response => {
-    //             let respo = response.data.msg
-    //             setMsg(respo)
-    //         })
-    // }, [])
+    useEffect(() => {
+        if ( cameraPermission === null ){
+            rqCameraPermission()
+        }
+    }, [cameraPermission])
 
     const handleChangeInput = (input) => {
         const textoFormatado = input.replace(/[^a-zA-Z]/g, '')
@@ -31,13 +30,13 @@ export default function IndexPage() {
     const handleCamera = () => {
         setScan(true)
     }
-
-    // const handleScan = (e) => {
-    //     const valor = e.data
-    //     setScan(false)
-    //     console.log(`QR Code lido: ${valor}`)
-    //     // setInput(valor)
-    // }
+    
+    const handleScan = ({ type, data }) => {
+        console.log('cheguei aqui')
+        setScan(false)
+        setInput(data)
+        console.log(`QR Code lido: ${data}`)
+    }
 
     return (
         <View style={styles.container}>
@@ -65,17 +64,26 @@ export default function IndexPage() {
             </View>
 
             <View>
-                <Button title={<Icon name='camera' size={30} color='#003366' onPress={handleCamera} />} />
+                <Button onPress={handleCamera}>
+                <Icon name='camera' size={30} color='#003366'/>
+                </Button>
+
                 <Text style={{color: '#003366'}}>Ler QR Code</Text>
             </View>
 
-            {/* {scan && (
-                <QRCodeScanner
-                onRead={handleScan}
-                flashMode={RNCamera.Constants.FlashMode.auto}
-                topContent={<Text style={styles.centerText}>Aponte para o QR Code</Text>}
-                bottomContent={<Text style={styles.centerText}>Escaneie o código</Text>}/>
-            )} */}
+            {scan && (
+                <Modal>
+                    <CameraView
+                    style={styles.camera}
+                    onBarCodeScanned={handleScan}
+                    barcodeScannerSettings={{
+                        barcodeTypes: ['qr']
+                    }}
+                    >
+                        {/* <Text style={styles.centerText}>Aponte para um QR Code</Text> */}
+                    </CameraView>
+                </Modal>
+            )}
 
         </View>
     )
@@ -136,5 +144,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 16,
         color: '#000',
-      }
+    },
+
+    camera: {
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })

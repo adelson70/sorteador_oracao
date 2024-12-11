@@ -13,6 +13,7 @@ export const Button = (props) => {
             width: 'auto'
         }}
         
+        onPress={props.onPress}
         activeOpacity={0.7}>
 
         <Text style={{
@@ -21,7 +22,7 @@ export const Button = (props) => {
             fontSize: 16,
             textAlign: 'center'
         }}>
-            {props.title}
+            {props.children}
         </Text>
 
 
