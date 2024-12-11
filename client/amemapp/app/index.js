@@ -32,10 +32,29 @@ export default function IndexPage() {
         let token = data.slice(-6)
         setInput(token)
         
-        api.post(`/sala/acessar/${token}`).then(response => {
-            let msg = response.data
+        api.post(`/sala/acessar/${token}`)
+            .then(response => {
+                let msg = response.data.msg
 
-            console.log(msg)
+                switch (msg) {
+                    case 'ok':
+                        console.log('inserir nome')
+                        break;
+                
+                    case 'sala_nao_existe':
+                        Alert.alert('Aviso', 'Sala não existe!')
+                        break;
+
+                    case 'sala_fechada':
+                        Alert.alert('Aviso', 'Essa sala esta fechada!')
+                        break;
+
+                    case 'limite_atingido':
+                        Alert.alert('Aviso', 'Limite de participantes atingido!')
+                        break;
+        
+                                    
+                }
         })
     }
 
