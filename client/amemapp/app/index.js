@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, TextInput, Alert, Modal } from 'react-native'
-import api from '../config/api'
+// import api from '../config/api'
 import { useRouter } from 'expo-router'
 import { Button } from '../components/Button'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useCameraPermissions, CameraView } from 'expo-camera'
-// import QRCodeScanner from 'react-native-qrcode-scanner'
-// import { RNCamera } from 'react-native-camera'
-// import { request, PERMISSIONS, check } from 'react-native-permissions';
-
 
 export default function IndexPage() {
 
@@ -32,10 +28,10 @@ export default function IndexPage() {
     }
     
     const handleScan = ({ type, data }) => {
-        console.log('cheguei aqui')
         setScan(false)
         setInput(data)
         console.log(`QR Code lido: ${data}`)
+
     }
 
     return (
@@ -72,16 +68,15 @@ export default function IndexPage() {
             </View>
 
             {scan && (
-                <Modal>
+                <Modal style={{flex: 1}}>
                     <CameraView
                     style={styles.camera}
-                    onBarCodeScanned={handleScan}
-                    barcodeScannerSettings={{
-                        barcodeTypes: ['qr']
-                    }}
-                    >
-                        {/* <Text style={styles.centerText}>Aponte para um QR Code</Text> */}
-                    </CameraView>
+                    facing='back'
+                    onBarcodeScanned={handleScan}
+                    barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
+                    />
+                    <Button onPress={()=> setScan(false)}> Fechar </Button>
+
                 </Modal>
             )}
 
