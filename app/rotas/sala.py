@@ -55,9 +55,20 @@ def registerSala(app):
 
         return jsonify(data)
     
+    @app.route('/sala/entrar/mobile', methods=['POST'])
+    def entrarSalaMobile():
+        data = request.get_json('data')  
+        nomeParticipante = data['nome']
+        tokenSala = data['token']
+
+        respo = participanteEntrarSala(nomeParticipante,tokenSala)
+
+        return jsonify(respo)
+    
     @app.route('/sala/entrar', methods=['POST'])
     def entrarSala():
-        data = request.get_json('data')
+
+        data = request.get_json('data')  
         nomeParticipante = data['nome']
         tokenSala = data['token']
         
@@ -66,6 +77,7 @@ def registerSala(app):
         if resultado == None:
             criarSessao('meuNome',nomeParticipante)
             respo = participanteEntrarSala(nomeParticipante,tokenSala)
+            print(respo)
 
             return jsonify(respo)
 

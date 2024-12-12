@@ -31,13 +31,14 @@ def handle_entrar_sala_template(data):
     tokenSala = data['token']
     jaEntrou = data['entrou']
 
+    print('cheguei aqui',data) 
+
     if jaEntrou:
         join_room(tokenSala)
 
         print(f'{nomeParticipante} entrou na sala novamente {tokenSala}')
     
     else:
-            
         join_room(tokenSala)
 
         try:

@@ -3,7 +3,6 @@ import ssl
 from flask import request,redirect
 
 app = createApp()
-
 # @app.before_request
 # def before_request():
 #     if not request.is_secure:
