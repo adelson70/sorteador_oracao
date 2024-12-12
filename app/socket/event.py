@@ -20,6 +20,20 @@ def handle_connect(data):
 
     print(f'ADM entrou na sala {token}')
 
+@socketio.on('entrar_sala_mobile')
+def handle_entrar_sala_mobile(data):
+    global CLIENTS_ADM
+
+    nomeParticipante = data['nome'].upper()
+    tokenSala = data['token']
+    target_sid = CLIENTS_ADM[tokenSala]
+
+    print(f'{nomeParticipante} entrou na sala {tokenSala}')
+
+    join_room(tokenSala)
+
+    emit('receber_nome', nomeParticipante, to=target_sid)
+
 
 # evento quando o cliente entra na sala de oração
 # ira atualizar os membros da sala de oração

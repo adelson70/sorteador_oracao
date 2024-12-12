@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router'
 import { useUserContext } from '../contexts/UserContext';
-import io from 'socket.io-client'
-import { API_URL } from '../config/constants';
+import socket from '../config/socket';
 
 export default function Menu() {
 
@@ -11,15 +10,23 @@ export default function Menu() {
     const { meuNome, nomeSorteado, token, sorteado  } = useUserContext()    
     
     useEffect(() => {
-        const socket = io(API_URL)
 
-        // emit para entrar na sala de oração
-        socket.emit('entrar_sala_template', {
-            nome: meuNome,
-            token: token,
-            entrou: false
-        })
-        console.log('evento emitido', meuNome, token)
+        try {
+            socket.connect()
+
+            console.log(socket.connected)
+    
+            // emit para entrar na sala de oração
+            socket.emit('entrar_sala_mobile', {
+                nome: meuNome,
+                token: token
+            })
+            
+            console.log('evento emitido', meuNome, token)
+            
+        } catch (error) {
+            console.log(error)    
+        }
         
         // caso tente voltar para outra pagin
         const backAction = () => {
@@ -28,7 +35,6 @@ export default function Menu() {
         BackHandler.addEventListener('hardwareBackPress', backAction)
         return () => {
             BackHandler.removeEventListener('hardwareBackPress', backAction)
-            socket.disconnect()
         }
     }, [router.query])
 
