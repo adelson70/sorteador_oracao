@@ -6,7 +6,7 @@ from datetime import datetime
 from string import ascii_uppercase as upp
 from random import sample
 import qrcode
-
+from os import name
 
 def horario():
     horarioCompleto = datetime.now()
@@ -44,7 +44,14 @@ def gerarQRrcode(token,url):
         img = qr.make_image(fill_color='black', back_color='white')
 
         nome_arquivo = f'{token}.png'
-        path = f'sorteador_oracao/app/static/images/{nome_arquivo}'
+
+        # verificando sistema operacional
+        if name == 'nt':
+            path = f'sorteador_oracao/app/static/images/{nome_arquivo}'
+
+        else:
+            path = f'app/static/images/{nome_arquivo}'
+
 
         img.save(path)
 

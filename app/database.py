@@ -1,10 +1,19 @@
 import sqlite3 as sql
 from tinydb import TinyDB as nosql
 from tinydb import Query
+from os import name
 
 # conexao banco sql
 def connSQL():
-    conexao = sql.connect("sorteador_oracao/database/oracao.db")
+    # verificando OS
+
+    if name == 'nt':
+        path = "sorteador_oracao/database/oracao.db"
+
+    else:
+        path = "database/oracao.db"
+
+    conexao = sql.connect(path)
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -50,7 +59,14 @@ def connSQL():
 
 # conxao ao noSql
 def connNsql():
-    db = nosql('sorteador_oracao/database/sorteios.json')
+    # verifica OS
+    if name == 'nt':
+        path = 'sorteador_oracao/database/sorteios.json'
+
+    else:
+        path = 'database/sorteios.json'
+
+    db = nosql(path)
 
     return db
 
