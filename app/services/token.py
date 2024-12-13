@@ -44,7 +44,7 @@ def gerarQRrcode(token,url):
         img = qr.make_image(fill_color='black', back_color='white')
 
         nome_arquivo = f'{token}.png'
-        path = f'app/static/images/{nome_arquivo}'
+        path = f'sorteador_oracao/app/static/images/{nome_arquivo}'
 
         img.save(path)
 
