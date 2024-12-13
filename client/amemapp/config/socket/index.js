@@ -1,7 +1,8 @@
 import io from 'socket.io-client'
+import { config } from '../constants'
 
 const socket = io(
-    'ws://192.168.10.23:5000', {
+    `ws://${config.ip}:${config.port}`, {
         transports: 
         ['websocket'],
         autoConnect: true, 

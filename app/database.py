@@ -4,7 +4,7 @@ from tinydb import Query
 
 # conexao banco sql
 def connSQL():
-    conexao = sql.connect("database/oracao.db")
+    conexao = sql.connect("sorteador_oracao/database/oracao.db")
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -50,7 +50,7 @@ def connSQL():
 
 # conxao ao noSql
 def connNsql():
-    db = nosql('database/sorteios.json')
+    db = nosql('sorteador_oracao/database/sorteios.json')
 
     return db
 

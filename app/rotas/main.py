@@ -1,6 +1,7 @@
 from app.rotas import *
 from app.services.sessao import *
 from app.services.sala import consultarSalaTokenDB
+from flask import send_file
 
 def registerMain(app):
 

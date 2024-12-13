@@ -1,2 +1,4 @@
-import { ip, port } from '../../../../constants.json'
-export const API_URL = `http://${ip}:${port}`
+export const config = {
+    ip: "10.29.0.163",
+    port: 5000
+}

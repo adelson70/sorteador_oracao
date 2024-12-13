@@ -7,7 +7,7 @@ import json
 socketio = SocketIO(cors_allowed_origins="*")
 
 def buscarIP():
-    with open('constants.json', 'r') as file:
+    with open('sorteador_oracao/app/static/js/constants.json', 'r') as file:
         config = json.load(file)
         SERVER_IP = config.get('ip')
         PORT = config.get('port')
