@@ -2,10 +2,18 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from app.services.seguranca import *
+import json
 
 socketio = SocketIO(cors_allowed_origins="*")
 
-SERVER_IP = '192.168.10.23'
+def buscarIP():
+    with open('constants.json', 'r') as file:
+        config = json.load(file)
+        SERVER_IP = config.get('ip')
+        PORT = config.get('port')
+
+        return (SERVER_IP,PORT)
+        
 
 def createApp():
     app = Flask(__name__, template_folder='templates')

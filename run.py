@@ -8,9 +8,12 @@ app = createApp()
 #     if not request.is_secure:
 #         return redirect(request.url.replace("http://", "https://"))
 
+
 if __name__ == '__main__':
     serverIp = '0.0.0.0'
-    porta=5000
+    _, porta = buscarIP()
+
+    print(_,porta)
     # cert_file = 'cert.pem'
     # key_file = 'key.pem'
 

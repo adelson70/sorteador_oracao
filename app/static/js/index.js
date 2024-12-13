@@ -10,10 +10,8 @@ import '../js/services/token.js'
 import '../js/services/usuario.js'
 import "../js/services/sala.js"
 
+import { ip, port } from '../../../../constants.json'
 
-const serverIP = '192.168.10.23'
-const porta = '5000'
-
-const host = `${serverIP}:${porta}`
+const host = `${ip}:${port}`
 
 export const socket = io.connect(host)
