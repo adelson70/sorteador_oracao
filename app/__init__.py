@@ -3,13 +3,20 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 from app.services.seguranca import *
 import json
+from os import name
 
 socketio = SocketIO(cors_allowed_origins="*")
 
 def buscarIP():
-    with open('sorteador_oracao/app/static/js/constants.json', 'r') as file:
+    if name == 'nt':
+        path = 'sorteador_oracao/app/static/js/constants.json'
+    
+    else:
+        path = 'app/static/js/constants.json'
+
+    with open(path, 'r') as file:
         config = json.load(file)
-        SERVER_IP = config.get('ip')
+        SERVER_IP = config.get('url')
         PORT = config.get('port')
 
         return (SERVER_IP,PORT)

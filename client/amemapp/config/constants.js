@@ -1,4 +1,3 @@
 export const config = {
-    ip: "10.29.0.163",
-    port: 5000
+    url: "https://3ed0-177-54-59-114.ngrok-free.app"
 }

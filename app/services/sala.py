@@ -51,8 +51,8 @@ def fcriarSala(data):
 
         dataCriacao = horario()
         token = gerarToken()
-        serverIP, portIP = buscarIP()
-        link = f'http://{serverIP}:{portIP}/sala/acess/{token}'
+        url, _ = buscarIP()
+        link = f'{url}/sala/acess/{token}'
         
         if gerarQRrcode(token,link):
             respo = criarSalaDB(

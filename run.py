@@ -11,9 +11,8 @@ app = createApp()
 
 if __name__ == '__main__':
     serverIp = '0.0.0.0'
-    _, porta = buscarIP()
+    url, porta = buscarIP()
 
-    print(_,porta)
     # cert_file = 'cert.pem'
     # key_file = 'key.pem'
 
@@ -23,6 +22,6 @@ if __name__ == '__main__':
     # context.verify_mode = ssl.CERT_NONE
     # context.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
-    print(f'IP do Servidor: http://{serverIp}:{porta}')
+    print(f'IP do Servidor: {url}')
     
     socketio.run(app, port=porta, debug=True, host=serverIp)
