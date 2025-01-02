@@ -3,16 +3,12 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 from app.services.seguranca import *
 import json
-from os import name
+from pathlib import Path
 
 socketio = SocketIO(cors_allowed_origins="*")
 
 def buscarIP():
-    if name == 'nt':
-        path = 'sorteador_oracao/app/static/js/constants.json'
-    
-    else:
-        path = 'app/static/js/constants.json'
+    path = Path('app/static/js/constants.json').resolve()
 
     with open(path, 'r') as file:
         config = json.load(file)
